@@ -15749,12 +15749,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************!*\
   !*** ./resources/js/router/index.js ***!
   \**************************************/
-/*! exports provided: constantRouterMap, default */
+/*! exports provided: routes, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "constantRouterMap", function() { return constantRouterMap; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routes", function() { return routes; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
@@ -15785,7 +15785,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 
 
 
-var constantRouterMap = [{
+var routes = [{
   path: '/redirect',
   component: _views_layout_layout__WEBPACK_IMPORTED_MODULE_2__["default"],
   hidden: true,
@@ -15793,14 +15793,10 @@ var constantRouterMap = [{
     path: '/redirect/:path*',
     component: _views_redirect_index__WEBPACK_IMPORTED_MODULE_3__["default"]
   }]
-}];
-var routes = [{
-  path: '/admin',
-  component: _views_admin_index__WEBPACK_IMPORTED_MODULE_4__["default"],
-  children: [{
-    path: '/admin/login',
-    component: _views_login_index__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }]
+}, {
+  path: '/admin/login',
+  component: _views_login_index__WEBPACK_IMPORTED_MODULE_6__["default"],
+  hidden: true
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',

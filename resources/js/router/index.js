@@ -25,7 +25,7 @@ import Admin from '../views/admin/index'
 import testView from '../views/test'
 import loginView from '../views/login/index'
 
-export const constantRouterMap = [
+export const routes = [
     {
         path: '/redirect',
         component: Layout,
@@ -36,20 +36,11 @@ export const constantRouterMap = [
                 component: Path
             }
         ]
-    }
-]
-
-let routes = [
-
+    },
     {
-        path: '/admin',
-        component: Admin,
-        children: [
-            {
-                path: '/admin/login',
-                component: loginView
-            }
-        ]
+        path: '/admin/login',
+        component: loginView,
+        hidden: true
     }
 ]
 
