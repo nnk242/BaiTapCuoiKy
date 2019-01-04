@@ -6,6 +6,7 @@ import elementVilocale from 'element-ui/lib/locale/lang/vi'
 import elementEnlocale from 'element-ui/lib/locale/lang/en'
 
 import viLocale from './vi'
+import enLocale from './en'
 
 
 Vue.use(VueI18n)
@@ -14,6 +15,10 @@ const messages = {
     vi: {
         ...elementVilocale,
         ...viLocale
+    },
+    en: {
+        ...elementEnlocale,
+        ...enLocale
     }
 }
 
