@@ -35,6 +35,8 @@ import Cookies from 'js-cookie'
 
 import Element from 'element-ui'
 
+import 'element-ui/lib/theme-chalk/index.css'
+
 import App from './components/App'
 
 import i18n from './lang'
