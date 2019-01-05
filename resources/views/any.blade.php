@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 <body>
-<div id="app">
-</div>
+<div id="app"></div>
 <script>
     window.Laravel = <?php echo json_encode([
         'csrfToken' => csrf_token(),

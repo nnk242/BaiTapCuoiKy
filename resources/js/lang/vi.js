@@ -4,19 +4,21 @@ export default {
         name: {
             vi: 'Tiếng Việt',
             en: 'English'
+        },
+        notification: {
+            success: 'Thay đổi ngôn ngữ thành công!',
+            error: 'Thay đổi ngôn ngữ thất bại!'
         }
     },
     login: {
-        title_login: 'Đăng nhập',
+        title: 'Đăng nhập',
         name: 'Đăng nhập',
-        username: 'Tên đăng nhập',
-        password: 'Mật khẩu',
-        button: {
-            name: 'Đăng nhập'
-        },
-        input_text: {
-            it_username: 'Nhập tên đăng nhập',
-            it_password: 'Nhập mật khẩu'
+        username: 'Tên đăng nhập:',
+        password: 'Mật khẩu:',
+        button: 'Đăng nhập',
+        placeholder: {
+            username: 'Nhập tên đăng nhập...',
+            password: 'Nhập mật khẩu...'
         }
     }
 }

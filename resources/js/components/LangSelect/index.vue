@@ -1,6 +1,6 @@
 <template>
     <el-dropdown trigger="click" @command="handleSetLanguage" class="globe">
-        <div><i class="fas fa-globe el-alert--success el-dialog--center"></i></div>
+        <div><el-button type="success" icon="fas fa-globe" circle></el-button></div>
         <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :disabled="language === 'vi'" command="vi">{{ $t('common.name.vi') }}</el-dropdown-item>
             <el-dropdown-item :disabled="language === 'en'" command="en">{{ $t('common.name.en') }}</el-dropdown-item>
@@ -20,6 +20,10 @@
             handleSetLanguage(lang) {
                 this.$i18n.locale = lang
                 this.$store.dispatch('setLanguage', lang)
+                this.$message({
+                    message: this.$t('common.notification.success'),
+                    type: 'success'
+                })
             }
         }
     }

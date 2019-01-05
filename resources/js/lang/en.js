@@ -4,19 +4,21 @@ export default {
         name: {
             vi: 'Tiếng Việt',
             en: 'English'
+        },
+        notification: {
+            success: 'Switch language success!',
+            error: 'Switch language fail!'
         }
     },
     login: {
-        title_login: 'Login',
+        title: 'Login',
         name: 'Login',
-        username: 'Username',
-        password: 'Password',
-        button: {
-            name: 'Sign in'
-        },
-        input_text: {
-            it_username: 'Username',
-            it_password: 'Password'
+        username: 'Username:',
+        password: 'Password:',
+        button: 'Sign in',
+        placeholder: {
+            username: 'Input username...',
+            password: 'Input password...'
         }
     }
 }

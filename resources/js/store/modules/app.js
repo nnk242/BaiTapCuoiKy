@@ -2,12 +2,12 @@ import Cookies from 'js-cookie'
 
 const app = {
     state: {
-        language: Cookies.get('language') || 'vi'
+        language: Cookies.get('language_app') || 'vi'
     },
     mutations: {
         SET_LANGUAGE:(state, language) => {
             state.language = language
-            Cookies.set('language', language)
+            Cookies.set('language_app', language)
         }
     },
     actions: {
