@@ -19,6 +19,14 @@ export default {
         placeholder: {
             username: 'Nhập tên đăng nhập...',
             password: 'Nhập mật khẩu...'
+        },
+        notification: {
+            username: {
+                error: 'Tên tài khoản không thể nhỏ hơn 4 ký tự.'
+            },
+            password: {
+                error: 'Mật khẩu không thể nhỏ hơn 6 ký tự.'
+            }
         }
     }
 }

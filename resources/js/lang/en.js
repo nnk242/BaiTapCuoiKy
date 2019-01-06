@@ -19,6 +19,14 @@ export default {
         placeholder: {
             username: 'Input username...',
             password: 'Input password...'
+        },
+        notification: {
+            username: {
+                error: 'The username can not be less than 4 digits.'
+            },
+            password: {
+                error: 'The password can not be less than 6 digits.'
+            }
         }
     }
 }

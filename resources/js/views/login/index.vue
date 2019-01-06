@@ -1,21 +1,26 @@
 <template>
     <div class="login-container">
-        <el-form rel="loginForm" class="login-form" label-position="top" :rules="loginRules" >
+        <el-form ref="loginForm" :model="loginForm" class="login-form" label-position="top" :rules="loginRules" size="medium">
             <!--<el-form rel="loginFrom" auto-complete="on" class="login-form">-->
             <div class="title-container">
                 <div class="title-form-st">
                     <h1 class="text-center">{{ $t('login.title') }}</h1>
                 </div>
                 <div class="content-form-st">
-                    <el-form-item :label="$t('login.username')">
-                        <el-input :placeholder="$t('login.placeholder.password')" v-model="username"></el-input>
+                    <el-form-item :label="$t('login.username')" prop="username" style="line-height: 16px">
+                        <el-input :placeholder="$t('login.placeholder.password')" v-model="loginForm.username"
+                                  name="username" @keyup.enter.native="handleLogin"></el-input>
                     </el-form-item>
-                    <el-form-item :label="$t('login.password')" size="small">
-                        <el-input :placeholder="$t('login.placeholder.password')" v-model="password"></el-input>
+                    <el-form-item :label="$t('login.password')" prop="password">
+                        <el-input :placeholder="$t('login.placeholder.password')" type="password"
+                                  v-model="loginForm.password" name="password"
+                                  @keyup.enter.native="handleLogin"></el-input>
                     </el-form-item>
                 </div>
                 <div class="footer-form-st text-center">
-                    <el-button :loading="loading" type="primary">{{ $t('login.button') }}</el-button>
+                    <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">{{
+                        $t('login.button') }}
+                    </el-button>
                 </div>
                 <div class="select-lang">
                     <LangSelect/>
@@ -29,25 +34,55 @@
     import LangSelect from '../../components/LangSelect'
 
     export default {
-        data: () => {
+        components: {
+            LangSelect
+        },
+        data() {
             const validateUsername = (rule, value, callback) => {
-                if (value.length < 4) {
-                    callback(new Error('The username can not be less than 4 digits '))
+                if (this.loginForm.username.length < 4) {
+                    callback(new Error(this.$t('login.notification.username.error')))
                 } else callback()
             }
+
+            const validatePassword = (rule, value, callback) => {
+                if (this.loginForm.password.length < 6) {
+                    callback(new Error(this.$t('login.notification.password.error')))
+                } else callback()
+            }
+
             return {
                 loginForm: {
                     username: '',
                     password: ''
                 },
                 loginRules: {
-                    username: [{required: true, trigger: 'blur', validator: validateUsername()}]
+                    username: [{required: true, trigger: 'blur', validator: validateUsername}],
+                    password: [{required: true, trigger: 'blur', validator: validatePassword}],
                 },
                 loading: false
             }
         },
-        components: {
-            LangSelect
+        methods: {
+            handleLogin() {
+                this.$refs.loginForm.validate(valid => {
+                        this.loading = true
+                        if (valid) {
+                            this.$store.dispatch('login', this.loginForm).then(() => {
+                                this.loading = false
+                                console.log('success api')
+                            }).catch(() => {
+                                this.loading = false
+                                console.log('fail api')
+                            })
+                        } else {
+                            console.log('required valid')
+                            this.loading = false
+                        }
+                    }
+                )
+
+
+            }
         },
         name: "index"
     }
@@ -87,7 +122,7 @@
         width: 320px;
         background-color: $background_form;
         border-radius: 3px;
-        margin: 24vh auto 0 auto;
+        margin: 16vh auto 0 auto;
     }
 
     .text-center {
@@ -98,9 +133,4 @@
         padding: 15px 0 5px 5px;
     }
 
-    /*.title-form-st {*/
-    /*border-bottom: solid 1px #cccfff;*/
-    /*margin: 5px;*/
-    /*padding-top: 10px;*/
-    /*}*/
 </style>
