@@ -1,4 +1,4 @@
-import {getToken} from '../../utils/auth'
+import {getToken, setToken, destroyToken} from '../../utils/auth'
 import {login} from "../../api/login";
 
 const user = {
@@ -8,7 +8,8 @@ const user = {
         avatar: '',
         status: '',
         access_token: getToken(),
-        roles: []
+        roles: [],
+        expires_in: 0
     },
     mutations: {
         SET_TOKEN: (state, token) => {
@@ -23,8 +24,11 @@ const user = {
         SET_STATUS: (state, status) => {
             state.status = status
         },
-        SET_ROLEs: (state, roles) => {
+        SET_ROLES: (state, roles) => {
             state.roles = roles
+        },
+        SET_EXPIRES: (state, expires)=> {
+            state.expires_in = expires
         }
     },
     actions: {
@@ -33,12 +37,14 @@ const user = {
             return new Promise((resolve, reject) => {
                 login(username, password)
                     .then(response => {
-                        console.log('success api store')
+                        const {access_token, token_type} = response.data
+                        const token = token_type + ' ' + access_token
+                        commit('SET_TOKEN', token)
+                        setToken(token)
                         resolve()
                     })
                     .catch(error => {
                         reject(error)
-                        console.log('error api store')
                     })
             })
         }

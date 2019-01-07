@@ -8,7 +8,7 @@
                     <h1 class="text-center">{{ $t('login.title') }}</h1>
                 </div>
                 <div class="content-form-st">
-                    <el-form-item :label="$t('login.username')" prop="username" style="line-height: 16px">
+                    <el-form-item :label="$t('login.username')" prop="username">
                         <el-input :placeholder="$t('login.placeholder.password')" v-model="loginForm.username"
                                   name="username" @keyup.enter.native="handleLogin"></el-input>
                     </el-form-item>
@@ -33,9 +33,11 @@
 
 <script>
     import LangSelect from '../../components/LangSelect'
+    import ElFormItem from "../../../../public/js/app";
 
     export default {
         components: {
+            ElFormItem,
             LangSelect
         },
         data() {

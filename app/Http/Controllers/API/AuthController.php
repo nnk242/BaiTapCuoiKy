@@ -64,4 +64,14 @@ class AuthController extends Controller
             ], 200
         );
     }
+
+    /**
+     * get user info.
+     *
+     * @param $token
+     * @return response()->json()
+     */
+    public function getUser() {
+        return 1;
+    }
 }

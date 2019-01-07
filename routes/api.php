@@ -19,5 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix'=> 'auth', 'namespace'=>'API', 'middleware' => 'api'], function () {
     Route::post('login', 'AuthController@login');
+    Route::get('getuser', 'AuthController@getUser');
+//        ->where('id', '[0-9]+');
+    //test
     Route::get('/', 'AuthController@index');
 });
