@@ -7,12 +7,12 @@ const user = {
         name: '',
         avatar: '',
         status: '',
-        token: getToken(),
+        access_token: getToken(),
         roles: []
     },
     mutations: {
-        SET_TOKEN: (state, token)=>{
-            state.token = token
+        SET_TOKEN: (state, token) => {
+            state.access_token = token
         },
         SET_NAME: (state, name) => {
             state.name = name
@@ -30,13 +30,16 @@ const user = {
     actions: {
         login({commit}, userInfor) {
             const {username, password} = userInfor
-            return new Promise((resolve, reject)=>{
+            return new Promise((resolve, reject) => {
                 login(username, password)
                     .then(response => {
                         console.log('success api store')
-                    }).catch(error=> {
+                        resolve()
+                    })
+                    .catch(error => {
+                        reject(error)
                         console.log('error api store')
-                })
+                    })
             })
         }
     }

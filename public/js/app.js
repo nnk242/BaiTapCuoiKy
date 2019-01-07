@@ -3528,6 +3528,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -68826,13 +68827,8 @@ function login(username, password) {
     username: username,
     password: password
   };
-  console.log(Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: '/api/v1/login',
-    method: 'POST',
-    data: data
-  }));
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: 'api/v1/login',
+    url: 'api/auth/login',
     method: 'POST',
     data: data
   });
@@ -69389,12 +69385,12 @@ var user = {
     name: '',
     avatar: '',
     status: '',
-    token: Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["getToken"])(),
+    access_token: Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["getToken"])(),
     roles: []
   },
   mutations: {
     SET_TOKEN: function SET_TOKEN(state, token) {
-      state.token = token;
+      state.access_token = token;
     },
     SET_NAME: function SET_NAME(state, name) {
       state.name = name;
@@ -69417,7 +69413,9 @@ var user = {
       return new Promise(function (resolve, reject) {
         Object(_api_login__WEBPACK_IMPORTED_MODULE_1__["login"])(username, password).then(function (response) {
           console.log('success api store');
+          resolve();
         }).catch(function (error) {
+          reject(error);
           console.log('error api store');
         });
       });
@@ -69486,13 +69484,11 @@ service.interceptors.request.use(function (config) {
 
   return config;
 }, function (error) {
-  console.log(error + ' 1');
   Promise.reject(error);
 });
 service.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  console.log('err: ' + error + ' 2');
   return Promise.reject(error);
 });
 /* harmony default export */ __webpack_exports__["default"] = (service);

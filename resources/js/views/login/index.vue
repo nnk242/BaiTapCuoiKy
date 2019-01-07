@@ -1,6 +1,7 @@
 <template>
     <div class="login-container">
-        <el-form ref="loginForm" :model="loginForm" class="login-form" label-position="top" :rules="loginRules" size="medium">
+        <el-form ref="loginForm" :model="loginForm" class="login-form" label-position="top" :rules="loginRules"
+                 size="medium">
             <!--<el-form rel="loginFrom" auto-complete="on" class="login-form">-->
             <div class="title-container">
                 <div class="title-form-st">
@@ -66,14 +67,17 @@
             handleLogin() {
                 this.$refs.loginForm.validate(valid => {
                         this.loading = true
+
                         if (valid) {
-                            this.$store.dispatch('login', this.loginForm).then(() => {
-                                this.loading = false
-                                console.log('success api')
-                            }).catch(() => {
-                                this.loading = false
-                                console.log('fail api')
-                            })
+                            this.$store.dispatch('login', this.loginForm)
+                                .then(() => {
+                                    this.loading = false
+                                    console.log('success api')
+                                })
+                                .catch(() => {
+                                    this.loading = false
+                                    console.log('fail api')
+                                })
                         } else {
                             console.log('required valid')
                             this.loading = false

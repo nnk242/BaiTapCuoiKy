@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class InitDatabase extends Migration
 {
@@ -23,6 +24,15 @@ class InitDatabase extends Migration
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
+
+        DB::table('users')->insert([
+            [
+                'name' => 'admin',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('admin123'),
+                'role' => 'admin'
+            ]
+        ]);
     }
 
     /**

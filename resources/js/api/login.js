@@ -5,13 +5,8 @@ export function login(username, password) {
         username, password
     }
 
-    console.log( request({
-        url: '/api/v1/login',
-        method: 'POST',
-        data
-    }))
     return request({
-        url: 'api/v1/login',
+        url: 'api/auth/login',
         method: 'POST',
         data
     })

@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\Http\Controllers\Controller;
+use App\User;
 
 class AuthController extends Controller
 {
+    /**
+     * Create a new API/AuthController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index']]);
+        $this->middleware('auth:api', ['except' => ['login', 'index']]);
     }
 
     /**
@@ -24,47 +31,37 @@ class AuthController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * action login.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return response()->json()
      */
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        //
+        $email = $request->username;
+        $password = $request->password;
+        $credentials = ['email' => $email, 'password' => $password];
+
+        if(! $token = auth()->attempt($credentials)) {
+            return response()->json(['message' => 'Unauthorized', 'code' => 401], 401);
+        }
+
+        return $this->responseWithToken($token);
     }
 
     /**
-     * Display the specified resource.
+     * get token and author.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $token
+     * @return response()->json()
      */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function responseWithToken($token) {
+        return response()->json(
+            [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ], 200
+        );
     }
 }

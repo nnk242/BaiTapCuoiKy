@@ -30,6 +30,11 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
+    /**
+     * Deleted_at.
+     *
+     * @var array
+     */
     protected $dates = ['deleted_at'];
 
     /**
