@@ -26,7 +26,8 @@ export default {
             },
             password: {
                 error: 'Mật khẩu không thể nhỏ hơn 6 ký tự.'
-            }
+            },
+            error: 'Thông tin tài khoản không chính xác.'
         }
     }
 }

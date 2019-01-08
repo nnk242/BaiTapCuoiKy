@@ -3528,6 +3528,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3537,12 +3540,16 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     var validateUsername = function validateUsername(rule, value, callback) {
+      _this.hidden_error = 'hidden-error';
+
       if (_this.loginForm.username.length < 4) {
         callback(new Error(_this.$t('login.notification.username.error')));
       } else callback();
     };
 
     var validatePassword = function validatePassword(rule, value, callback) {
+      _this.hidden_error = 'hidden-error';
+
       if (_this.loginForm.password.length < 6) {
         callback(new Error(_this.$t('login.notification.password.error')));
       } else callback();
@@ -3565,8 +3572,19 @@ __webpack_require__.r(__webpack_exports__);
           validator: validatePassword
         }]
       },
-      loading: false
+      redirect: undefined,
+      loading: false,
+      hidden_error: 'hidden-error',
+      text_error: 'show error'
     };
+  },
+  watch: {
+    $route: {
+      // immediate: true,
+      handle: function handle(route) {
+        this.redirect = route.query && route.query.redirect;
+      }
+    }
   },
   methods: {
     handleLogin: function handleLogin() {
@@ -3574,14 +3592,21 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$refs.loginForm.validate(function (valid) {
         _this2.loading = true;
+        _this2.hidden_error = 'hidden-error';
 
         if (valid) {
           _this2.$store.dispatch('login', _this2.loginForm).then(function () {
             _this2.loading = false;
-            console.log('success api');
-          }).catch(function () {
-            _this2.loading = false;
-            console.log('fail api');
+
+            _this2.$router.push({
+              path: _this2.redirect || '/'
+            });
+          }).catch(function (error) {
+            _this2.loading = false; //error
+
+            _this2.hidden_error = '';
+            _this2.text_error = _this2.$t('login.notification.error');
+            console.log(error);
           });
         } else {
           console.log('required valid');
@@ -5468,7 +5493,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".login-container[data-v-72911c7d] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  background-color: #33333b;\n  overflow: hidden;\n}\n.login-container .title-form-st[data-v-72911c7d] {\n  margin: 0 7px;\n  padding-top: 5px;\n  border-bottom: solid 1px #cccfff;\n}\n.login-container .content-form-st[data-v-72911c7d] {\n  padding-top: 20px;\n  margin: 0 7px;\n}\n.login-container .footer-form-st[data-v-72911c7d] {\n  padding-top: 15px;\n}\n.login-form[data-v-72911c7d] {\n  width: 320px;\n  background-color: #efeade;\n  border-radius: 3px;\n  margin: 16vh auto 0 auto;\n}\n.text-center[data-v-72911c7d] {\n  text-align: center;\n}\n.select-lang[data-v-72911c7d] {\n  padding: 15px 0 5px 5px;\n}", ""]);
+exports.push([module.i, ".login-container[data-v-72911c7d] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  background-color: #33333b;\n  overflow: hidden;\n}\n.login-container .title-form-st[data-v-72911c7d] {\n  margin: 0 7px;\n  padding-top: 5px;\n  border-bottom: solid 1px #cccfff;\n}\n.login-container .content-form-st[data-v-72911c7d] {\n  padding-top: 20px;\n  margin: 0 7px;\n}\n.login-container .footer-form-st[data-v-72911c7d] {\n  padding-top: 15px;\n}\n.login-form[data-v-72911c7d] {\n  width: 320px;\n  background-color: #efeade;\n  border-radius: 3px;\n  margin: 16vh auto 0 auto;\n}\n.text-center[data-v-72911c7d] {\n  text-align: center;\n}\n.error_login[data-v-72911c7d] {\n  color: #f44259;\n}\n.select-lang[data-v-72911c7d] {\n  padding: 15px 0 5px 5px;\n}\n.hidden-error[data-v-72911c7d] {\n  visibility: hidden;\n}", ""]);
 
 // exports
 
@@ -53826,6 +53851,15 @@ var render = function() {
               { staticClass: "content-form-st" },
               [
                 _c(
+                  "div",
+                  {
+                    staticClass: "text-center error_login",
+                    class: _vm.hidden_error
+                  },
+                  [_c("small", [_vm._v(_vm._s(_vm.text_error))])]
+                ),
+                _vm._v(" "),
+                _c(
                   "el-form-item",
                   {
                     attrs: { label: _vm.$t("login.username"), prop: "username" }
@@ -69122,7 +69156,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       password: {
         error: 'The password can not be less than 6 digits.'
-      }
+      },
+      error: 'Account information incorrect.'
     }
   }
 });
@@ -69210,7 +69245,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       password: {
         error: 'Mật khẩu không thể nhỏ hơn 6 ký tự.'
-      }
+      },
+      error: 'Thông tin tài khoản không chính xác.'
     }
   }
 });
@@ -69267,8 +69303,8 @@ var routes = [{
   }]
 }, {
   path: '/admin/login',
-  component: _views_login_index__WEBPACK_IMPORTED_MODULE_6__["default"] // hidden: true
-
+  component: _views_login_index__WEBPACK_IMPORTED_MODULE_6__["default"],
+  hidden: true
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',

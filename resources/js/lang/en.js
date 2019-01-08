@@ -26,7 +26,8 @@ export default {
             },
             password: {
                 error: 'The password can not be less than 6 digits.'
-            }
+            },
+            error: 'Account information incorrect.'
         }
     }
 }

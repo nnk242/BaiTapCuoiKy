@@ -7,6 +7,9 @@
                     <h1 class="text-center">{{ $t('login.title') }}</h1>
                 </div>
                 <div class="content-form-st">
+                    <div class="text-center error_login" :class="hidden_error">
+                        <small>{{ text_error }}</small>
+                    </div>
                     <el-form-item :label="$t('login.username')" prop="username">
                         <el-input :placeholder="$t('login.placeholder.password')" v-model="loginForm.username"
                                   name="username" @keyup.enter.native="handleLogin"></el-input>
@@ -39,12 +42,14 @@
         },
         data() {
             const validateUsername = (rule, value, callback) => {
+                this.hidden_error = 'hidden-error'
                 if (this.loginForm.username.length < 4) {
                     callback(new Error(this.$t('login.notification.username.error')))
                 } else callback()
             }
 
             const validatePassword = (rule, value, callback) => {
+                this.hidden_error = 'hidden-error'
                 if (this.loginForm.password.length < 6) {
                     callback(new Error(this.$t('login.notification.password.error')))
                 } else callback()
@@ -59,23 +64,37 @@
                     username: [{required: true, trigger: 'blur', validator: validateUsername}],
                     password: [{required: true, trigger: 'blur', validator: validatePassword}],
                 },
-                loading: false
+                redirect: undefined,
+                loading: false,
+                hidden_error: 'hidden-error',
+                text_error: 'show error'
+            }
+        },
+        watch: {
+            $route: {
+                // immediate: true,
+                handle: function (route) {
+                    this.redirect = route.query && route.query.redirect
+                }
             }
         },
         methods: {
             handleLogin() {
                 this.$refs.loginForm.validate(valid => {
                         this.loading = true
-
+                        this.hidden_error = 'hidden-error'
                         if (valid) {
                             this.$store.dispatch('login', this.loginForm)
                                 .then(() => {
                                     this.loading = false
-                                    console.log('success api')
+                                    this.$router.push({path: this.redirect || '/' })
                                 })
-                                .catch(() => {
+                                .catch(error => {
                                     this.loading = false
-                                    console.log('fail api')
+                                    //error
+                                    this.hidden_error = ''
+                                    this.text_error = this.$t('login.notification.error')
+                                    console.log(error)
                                 })
                         } else {
                             console.log('required valid')
@@ -130,8 +149,16 @@
         text-align: center;
     }
 
+    .error_login{
+        color: #f44259;
+    }
+
     .select-lang {
         padding: 15px 0 5px 5px;
+    }
+
+    .hidden-error {
+        visibility: hidden;
     }
 
 </style>

@@ -3,3 +3,5 @@
 <p>-Goi y nguoi dung ve chon do an dem.</p>
 ****~~~~____~~~~****<br />
 import i18n, element-ui, js-cookie
+->run:
+php artisan jwt:secret

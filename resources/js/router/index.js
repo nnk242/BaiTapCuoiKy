@@ -40,7 +40,7 @@ export const routes = [
     {
         path: '/admin/login',
         component: loginView,
-        // hidden: true
+        hidden: true
     }
 ]
 
