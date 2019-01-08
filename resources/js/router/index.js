@@ -23,6 +23,7 @@ import Admin from '../views/admin/index'
  *
  * */
 import testView from '../views/test'
+import dashboardView from '../views/test'
 import loginView from '../views/login/index'
 
 export const routes = [
@@ -41,6 +42,18 @@ export const routes = [
         path: '/admin/login',
         component: loginView,
         hidden: true
+    },
+    {
+        path: '/admin',
+        component: Layout,
+        redirect: '/admin/dashboard',
+        children: [
+            {
+                path: '/admin/dashboard',
+                component: dashboardView,
+                name: 'dashboard'
+            }
+        ]
     }
 ]
 
