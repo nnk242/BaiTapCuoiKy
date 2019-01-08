@@ -2,7 +2,6 @@
     <div class="login-container">
         <el-form ref="loginForm" :model="loginForm" class="login-form" label-position="top" :rules="loginRules"
                  size="medium">
-            <!--<el-form rel="loginFrom" auto-complete="on" class="login-form">-->
             <div class="title-container">
                 <div class="title-form-st">
                     <h1 class="text-center">{{ $t('login.title') }}</h1>
@@ -33,11 +32,9 @@
 
 <script>
     import LangSelect from '../../components/LangSelect'
-    import ElFormItem from "../../../../public/js/app";
 
     export default {
         components: {
-            ElFormItem,
             LangSelect
         },
         data() {
@@ -86,8 +83,6 @@
                         }
                     }
                 )
-
-
             }
         },
         name: "index"
