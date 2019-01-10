@@ -16,7 +16,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'index']]);
+        $this->middleware('auth:api', ['except' => ['login', 'index', 'logout']]);
     }
 
     /**
@@ -46,6 +46,8 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized', 'code' => 401], 401);
         }
 
+
+
         return $this->responseWithToken($token);
     }
 
@@ -71,7 +73,13 @@ class AuthController extends Controller
      * @param $token
      * @return response()->json()
      */
-    public function getUser() {
-        return 1;
+    public function getUserInfo() {
+        return auth()->user();
+    }
+
+    public function logout() {
+//        return $request->header('Authorization');
+        auth()->logout();
+        return response()->json(['message' => 'Logout success']);
     }
 }

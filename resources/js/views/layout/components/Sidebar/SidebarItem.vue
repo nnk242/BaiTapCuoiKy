@@ -38,10 +38,14 @@
 
 <script>
     import path from 'path'
+    import {generateTitle} from '../../../../utils/i18n'
+    import {isExternal} from '../../../../utils'
+    import Item from './Item'
+    import AppLink from './Link'
 
     export default {
         name: "SidebarItem",
-        components: { Item, AppLink },
+        components: {Item, AppLink},
         props: {
             item: {
                 type: Object,
@@ -96,6 +100,9 @@
                 return isExternal(routePath)
             },
             generateTitle
+        },
+        mounted() {
+            console.log(123)
         }
     }
 </script>

@@ -1,5 +1,5 @@
 import {getToken, setToken, destroyToken} from '../../utils/auth'
-import {login} from "../../api/login";
+import {getUserInfo, login} from "../../api/login";
 
 const user = {
     state: {
@@ -27,7 +27,7 @@ const user = {
         SET_ROLES: (state, roles) => {
             state.roles = roles
         },
-        SET_EXPIRES: (state, expires)=> {
+        SET_EXPIRES: (state, expires) => {
             state.expires_in = expires
         }
     },
@@ -47,6 +47,25 @@ const user = {
                         reject(error)
                     })
             })
+        },
+        getUserInfo({commit, state}) {
+            return new Promise((resolve, reject) => {
+                getUserInfo(state.access_token)
+                    .then(response => {
+                        if (!response.data) {
+                            reject('Verification failed, please login again.')
+                        } else {
+                            console.log(456)
+                        }
+                    })
+                    .catch(error => {
+                        reject(error)
+                    })
+            })
+        },
+        logout({commit, state}) {
+            commit('SET_ROLES', [])
+            commit('SET_TOKEN', '')
         }
     }
 }

@@ -37,6 +37,8 @@ import Element from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css'
 
+import './permission'
+
 import App from './components/App'
 
 import i18n from './lang'

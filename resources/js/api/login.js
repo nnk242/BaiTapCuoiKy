@@ -11,3 +11,13 @@ export function login(username, password) {
         data
     })
 }
+
+export function getUserInfo(access_token) {
+    return request({
+        url: 'api/auth/getUserInfo',
+        method: 'GET',
+        headers: {
+            Authorization: access_token
+        }
+    })
+}

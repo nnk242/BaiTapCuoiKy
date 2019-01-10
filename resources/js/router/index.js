@@ -26,7 +26,7 @@ import testView from '../views/test'
 import dashboardView from '../views/test'
 import loginView from '../views/login/index'
 
-export const routes = [
+export const constantRouterMap = [
     {
         path: '/redirect',
         component: Layout,
@@ -51,12 +51,26 @@ export const routes = [
             {
                 path: '/admin/dashboard',
                 component: dashboardView,
-                name: 'dashboard'
+                name: 'dashboard',
+                meta: { title: 'dashboard', icon: 'fas fa-tachometer-alt', noCache: true }
             }
         ]
     }
 ]
 
-const router = new VueRouter({mode: 'history', routes})
+export default new VueRouter({mode: 'history', scrollBehavior: () => ({ y: 0 }), routes: constantRouterMap})
 
-export default router
+export const asyncRouterMap = [
+    {
+        path: '/test',
+        component: Layout,
+        children: [
+            {
+                path: '/admin/dashboard',
+                component: dashboardView,
+                name: 'dashboard',
+                meta: { title: 'dashboard', icon: 'fas fa-tachometer-alt', noCache: true }
+            }
+        ]
+    }
+]

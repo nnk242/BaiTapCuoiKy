@@ -31,6 +31,18 @@ class InitDatabase extends Migration
                 'email' => 'admin@admin.com',
                 'password' => bcrypt('admin123'),
                 'role' => 'admin'
+            ],
+            [
+                'name' => 'member',
+                'email' => 'member@member.com',
+                'password' => bcrypt('member123'),
+                'role' => 'member'
+            ],
+            [
+                'name' => 'staff',
+                'email' => 'staff@staff.com',
+                'password' => bcrypt('staff123'),
+                'role' => 'staff'
             ]
         ]);
     }
