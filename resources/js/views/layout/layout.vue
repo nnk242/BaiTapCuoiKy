@@ -6,6 +6,7 @@
             <!--<navbar/>-->
             <!--<tags-view/>-->
             <!--<app-main/>-->
+            <router-view></router-view>
         </div>
     </div>
 </template>

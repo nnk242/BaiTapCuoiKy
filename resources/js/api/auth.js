@@ -10,12 +10,9 @@ export function getUserInfo(access_token) {
     })
 }
 
-export function logout(access_token) {
+export function logout() {
     return request({
         url: 'api/auth/logout',
-        method: 'GET',
-        headers: {
-            Authorization: access_token
-        }
+        method: 'GET'
     })
 }

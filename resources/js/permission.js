@@ -26,22 +26,40 @@ router.beforeEach((to, from, next) => {
     NProgress.start() //start nprogress
     if (getToken()) {
         if (to.path === '/admin/login') {
-            next({name: 'dashboard'})
-            NProgress.done() //so manually handle it
+            next({path: '/admin/dashboard'})
+            NProgress.done()
         } else {
-            if (typeof store.getters.roles === 'undefined') {
+            if (typeof store.getters.role === 'undefined') {
                 store.dispatch('getUserInfo')
                     .then(response => {
-                        console.log('get user info success')
-                        console.log(response)
-                    })
-                    .catch(error=> {
-                        store.dispatch('logout')
-                    })
-            } else {
+                        let roles = []
+                        roles.push(response.data.role)
+                        store.dispatch('GenerateRoutes', roles)
+                            .then(response => {
+                                // router.addRoutes()
 
+                                // console.log(router)
+                                                    // console.log(store.getters.addRouters)
+                                // router.addRoutes(store.getters.addRouters)
+                                //                     console.log(store.getters.addRouters)
+                                next()
+                            })
+                    })
+                    .catch((error) => {
+                        store.dispatch('fedLogout')
+                            .then(() => {
+                                Message.error(error)
+                                next({path: '/admin/login'})
+                            })
+                            .catch((error) => {
+                                console.log('logout error')
+                            })
+                    })
             }
+
         }
+    } else {
+        next()
     }
 })
 

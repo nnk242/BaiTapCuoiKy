@@ -23,7 +23,7 @@ import Admin from '../views/admin/index'
  *
  * */
 import testView from '../views/test'
-import dashboardView from '../views/test'
+import dashboardView from '../views/dashboard'
 import loginView from '../views/login/index'
 
 export const constantRouterMap = [
@@ -41,7 +41,8 @@ export const constantRouterMap = [
     {
         path: '/admin/login',
         component: loginView,
-        hidden: true
+        hidden: true,
+        name: 'login'
     },
     {
         path: '/admin',
@@ -62,14 +63,14 @@ export default new VueRouter({mode: 'history', scrollBehavior: () => ({ y: 0 }),
 
 export const asyncRouterMap = [
     {
-        path: '/test',
+        path: '/admin',
         component: Layout,
         children: [
             {
-                path: '/admin/dashboard',
-                component: dashboardView,
-                name: 'dashboard',
-                meta: { title: 'dashboard', icon: 'fas fa-tachometer-alt', noCache: true }
+                path: '/admin/test',
+                component: testView,
+                name: 'test',
+                meta: { title: 'test', icon: 'fas fa-tachometer-alt', noCache: true }
             }
         ]
     }
