@@ -63,7 +63,6 @@ const user = {
                         if (!data) {
                             reject('Verification failed, please login again.')
                         }
-
                         if(typeof data.role !== 'undefined') {
                             commit('SET_ROLE', data.role)
 

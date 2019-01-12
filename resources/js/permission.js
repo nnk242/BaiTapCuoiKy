@@ -20,7 +20,7 @@ function hasPermission(role, permissionRoles) {
     return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
 
-const whileList = ['admin/login']
+const whileList = ['/admin/login']
 
 router.beforeEach((to, from, next) => {
     NProgress.start() //start nprogress
@@ -43,9 +43,6 @@ router.beforeEach((to, from, next) => {
                             .then(() => {
                                 Message.error(error)
                                 next({path: '/admin/login'})
-                            })
-                            .catch((error) => {
-                                console.log('logout error')
                             })
                     })
             } else {

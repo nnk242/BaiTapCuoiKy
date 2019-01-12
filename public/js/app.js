@@ -3492,6 +3492,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'MenuItem',
   functional: true,
@@ -3505,21 +3511,25 @@ __webpack_require__.r(__webpack_exports__);
       default: ''
     }
   },
-  render: function render(h, context) {
+  render: function render(createElement, context) {
     var _context$props = context.props,
         icon = _context$props.icon,
-        title = _context$props.title;
-    var vnodes = [];
+        title = _context$props.title; // const vnodes = []
+    //
+    // if (icon) {
+    //     vnodes.push(`<i class="${icon}"></i>`)
+    // }
+    //
+    // if (title) {
+    //     vnodes.push(`<span slot="title">${title}</span>`)
+    // }
+    // return vnodes
 
-    if (icon) {
-      vnodes.push('<svg-icon icon-class="' + icon + '"/>');
-    }
-
-    if (title) {
-      vnodes.push('<span slot="' + title + '">' + title + '</span>');
-    }
-
-    return vnodes;
+    return createElement('div', [createElement('i', {
+      attrs: {
+        class: icon
+      }
+    }), createElement('span', title)]);
   }
 });
 
@@ -70846,7 +70856,7 @@ function hasPermission(role, permissionRoles) {
   });
 }
 
-var whileList = ['admin/login'];
+var whileList = ['/admin/login'];
 _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.start(); //start nprogress
 
@@ -70871,8 +70881,6 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
             next({
               path: '/admin/login'
             });
-          }).catch(function (error) {
-            console.log('logout error');
           });
         });
       } else {
@@ -70981,7 +70989,7 @@ var asyncRouterMap = [{
     name: 'test',
     meta: {
       title: 'test',
-      icon: 'fas fa-tachometer-alt',
+      icon: 'fas fa-tachometer-alt test',
       noCache: true,
       roles: ['editor']
     }
@@ -71168,7 +71176,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function hasPermission(role, route) {
   if (route.meta && route.meta.roles) {
-    // console.log(route)
     return route.meta.roles.includes(role);
   } else {
     return true;
@@ -71218,7 +71225,6 @@ var permission = {
         var accessedRouters;
 
         if (role === 'admin') {
-          console.log('admin__');
           accessedRouters = _router__WEBPACK_IMPORTED_MODULE_0__["asyncRouterMap"];
         } else {
           accessedRouters = filterAsyncRouter(_router__WEBPACK_IMPORTED_MODULE_0__["asyncRouterMap"], role);

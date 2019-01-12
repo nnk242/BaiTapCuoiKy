@@ -1,3 +1,9 @@
+<!--<template>-->
+<!--<div>-->
+<!--<i v-if="icon" :icon-class="icon"></i>-->
+<!--<span v-if="title" slot="title">{{title}}</span>-->
+<!--</div>-->
+<!--</template>-->
 <script>
     export default {
         name: 'MenuItem',
@@ -12,18 +18,29 @@
                 default: ''
             }
         },
-        render(h, context) {
-            const { icon, title } = context.props
-            const vnodes = []
-
-            if (icon) {
-                vnodes.push('<svg-icon icon-class="'+icon+'"/>')
-            }
-
-            if (title) {
-                vnodes.push('<span slot="'+title+'">'+title+'</span>')
-            }
-            return vnodes
+        render: function (createElement, context) {
+            const {icon, title} = context.props
+            // const vnodes = []
+            //
+            // if (icon) {
+            //     vnodes.push(`<i class="${icon}"></i>`)
+            // }
+            //
+            // if (title) {
+            //     vnodes.push(`<span slot="title">${title}</span>`)
+            // }
+            // return vnodes
+            return createElement(
+                'div', [
+                    createElement('i', {
+                            attrs: {
+                                class: icon
+                            }
+                        },
+                    ),
+                    createElement('span', title)
+                ]
+            )
         }
     }
 </script>

@@ -60,7 +60,7 @@ export const asyncRouterMap = [
                 path: '/admin/test',
                 component: testView,
                 name: 'test',
-                meta: { title: 'test', icon: 'fas fa-tachometer-alt', noCache: true, roles: ['editor']}
+                meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ['editor']}
             }
         ]
     }
