@@ -28,11 +28,13 @@
                 'div', [
                     createElement('i', {
                             attrs: {
-                                class: icon
+                                class: icon,
                             }
                         },
                     ),
-                    createElement('span', title)
+                    createElement('span', {
+                        slot: 'title'
+                    }, title)
                 ]
             )
         }

@@ -45,7 +45,7 @@ const app = {
         toggleSideBar({commit}) {
             commit('TOGGLE_SIDEBAR')
         },
-        colseSideBar({commit}, withoutAnimation) {
+        closeSideBar({commit}, withoutAnimation) {
             commit('CLOSE_SIDEBAR', withoutAnimation)
         },
         toggleDevice({commit}, device) {
