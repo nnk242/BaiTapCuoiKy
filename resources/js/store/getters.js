@@ -3,7 +3,7 @@ const getters = {
     sidebar: state => state.app.sidebar,
     device: state => state.app.device,
     size: state => state.app.size,
-    roles: state => state.app.roles,
+    role: state => state.user.role,
 
     permission_routers: state => state.permission.routers,
     addRouters: state => state.permission.addRouters,

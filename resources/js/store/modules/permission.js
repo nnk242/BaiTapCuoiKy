@@ -6,9 +6,10 @@ import {asyncRouterMap, constantRouterMap} from '../../router'
  * @param role
  * @param route
  */
-function hasPermission(roles, route) {
+function hasPermission(role, route) {
     if (route.meta && route.meta.roles) {
-        return roles.some(role => route.meta.roles.includes(role))
+        // console.log(route)
+        return route.meta.roles.includes(role)
     } else {
         return true
     }
@@ -19,13 +20,14 @@ function hasPermission(roles, route) {
  * @param routes asyncRouterMap
  * @param role
  */
-function filterAsyncRouter(routes, roles) {
+function filterAsyncRouter(routes, role) {
+    console.log('filterAsyncRouter')
     const res = []
     routes.forEach(route => {
         const tmp = {...route}
-        if (hasPermission(roles, tmp)) {
+        if (hasPermission(role, tmp)) {
             if (tmp.children) {
-                tmp.children = filterAsyncRouter(tmp.children, roles)
+                tmp.children = filterAsyncRouter(tmp.children, role)
             }
             res.push(tmp)
         }
@@ -42,23 +44,25 @@ const permission = {
     mutations: {
         SET_ROUTERS: (state, routers) => {
             state.addRouters = routers
-            state.routers = constantRouterMap.concat(routers)
+            if(typeof state.routers === "undefined")
+                state.routers = constantRouterMap.concat(routers)
         }
     },
     actions: {
-        GenerateRoutes({commit}, roles) {
-            console.log(roles)
+        GenerateRoutes({commit}, role) {
+            // console.log(role)
             //
-            // return new Promise(resolve => {
-            //     let accessedRouters
-            //     if (roles.includes('admin')) {
-            //         accessedRouters = asyncRouterMap
-            //     } else {
-            //         accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-            //     }
-            //     commit('SET_ROUTERS', accessedRouters)
-            //     resolve()
-            // })
+            return new Promise(resolve => {
+                let accessedRouters
+                if (role === 'admin') {
+                    console.log('admin__')
+                    accessedRouters = asyncRouterMap
+                } else {
+                    accessedRouters = filterAsyncRouter(asyncRouterMap, role)
+                }
+                commit('SET_ROUTERS', accessedRouters)
+                resolve()
+            })
         }
     }
 }

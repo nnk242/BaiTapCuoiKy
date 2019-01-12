@@ -7,10 +7,10 @@ import {getToken} from './utils/auth'
 
 NProgress.configure({showSpinner: false})
 
-
 //has permission
-function hasPermission(roles, permissionRoles) {
-    if (roles.indexOf('admin') >= 0) {
+function hasPermission(role, permissionRoles) {
+    let roles = ['admin', 'member', 'staff']
+    if (roles.includes(role)) {
         return true //permission pass
     }
     if (!permissionRoles) {
@@ -29,20 +29,13 @@ router.beforeEach((to, from, next) => {
             next({path: '/admin/dashboard'})
             NProgress.done()
         } else {
-            if (typeof store.getters.role === 'undefined') {
+            if (store.getters.role === "") {
                 store.dispatch('getUserInfo')
                     .then(response => {
-                        let roles = []
-                        roles.push(response.data.role)
-                        store.dispatch('GenerateRoutes', roles)
-                            .then(response => {
-                                // router.addRoutes()
-
-                                // console.log(router)
-                                                    // console.log(store.getters.addRouters)
-                                // router.addRoutes(store.getters.addRouters)
-                                //                     console.log(store.getters.addRouters)
-                                next()
+                        store.dispatch('GenerateRoutes', response.data.role)
+                            .then(() => {
+                                router.addRoutes(store.getters.addRouters)
+                                next({...to, replace: true})
                             })
                     })
                     .catch((error) => {
@@ -55,11 +48,22 @@ router.beforeEach((to, from, next) => {
                                 console.log('logout error')
                             })
                     })
+            } else {
+                if (hasPermission(store.getters.role, to.meta.roles)) {
+                    next()
+                } else {
+                    console.log('401')
+                    next()
+                }
             }
-
         }
     } else {
-        next()
+        if(whileList.indexOf(to.path) !== -1) {
+            next()
+        } else {
+            next(`/admin/login?redirect=${to.path}`)
+            NProgress.done()
+        }
     }
 })
 

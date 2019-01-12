@@ -28,24 +28,13 @@ import loginView from '../views/login/index'
 
 export const constantRouterMap = [
     {
-        path: '/redirect',
-        component: Layout,
-        hidden: true,
-        children: [
-            {
-                path: '/redirect/:path*',
-                component: Path
-            }
-        ]
-    },
-    {
         path: '/admin/login',
         component: loginView,
         hidden: true,
         name: 'login'
     },
     {
-        path: '/admin',
+        path: '/admin/dashboard',
         component: Layout,
         redirect: '/admin/dashboard',
         children: [
@@ -63,14 +52,15 @@ export default new VueRouter({mode: 'history', scrollBehavior: () => ({ y: 0 }),
 
 export const asyncRouterMap = [
     {
-        path: '/admin',
+        path: '/admin/test',
         component: Layout,
+        // alwaysShow: true,
         children: [
             {
                 path: '/admin/test',
                 component: testView,
                 name: 'test',
-                meta: { title: 'test', icon: 'fas fa-tachometer-alt', noCache: true }
+                meta: { title: 'test', icon: 'fas fa-tachometer-alt', noCache: true, roles: ['editor']}
             }
         ]
     }

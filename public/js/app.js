@@ -3512,11 +3512,11 @@ __webpack_require__.r(__webpack_exports__);
     var vnodes = [];
 
     if (icon) {
-      vnodes.push("<svg-icon icon-class={icon}/>");
+      vnodes.push('<svg-icon icon-class="' + icon + '"/>');
     }
 
     if (title) {
-      vnodes.push("<span slot='title'>{(title)}</span>");
+      vnodes.push('<span slot="' + title + '">' + title + '</span>');
     }
 
     return vnodes;
@@ -3704,7 +3704,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     generateTitle: _utils_i18n__WEBPACK_IMPORTED_MODULE_1__["generateTitle"]
   },
   mounted: function mounted() {
-    console.log(123);
+    console.log('sidebar');
   }
 });
 
@@ -70816,6 +70816,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
 /* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -70826,8 +70830,10 @@ nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.configure({
   showSpinner: false
 }); //has permission
 
-function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf('admin') >= 0) {
+function hasPermission(role, permissionRoles) {
+  var roles = ['admin', 'member', 'staff'];
+
+  if (roles.includes(role)) {
     return true; //permission pass
   }
 
@@ -70851,17 +70857,13 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
       });
       nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.done();
     } else {
-      if (typeof _store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.role === 'undefined') {
+      if (_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.role === "") {
         _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('getUserInfo').then(function (response) {
-          var roles = [];
-          roles.push(response.data.role);
-          _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('GenerateRoutes', roles).then(function (response) {
-            // router.addRoutes()
-            // console.log(router)
-            // console.log(store.getters.addRouters)
-            // router.addRoutes(store.getters.addRouters)
-            //                     console.log(store.getters.addRouters)
-            next();
+          _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('GenerateRoutes', response.data.role).then(function () {
+            _router__WEBPACK_IMPORTED_MODULE_0__["default"].addRoutes(_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.addRouters);
+            next(_objectSpread({}, to, {
+              replace: true
+            }));
           });
         }).catch(function (error) {
           _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('fedLogout').then(function () {
@@ -70873,10 +70875,22 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
             console.log('logout error');
           });
         });
+      } else {
+        if (hasPermission(_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.role, to.meta.roles)) {
+          next();
+        } else {
+          console.log('401');
+          next();
+        }
       }
     }
   } else {
-    next();
+    if (whileList.indexOf(to.path) !== -1) {
+      next();
+    } else {
+      next("/admin/login?redirect=".concat(to.path));
+      nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.done();
+    }
   }
 });
 _router__WEBPACK_IMPORTED_MODULE_0__["default"].afterEach(function () {
@@ -70929,20 +70943,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 
 
 var constantRouterMap = [{
-  path: '/redirect',
-  component: _views_layout_layout__WEBPACK_IMPORTED_MODULE_2__["default"],
-  hidden: true,
-  children: [{
-    path: '/redirect/:path*',
-    component: _views_redirect_index__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }]
-}, {
   path: '/admin/login',
   component: _views_login_index__WEBPACK_IMPORTED_MODULE_7__["default"],
   hidden: true,
   name: 'login'
 }, {
-  path: '/admin',
+  path: '/admin/dashboard',
   component: _views_layout_layout__WEBPACK_IMPORTED_MODULE_2__["default"],
   redirect: '/admin/dashboard',
   children: [{
@@ -70966,8 +70972,9 @@ var constantRouterMap = [{
   routes: constantRouterMap
 }));
 var asyncRouterMap = [{
-  path: '/admin',
+  path: '/admin/test',
   component: _views_layout_layout__WEBPACK_IMPORTED_MODULE_2__["default"],
+  // alwaysShow: true,
   children: [{
     path: '/admin/test',
     component: _views_test__WEBPACK_IMPORTED_MODULE_5__["default"],
@@ -70975,7 +70982,8 @@ var asyncRouterMap = [{
     meta: {
       title: 'test',
       icon: 'fas fa-tachometer-alt',
-      noCache: true
+      noCache: true,
+      roles: ['editor']
     }
   }]
 }];
@@ -71004,8 +71012,8 @@ var getters = {
   size: function size(state) {
     return state.app.size;
   },
-  roles: function roles(state) {
-    return state.app.roles;
+  role: function role(state) {
+    return state.user.role;
   },
   permission_routers: function permission_routers(state) {
     return state.permission.routers;
@@ -71158,11 +71166,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @param route
  */
 
-function hasPermission(roles, route) {
+function hasPermission(role, route) {
   if (route.meta && route.meta.roles) {
-    return roles.some(function (role) {
-      return route.meta.roles.includes(role);
-    });
+    // console.log(route)
+    return route.meta.roles.includes(role);
   } else {
     return true;
   }
@@ -71174,14 +71181,15 @@ function hasPermission(roles, route) {
  */
 
 
-function filterAsyncRouter(routes, roles) {
+function filterAsyncRouter(routes, role) {
+  console.log('filterAsyncRouter');
   var res = [];
   routes.forEach(function (route) {
     var tmp = _objectSpread({}, route);
 
-    if (hasPermission(roles, tmp)) {
+    if (hasPermission(role, tmp)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRouter(tmp.children, roles);
+        tmp.children = filterAsyncRouter(tmp.children, role);
       }
 
       res.push(tmp);
@@ -71198,23 +71206,27 @@ var permission = {
   mutations: {
     SET_ROUTERS: function SET_ROUTERS(state, routers) {
       state.addRouters = routers;
-      state.routers = _router__WEBPACK_IMPORTED_MODULE_0__["constantRouterMap"].concat(routers);
+      if (typeof state.routers === "undefined") state.routers = _router__WEBPACK_IMPORTED_MODULE_0__["constantRouterMap"].concat(routers);
     }
   },
   actions: {
-    GenerateRoutes: function GenerateRoutes(_ref, roles) {
+    GenerateRoutes: function GenerateRoutes(_ref, role) {
       var commit = _ref.commit;
-      console.log(roles); //
-      // return new Promise(resolve => {
-      //     let accessedRouters
-      //     if (roles.includes('admin')) {
-      //         accessedRouters = asyncRouterMap
-      //     } else {
-      //         accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-      //     }
-      //     commit('SET_ROUTERS', accessedRouters)
-      //     resolve()
-      // })
+      // console.log(role)
+      //
+      return new Promise(function (resolve) {
+        var accessedRouters;
+
+        if (role === 'admin') {
+          console.log('admin__');
+          accessedRouters = _router__WEBPACK_IMPORTED_MODULE_0__["asyncRouterMap"];
+        } else {
+          accessedRouters = filterAsyncRouter(_router__WEBPACK_IMPORTED_MODULE_0__["asyncRouterMap"], role);
+        }
+
+        commit('SET_ROUTERS', accessedRouters);
+        resolve();
+      });
     }
   }
 };
@@ -71234,8 +71246,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/auth */ "./resources/js/utils/auth.js");
 /* harmony import */ var _api_login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/login */ "./resources/js/api/login.js");
 /* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api/auth */ "./resources/js/api/auth.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 
 
 
@@ -71247,7 +71257,7 @@ var user = {
     status: '',
     access_token: Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["getToken"])(),
     token_type: Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["getTokenType"])(),
-    roles: [],
+    role: '',
     expires_in: 0
   },
   mutations: {
@@ -71257,6 +71267,9 @@ var user = {
     SET_TOKEN_TYPE: function SET_TOKEN_TYPE(state, toke_type) {
       state.token_type = toke_type;
     },
+    SET_ROLE: function SET_ROLE(state, role) {
+      state.role = role;
+    },
     SET_NAME: function SET_NAME(state, name) {
       state.name = name;
     },
@@ -71265,9 +71278,6 @@ var user = {
     },
     SET_STATUS: function SET_STATUS(state, status) {
       state.status = status;
-    },
-    SET_ROLES: function SET_ROLES(state, roles) {
-      state.roles = roles;
     },
     SET_EXPIRES: function SET_EXPIRES(state, expires) {
       state.expires_in = expires;
@@ -71301,16 +71311,14 @@ var user = {
             access_token = state.access_token;
 
         Object(_api_auth__WEBPACK_IMPORTED_MODULE_2__["getUserInfo"])((token_type + ' ' + access_token).trim()).then(function (response) {
-          if (!response.data) {
+          var data = response.data;
+
+          if (!data) {
             reject('Verification failed, please login again.');
           }
 
-          var data = response.data;
-          var roles = new Array(data.role);
-
-          if (roles && roles.length) {
-            commit('SET_ROLES', roles);
-            console.log(_typeof(roles));
+          if (typeof data.role !== 'undefined') {
+            commit('SET_ROLE', data.role);
           } else {
             reject('getInfo: roles must be a non-null array!');
           }
@@ -71326,7 +71334,7 @@ var user = {
           state = _ref3.state;
       return new Promise(function (resolve, reject) {
         Object(_api_auth__WEBPACK_IMPORTED_MODULE_2__["logout"])().then(function (response) {
-          commit('SET_ROLES', []);
+          commit('SET_ROLE', '');
           commit('SET_TOKEN', '');
           commit('SET_TOKEN_TYPE', '');
           Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["destroyToken"])();
@@ -71339,7 +71347,7 @@ var user = {
     fedLogout: function fedLogout(_ref4) {
       var commit = _ref4.commit;
       return new Promise(function (resolve) {
-        commit('SET_ROLES', []);
+        commit('SET_ROLE', '');
         Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["destroyToken"])();
         resolve();
       });
@@ -71369,7 +71377,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var token_key = 'access_token';
 var token_type = 'token_type';
-var roles = 'roles';
 function getToken() {
   return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.get(token_key);
 }

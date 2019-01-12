@@ -1,4 +1,4 @@
-import {getToken, getTokenType, getRoles, setToken, setTokenType, setRoles, destroyToken} from '../../utils/auth'
+import {getToken, getTokenType, setToken, setTokenType,destroyToken} from '../../utils/auth'
 import {login} from "../../api/login";
 import {getUserInfo, logout} from "../../api/auth";
 
@@ -10,7 +10,7 @@ const user = {
         status: '',
         access_token: getToken(),
         token_type: getTokenType(),
-        roles: [],
+        role: '',
         expires_in: 0
     },
     mutations: {
@@ -20,6 +20,9 @@ const user = {
         SET_TOKEN_TYPE: (state, toke_type) => {
             state.token_type = toke_type
         },
+        SET_ROLE: (state, role) => {
+            state.role = role
+        },
         SET_NAME: (state, name) => {
             state.name = name
         },
@@ -28,9 +31,6 @@ const user = {
         },
         SET_STATUS: (state, status) => {
             state.status = status
-        },
-        SET_ROLES: (state, roles) => {
-            state.roles = roles
         },
         SET_EXPIRES: (state, expires) => {
             state.expires_in = expires
@@ -59,17 +59,13 @@ const user = {
                 const {token_type, access_token} = state
                 getUserInfo((token_type + ' ' + access_token).trim())
                     .then(response => {
-                        if (!response.data) {
+                        const {data} = response
+                        if (!data) {
                             reject('Verification failed, please login again.')
                         }
 
-                        const {data} = response
-
-                        let roles = new Array(data.role)
-
-                        if(roles && roles.length) {
-                            commit('SET_ROLES', roles)
-                            console.log(typeof roles)
+                        if(typeof data.role !== 'undefined') {
+                            commit('SET_ROLE', data.role)
 
                         } else {
                             reject('getInfo: roles must be a non-null array!')
@@ -85,7 +81,7 @@ const user = {
             return new Promise((resolve, reject) => {
                 logout()
                     .then(response => {
-                        commit('SET_ROLES', [])
+                        commit('SET_ROLE', '')
                         commit('SET_TOKEN', '')
                         commit('SET_TOKEN_TYPE', '')
                         destroyToken()
@@ -98,7 +94,7 @@ const user = {
         },
         fedLogout({commit}) {
             return new Promise(resolve => {
-                commit('SET_ROLES', [])
+                commit('SET_ROLE', '')
                 destroyToken()
                 resolve()
             })

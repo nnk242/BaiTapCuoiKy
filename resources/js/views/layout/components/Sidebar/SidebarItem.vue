@@ -102,7 +102,7 @@
             generateTitle
         },
         mounted() {
-            console.log(123)
+            console.log('sidebar')
         }
     }
 </script>
