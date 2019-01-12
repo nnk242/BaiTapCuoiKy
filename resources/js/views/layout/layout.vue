@@ -1,9 +1,9 @@
 <template>
     <div :class="classObj" class="app-wrapper">
         <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
-        <SideBar class="sidebar-container"/>
+        <Sidebar class="sidebar-container"/>
         <div class="main-container">
-            <!--<navbar/>-->
+            <navbar/>
             <!--<tags-view/>-->
             <!--<app-main/>-->
             <router-view></router-view>
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-    import {SideBar} from './components'
+    import {Sidebar, Navbar} from './components'
     import ResizeHandler from './mixin/ResizeHandler'
 
     export default {
         name: "layout",
-        components: {SideBar},
+        components: {Sidebar, Navbar},
         mixins: [ResizeHandler],
         computed: {
             sidebar() {

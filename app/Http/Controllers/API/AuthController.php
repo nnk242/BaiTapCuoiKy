@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Http\Controllers\Controller;
 use App\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -42,10 +43,9 @@ class AuthController extends Controller
         $password = $request->password;
         $credentials = ['email' => $email, 'password' => $password];
 
-        if(! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized', 'code' => 401], 401);
         }
-
 
 
         return $this->responseWithToken($token);
@@ -57,7 +57,8 @@ class AuthController extends Controller
      * @param $token
      * @return response()->json()
      */
-    public function responseWithToken($token) {
+    public function responseWithToken($token)
+    {
         return response()->json(
             [
                 'access_token' => $token,
@@ -73,13 +74,16 @@ class AuthController extends Controller
      * @param $token
      * @return response()->json()
      */
-    public function getUserInfo() {
+    public function getUserInfo()
+    {
         return auth()->user();
     }
 
-    public function logout() {
-//        return $request->header('Authorization');
+    public function logout()
+    {
+        return 1;
         auth()->logout();
-        return response()->json(['message' => 'Logout success']);
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

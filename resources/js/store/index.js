@@ -7,6 +7,8 @@ import permission from './modules/permission'
 
 import getters from './getters'
 
+import '../../sass/index.scss'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({

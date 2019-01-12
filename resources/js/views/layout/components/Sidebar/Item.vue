@@ -1,9 +1,3 @@
-<!--<template>-->
-<!--<div>-->
-<!--<i v-if="icon" :icon-class="icon"></i>-->
-<!--<span v-if="title" slot="title">{{title}}</span>-->
-<!--</div>-->
-<!--</template>-->
 <script>
     export default {
         name: 'MenuItem',

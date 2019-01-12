@@ -29,5 +29,9 @@ export default {
             },
             error: 'Thông tin tài khoản không chính xác.'
         }
+    },
+    navbar: {
+        dashboard: 'Dashboard',
+        logout: 'Đăng xuất'
     }
 }

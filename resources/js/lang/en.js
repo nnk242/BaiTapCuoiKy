@@ -29,5 +29,9 @@ export default {
             },
             error: 'Account information incorrect.'
         }
+    },
+    navbar: {
+        dashboard: 'Dashboard',
+        logout: 'Log Out'
     }
 }

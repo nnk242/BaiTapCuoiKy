@@ -43,6 +43,7 @@ const user = {
                 login(username, password)
                     .then(response => {
                         const {access_token, token_type} = response.data
+                        console.log(access_token)
                         commit('SET_TOKEN', access_token)
                         commit('SET_TOKEN_TYPE', token_type)
                         setToken(access_token)
