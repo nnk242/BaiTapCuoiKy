@@ -52,15 +52,60 @@ export default new VueRouter({mode: 'history', scrollBehavior: () => ({ y: 0 }),
 
 export const asyncRouterMap = [
     {
-        path: '/admin/test',
+        path: '/admin',
+        component: Layout,
+        // redirect: '/admin/test1',
+        alwaysShow: true, // will always show the root menu
+        meta: {
+            title: 'test 123',
+            icon: 'fas fa-tooth',
+            roles: ['admin', 'staff'] // you can set roles in root nav
+        },
+        children: [
+            {
+                path: 'test1',
+                component: testView,
+                name: 'test1',
+                meta: {
+                    title: 'test1',
+                    roles: ['admin', 'staff'] // or you can only set roles in sub nav
+                }
+            },
+            {
+                path: 'test2',
+                component: testView,
+                name: 'test2',
+                meta: {
+                    title: 'test2',
+                    // if do not set roles, means: this page does not require permission
+                    roles: ['admin']
+                }
+            }
+        ]
+    },
+    // {
+    //     path: '/admin/test',
+    //     component: Layout,
+    //     // alwaysShow: true,
+    //     children: [
+    //         {
+    //             path: '/admin/test',
+    //             component: testView,
+    //             name: 'test',
+    //             meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ['member']}
+    //         }
+    //     ]
+    // },
+    {
+        path: '/admin/staff',
         component: Layout,
         // alwaysShow: true,
         children: [
             {
-                path: '/admin/test',
+                path: '/admin/staff',
                 component: testView,
-                name: 'test',
-                meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ['editor']}
+                name: 'staff',
+                meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ['staff']}
             }
         ]
     }

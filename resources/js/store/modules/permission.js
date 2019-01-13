@@ -2,31 +2,30 @@ import {asyncRouterMap, constantRouterMap} from '../../router'
 
 /**
  *
- * meta.role
+ * meta.roles
  * @param role
  * @param route
  */
 function hasPermission(role, route) {
+    console.log(route)
     if (route.meta && route.meta.roles) {
         return route.meta.roles.includes(role)
-    } else {
-        return true
     }
 }
 
 /**
  *
  * @param routes asyncRouterMap
- * @param role
+ * @param roles
  */
-function filterAsyncRouter(routes, role) {
+function filterAsyncRouter(routes, roles) {
     console.log('filterAsyncRouter')
     const res = []
     routes.forEach(route => {
         const tmp = {...route}
-        if (hasPermission(role, tmp)) {
+        if (hasPermission(roles[0], route)) {
             if (tmp.children) {
-                tmp.children = filterAsyncRouter(tmp.children, role)
+                tmp.children = filterAsyncRouter(tmp.children, roles)
             }
             res.push(tmp)
         }
@@ -43,8 +42,7 @@ const permission = {
     mutations: {
         SET_ROUTERS: (state, routers) => {
             state.addRouters = routers
-            if(typeof state.routers === "undefined")
-                state.routers = constantRouterMap.concat(routers)
+            state.routers = constantRouterMap.concat(routers)
         }
     },
     actions: {
@@ -56,7 +54,9 @@ const permission = {
                 if (role === 'admin') {
                     accessedRouters = asyncRouterMap
                 } else {
-                    accessedRouters = filterAsyncRouter(asyncRouterMap, role)
+                    let roles = []
+                    roles.push(role)
+                    accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
                 }
                 commit('SET_ROUTERS', accessedRouters)
                 resolve()

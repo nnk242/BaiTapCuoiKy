@@ -72266,7 +72266,6 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
       nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.done();
     } else {
       if (_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.role === "") {
-        console.log('in here!');
         _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('getUserInfo').then(function (response) {
           _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('GenerateRoutes', response.data.role).then(function () {
             _router__WEBPACK_IMPORTED_MODULE_0__["default"].addRoutes(_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.addRouters);
@@ -72284,6 +72283,7 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
         });
       } else {
         if (hasPermission(_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.role, to.meta.roles)) {
+          console.log('in here!');
           next();
         } else {
           console.log('401');
@@ -72379,18 +72379,62 @@ var constantRouterMap = [{
   routes: constantRouterMap
 }));
 var asyncRouterMap = [{
-  path: '/admin/test',
+  path: '/admin',
+  component: _views_backend_layout_layout__WEBPACK_IMPORTED_MODULE_2__["default"],
+  // redirect: '/admin/test1',
+  alwaysShow: true,
+  // will always show the root menu
+  meta: {
+    title: 'test 123',
+    icon: 'fas fa-tooth',
+    roles: ['admin', 'staff'] // you can set roles in root nav
+
+  },
+  children: [{
+    path: 'test1',
+    component: _views_test__WEBPACK_IMPORTED_MODULE_5__["default"],
+    name: 'test1',
+    meta: {
+      title: 'test1',
+      roles: ['admin', 'staff'] // or you can only set roles in sub nav
+
+    }
+  }, {
+    path: 'test2',
+    component: _views_test__WEBPACK_IMPORTED_MODULE_5__["default"],
+    name: 'test2',
+    meta: {
+      title: 'test2',
+      // if do not set roles, means: this page does not require permission
+      roles: ['admin']
+    }
+  }]
+}, // {
+//     path: '/admin/test',
+//     component: Layout,
+//     // alwaysShow: true,
+//     children: [
+//         {
+//             path: '/admin/test',
+//             component: testView,
+//             name: 'test',
+//             meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ['member']}
+//         }
+//     ]
+// },
+{
+  path: '/admin/staff',
   component: _views_backend_layout_layout__WEBPACK_IMPORTED_MODULE_2__["default"],
   // alwaysShow: true,
   children: [{
-    path: '/admin/test',
+    path: '/admin/staff',
     component: _views_test__WEBPACK_IMPORTED_MODULE_5__["default"],
-    name: 'test',
+    name: 'staff',
     meta: {
       title: 'test',
       icon: 'fas fa-tachometer-alt test',
       noCache: true,
-      roles: ['editor']
+      roles: ['staff']
     }
   }]
 }];
@@ -72577,34 +72621,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /**
  *
- * meta.role
+ * meta.roles
  * @param role
  * @param route
  */
 
 function hasPermission(role, route) {
+  console.log(route);
+
   if (route.meta && route.meta.roles) {
     return route.meta.roles.includes(role);
-  } else {
-    return true;
   }
 }
 /**
  *
  * @param routes asyncRouterMap
- * @param role
+ * @param roles
  */
 
 
-function filterAsyncRouter(routes, role) {
+function filterAsyncRouter(routes, roles) {
   console.log('filterAsyncRouter');
   var res = [];
   routes.forEach(function (route) {
     var tmp = _objectSpread({}, route);
 
-    if (hasPermission(role, tmp)) {
+    if (hasPermission(roles[0], route)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRouter(tmp.children, role);
+        tmp.children = filterAsyncRouter(tmp.children, roles);
       }
 
       res.push(tmp);
@@ -72621,7 +72665,7 @@ var permission = {
   mutations: {
     SET_ROUTERS: function SET_ROUTERS(state, routers) {
       state.addRouters = routers;
-      if (typeof state.routers === "undefined") state.routers = _router__WEBPACK_IMPORTED_MODULE_0__["constantRouterMap"].concat(routers);
+      state.routers = _router__WEBPACK_IMPORTED_MODULE_0__["constantRouterMap"].concat(routers);
     }
   },
   actions: {
@@ -72635,7 +72679,9 @@ var permission = {
         if (role === 'admin') {
           accessedRouters = _router__WEBPACK_IMPORTED_MODULE_0__["asyncRouterMap"];
         } else {
-          accessedRouters = filterAsyncRouter(_router__WEBPACK_IMPORTED_MODULE_0__["asyncRouterMap"], role);
+          var roles = [];
+          roles.push(role);
+          accessedRouters = filterAsyncRouter(_router__WEBPACK_IMPORTED_MODULE_0__["asyncRouterMap"], roles);
         }
 
         commit('SET_ROUTERS', accessedRouters);

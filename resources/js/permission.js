@@ -30,7 +30,6 @@ router.beforeEach((to, from, next) => {
             NProgress.done()
         } else {
             if (store.getters.role === "") {
-                console.log('in here!')
                 store.dispatch('getUserInfo')
                     .then(response => {
                         store.dispatch('GenerateRoutes', response.data.role)
@@ -48,6 +47,7 @@ router.beforeEach((to, from, next) => {
                     })
             } else {
                 if (hasPermission(store.getters.role, to.meta.roles)) {
+                    console.log('in here!')
                     next()
                 } else {
                     console.log('401')
