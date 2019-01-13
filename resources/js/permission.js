@@ -30,6 +30,7 @@ router.beforeEach((to, from, next) => {
             NProgress.done()
         } else {
             if (store.getters.role === "") {
+                console.log('in here!')
                 store.dispatch('getUserInfo')
                     .then(response => {
                         store.dispatch('GenerateRoutes', response.data.role)
@@ -55,7 +56,7 @@ router.beforeEach((to, from, next) => {
             }
         }
     } else {
-        if(whileList.indexOf(to.path) !== -1) {
+        if (whileList.indexOf(to.path) !== -1) {
             next()
         } else {
             next(`/admin/login?redirect=${to.path}`)

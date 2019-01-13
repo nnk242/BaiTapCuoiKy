@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import LangSelect from '../../components/LangSelect'
+    import LangSelect from '../../../components/LangSelect'
 
     export default {
         components: {
@@ -72,10 +72,10 @@
         },
         watch: {
             $route: {
-                // immediate: true,
-                handle: function (route) {
+                handler: function (route) {
                     this.redirect = route.query && route.query.redirect
-                }
+                },
+                immediate: true
             }
         },
         methods: {

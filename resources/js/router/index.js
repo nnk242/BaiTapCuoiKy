@@ -5,15 +5,15 @@ Vue.use(VueRouter)
 
 /** layout */
 
-import Layout from '../views/layout/layout'
+import Layout from '../views/backend/layout/layout'
 
 /** redirect */
 
-import Path from '../views/redirect/index'
+import Path from '../views/backend/redirect/index'
 
 /**  admin */
 
-import Admin from '../views/admin/index'
+import Admin from '../views/backend/admin/index'
 
 /**
  *
@@ -23,8 +23,8 @@ import Admin from '../views/admin/index'
  *
  * */
 import testView from '../views/test'
-import dashboardView from '../views/dashboard'
-import loginView from '../views/login/index'
+import dashboardView from '../views/backend/dashboard'
+import loginView from '../views/backend/login/index'
 
 export const constantRouterMap = [
     {

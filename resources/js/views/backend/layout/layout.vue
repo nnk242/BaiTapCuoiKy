@@ -14,6 +14,7 @@
 <script>
     import {Sidebar, Navbar, AppMain} from './components'
     import ResizeHandler from './mixin/ResizeHandler'
+    import Cookies from 'js-cookie'
 
     export default {
         name: "layout",
@@ -44,7 +45,7 @@
 </script>
 
 <style type="stylesheet/scss" lang="scss">
-    @import "../../../sass/mixin.scss";
+    @import "../../../../sass/mixin";
 
     .app-wrapper {
         @include clearfix;
