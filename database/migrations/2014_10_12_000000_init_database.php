@@ -19,6 +19,7 @@ class InitDatabase extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('avatar', 255)->nullable();
             $table->enum('role', ['admin', 'member', 'staff'])->default('member');
             $table->rememberToken();
             $table->timestamps();

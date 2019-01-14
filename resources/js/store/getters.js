@@ -5,6 +5,7 @@ const getters = {
     size: state => state.app.size,
 
     role: state => state.user.role,
+    avatar: state => state.user.avatar,
 
     visitedViews: state => state.tagsView.visitedViews,
     cachedViews: state => state.tagsView.cachedViews,

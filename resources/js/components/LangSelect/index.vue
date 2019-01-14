@@ -1,6 +1,9 @@
 <template>
     <el-dropdown trigger="click" @command="handleSetLanguage" class="globe">
-        <div><el-button type="success" icon="fas fa-globe" circle></el-button></div>
+        <!--<div><el-button type="success" icon="fas fa-globe" circle></el-button></div>-->
+        <div class="btn-lang">
+            <button class="btn-lang-child"><i class="fas fa-globe"></i></button>
+        </div>
         <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :disabled="language === 'vi'" command="vi">{{ $t('common.name.vi') }}</el-dropdown-item>
             <el-dropdown-item :disabled="language === 'en'" command="en">{{ $t('common.name.en') }}</el-dropdown-item>
@@ -29,6 +32,35 @@
     }
 </script>
 
-<style scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+    .btn-lang {
+        text-align: center;
+        .btn-lang-child {
+            border: solid 1px #304156;
+            width: 27px;
+            height: 27px;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            background: #efeade;
+            transition: 1s;
+
+            &:hover {
+                background: #4AB7BD;
+                border: solid 1px #efeade;
+                transition: 1s;
+            }
+
+            &:hover i {
+                color: #efeade;
+                transition: 1s;
+            }
+
+            i {
+                color: #599657;
+                transition: 1s;
+            }
+        }
+    }
 
 </style>
