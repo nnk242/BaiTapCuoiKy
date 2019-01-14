@@ -10,7 +10,6 @@
             active-text-color="#409EFF"
         >
             <SidebarItem v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path" />
-            <!--<SidebarItem v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path"/>-->
         </el-menu>
     </el-scrollbar>
 </template>
@@ -30,9 +29,6 @@
             isCollapse() {
                 return !this.sidebar.opened
             }
-        },
-        mounted() {
-            console.log(this.$store.getters)
         }
     }
 </script>

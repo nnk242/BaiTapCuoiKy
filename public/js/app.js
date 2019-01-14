@@ -3785,21 +3785,32 @@ __webpack_require__.r(__webpack_exports__);
         title = _context$props.title;
     var vnodes = [];
 
-    if (icon) {
-      vnodes.push(createElement('i', {
-        attrs: {
-          class: icon + ' position_element'
-        }
-      }));
-    }
+    if (_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.sidebar.opened) {
+      if (icon) {
+        vnodes.push(createElement('i', {
+          attrs: {
+            class: icon + ' position_element'
+          }
+        }));
+      }
 
-    if (_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.sidebar.opened) if (title) {
-      vnodes.push(createElement('span', {
-        attrs: {
-          class: 'test'
+      if (title) {
+        vnodes.push(createElement('span', {}, title));
+      }
+    } else {
+      if (icon) {
+        vnodes.push(createElement('i', {
+          attrs: {
+            class: icon + ' position_element'
+          }
+        }));
+      } else {
+        if (title) {
+          vnodes.push(createElement('span', {}, title));
         }
-      }, title));
+      }
     } // return vnodes
+
 
     return createElement('div', [vnodes]);
   }
@@ -4020,7 +4031,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4032,10 +4042,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     isCollapse: function isCollapse() {
       return !this.sidebar.opened;
     }
-  }),
-  mounted: function mounted() {
-    console.log(this.$store.getters);
-  }
+  })
 });
 
 /***/ }),
@@ -6444,7 +6451,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
