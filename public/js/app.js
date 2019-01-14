@@ -3669,6 +3669,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Breadcrumb__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../components/Breadcrumb */ "./resources/js/components/Breadcrumb/index.vue");
 /* harmony import */ var _components_Hamburger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../components/Hamburger */ "./resources/js/components/Hamburger/index.vue");
 /* harmony import */ var _components_LangSelect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../components/LangSelect */ "./resources/js/components/LangSelect/index.vue");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../utils */ "./resources/js/utils/index.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -3731,6 +3732,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
  // import ThemePicker from '../../../components/ThemePicker'
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Breadcrumb: _components_Breadcrumb__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -3749,7 +3751,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     logout: function logout() {
       this.$store.dispatch('logout').then(function () {
-        location.reload(); // In order to re-instantiate the vue-router object to avoid bugs
+        window.location.href = window.location.origin + '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.pathname); // In order to re-instantiate the vue-router object to avoid bugs
       });
     }
   }
@@ -6186,7 +6188,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".btn-lang[data-v-3483aa10] {\n  text-align: center;\n}\n.btn-lang .btn-lang-child[data-v-3483aa10] {\n  border: solid 1px #304156;\n  width: 27px;\n  height: 27px;\n  border-radius: 5px;\n  cursor: pointer;\n  outline: none;\n  background: #efeade;\n  transition: 1s;\n}\n.btn-lang .btn-lang-child[data-v-3483aa10]:hover {\n  background: #4AB7BD;\n  border: solid 1px #efeade;\n  transition: 1s;\n}\n.btn-lang .btn-lang-child:hover i[data-v-3483aa10] {\n  color: #efeade;\n  transition: 1s;\n}\n.btn-lang .btn-lang-child i[data-v-3483aa10] {\n  color: #599657;\n  transition: 1s;\n}", ""]);
+exports.push([module.i, ".btn-lang[data-v-3483aa10] {\n  text-align: center;\n  margin-top: 15px;\n}\n.btn-lang .btn-lang-child[data-v-3483aa10] {\n  border: solid 1px #304156;\n  width: 27px;\n  height: 27px;\n  border-radius: 5px;\n  cursor: pointer;\n  outline: none;\n  background: #efeade;\n  transition: 1s;\n}\n.btn-lang .btn-lang-child[data-v-3483aa10]:hover {\n  background: #4AB7BD;\n  border: solid 1px #efeade;\n  transition: 1s;\n}\n.btn-lang .btn-lang-child:hover i[data-v-3483aa10] {\n  color: #efeade;\n  transition: 1s;\n}\n.btn-lang .btn-lang-child i[data-v-3483aa10] {\n  position: absolute;\n  left: 7px;\n  margin-top: 5px;\n  color: #599657;\n  transition: 1s;\n}", ""]);
 
 // exports
 
@@ -56109,7 +56111,7 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "btn-lang" }, [
-        _c("button", { staticClass: "btn-lang-child" }, [
+        _c("div", { staticClass: "btn-lang-child" }, [
           _c("i", { staticClass: "fas fa-globe" })
         ])
       ]),
@@ -73360,14 +73362,23 @@ function generateTitle(title) {
 /*!*************************************!*\
   !*** ./resources/js/utils/index.js ***!
   \*************************************/
-/*! exports provided: isExternal */
+/*! exports provided: isExternal, charactersProtocolToCodeHex */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isExternal", function() { return isExternal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "charactersProtocolToCodeHex", function() { return charactersProtocolToCodeHex; });
 function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path);
+}
+function charactersProtocolToCodeHex(string) {
+  var regex_2F = /\//gi;
+  var regex_3F = /\?/gi;
+  var regex_3D = /\=/gi;
+  string = string.replace(regex_2F, '%2F');
+  string = string.replace(regex_3F, '%3F');
+  return string.replace(regex_3D, '%3F');
 }
 
 /***/ }),

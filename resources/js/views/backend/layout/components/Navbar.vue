@@ -57,6 +57,7 @@
     // import SizeSelect from '@/components/SizeSelect'
     import LangSelect from '../../../../components/LangSelect'
     // import ThemePicker from '../../../components/ThemePicker'
+    import {charactersProtocolToCodeHex} from '../../../../utils'
 
     export default {
         components: {
@@ -82,7 +83,9 @@
             },
             logout() {
                 this.$store.dispatch('logout').then(() => {
-                    location.reload()// In order to re-instantiate the vue-router object to avoid bugs
+                    window.location.href = window.location.origin + '/admin/login?redirect='+
+                        charactersProtocolToCodeHex(window.location.pathname)
+                    // In order to re-instantiate the vue-router object to avoid bugs
                 })
             }
         }
