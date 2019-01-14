@@ -20,7 +20,7 @@ function hasPermission(role, permissionRoles) {
     return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
 
-const whileList = ['/admin/login']
+// const whileList = ['/admin/login']
 
 router.beforeEach((to, from, next) => {
     NProgress.start() //start nprogress
@@ -47,7 +47,6 @@ router.beforeEach((to, from, next) => {
                     })
             } else {
                 if (hasPermission(store.getters.role, to.meta.roles)) {
-                    console.log('in here!')
                     next()
                 } else {
                     console.log('401')
@@ -56,12 +55,13 @@ router.beforeEach((to, from, next) => {
             }
         }
     } else {
-        if (whileList.indexOf(to.path) !== -1) {
-            next()
-        } else {
-            next(`/admin/login?redirect=${to.path}`)
-            NProgress.done()
-        }
+        // if (whileList.indexOf(to.path) !== -1) {
+        //     next()
+        // } else {
+        //     next(`/admin/login?redirect=${to.path}`)
+        //     NProgress.done()
+        // }
+        next()
     }
 })
 

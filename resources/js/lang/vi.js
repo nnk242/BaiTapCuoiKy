@@ -33,5 +33,10 @@ export default {
     navbar: {
         dashboard: 'Dashboard',
         logout: 'Đăng xuất'
+    },
+    notfound: {
+        home: 'Trang chủ',
+        title: 'Trang của bạn truy cập không tồn tại!',
+        back: 'Quay lại'
     }
 }

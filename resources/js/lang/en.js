@@ -33,5 +33,10 @@ export default {
     navbar: {
         dashboard: 'Dashboard',
         logout: 'Log Out'
+    },
+    notfound: {
+        home: 'Home',
+        title: 'Page notfound!',
+        back: 'Back'
     }
 }

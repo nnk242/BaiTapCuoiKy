@@ -3,18 +3,13 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-/** layout */
-
-import Layout from '../views/backend/layout/layout'
-
+import Layout from '../views/backend/layout/layout' //layout
 /** redirect */
-
 import Path from '../views/backend/redirect/index'
-
 /**  admin */
-
 import Admin from '../views/backend/admin/index'
 
+import error_404 from '../views/error/404'
 /**
  *
  *  page view
@@ -33,6 +28,22 @@ export const constantRouterMap = [
         hidden: true,
         name: 'login'
     },
+    //
+    {
+        path: '/',
+        component: testView,
+        hidden: true,
+        name: 'fdhome'
+    },
+    {
+        path: '*',
+        component: error_404
+    }
+]
+
+export default new VueRouter({mode: 'history', scrollBehavior: () => ({ y: 0 }), routes: constantRouterMap})
+
+export const asyncRouterMap = [
     {
         path: '/admin/dashboard',
         component: Layout,
@@ -45,12 +56,7 @@ export const constantRouterMap = [
                 meta: { title: 'dashboard', icon: 'fas fa-tachometer-alt', noCache: true }
             }
         ]
-    }
-]
-
-export default new VueRouter({mode: 'history', scrollBehavior: () => ({ y: 0 }), routes: constantRouterMap})
-
-export const asyncRouterMap = [
+    },
     {
         path: '/admin',
         component: Layout,
