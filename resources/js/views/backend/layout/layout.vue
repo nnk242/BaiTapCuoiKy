@@ -14,7 +14,6 @@
 <script>
     import {Sidebar, Navbar, AppMain} from './components'
     import ResizeHandler from './mixin/ResizeHandler'
-    import Cookies from 'js-cookie'
 
     export default {
         name: "layout",

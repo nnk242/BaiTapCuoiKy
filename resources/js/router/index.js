@@ -8,6 +8,7 @@ import Layout from '../views/backend/layout/layout' //layout
 import Path from '../views/backend/redirect/index'
 /**  admin */
 import Admin from '../views/backend/admin/index'
+import changePasswordView from '../views/backend/auth/changePassword'
 
 import error_404 from '../views/error/404'
 /**
@@ -20,6 +21,12 @@ import error_404 from '../views/error/404'
 import testView from '../views/test'
 import dashboardView from '../views/backend/dashboard'
 import loginView from '../views/backend/login/index'
+
+const ROLE_ALL = ['admin', 'staff']
+
+const ROLE_ADMIN = ['admin']
+const ROLE_ADMIN_STAFF = ['admin', 'staff']
+const ROLE_STAFF = ['staff']
 
 export const constantRouterMap = [
     {
@@ -74,7 +81,7 @@ export const asyncRouterMap = [
                 name: 'test1',
                 meta: {
                     title: 'test1',
-                    roles: ['admin', 'staff'] // or you can only set roles in sub nav
+                    roles: ROLE_ADMIN_STAFF // or you can only set roles in sub nav
                 }
             },
             {
@@ -84,24 +91,11 @@ export const asyncRouterMap = [
                 meta: {
                     title: 'test2',
                     // if do not set roles, means: this page does not require permission
-                    roles: ['admin']
+                    roles: ROLE_ADMIN
                 }
             }
         ]
     },
-    // {
-    //     path: '/admin/test',
-    //     component: Layout,
-    //     // alwaysShow: true,
-    //     children: [
-    //         {
-    //             path: '/admin/test',
-    //             component: testView,
-    //             name: 'test',
-    //             meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ['member']}
-    //         }
-    //     ]
-    // },
     {
         path: '/admin/staff',
         component: Layout,
@@ -111,8 +105,24 @@ export const asyncRouterMap = [
                 path: '/admin/staff',
                 component: testView,
                 name: 'staff',
-                meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ['staff']}
+                meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ROLE_STAFF}
             }
         ]
+    },
+    {
+        path: 'admin/changePassword',
+        component: Layout,
+        children: [
+            {
+                path: '/admin/changePassword',
+                component: changePasswordView,
+                name: 'changePassword',
+                meta: {
+                    roles: ROLE_ALL,
+                    noCache: true,
+                }
+            }
+        ],
+        hidden: true,
     }
 ]

@@ -31,16 +31,16 @@
                 <el-dropdown-menu slot="dropdown">
                     <router-link to="/">
                         <el-dropdown-item>
-                            {{ $t('navbar.dashboard') }}
+                            <i class="fas fa-tachometer-alt"></i> {{ $t('navbar.dashboard') }}
                         </el-dropdown-item>
                     </router-link>
-                    <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-                        <el-dropdown-item>
-                            Github
-                        </el-dropdown-item>
-                    </a>
+                    <el-dropdown-item>
+                        <router-link :to="{name: 'changePassword'}">
+                            <i class="fas fa-key"></i> {{ $t('navbar.changePassword') }}
+                        </router-link>
+                    </el-dropdown-item>
                     <el-dropdown-item divided>
-                        <span style="display:block;" @click="logout">{{ $t('navbar.logout') }}</span>
+                        <span style="display:block;" @click="logout"><i class="fas fa-sign-out-alt"></i> {{ $t('navbar.logout') }}</span>
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -50,14 +50,14 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import Breadcrumb from '../../../../components/Breadcrumb'
-    import Hamburger from '../../../../components/Hamburger'
+    import Breadcrumb from '../../../../../components/Breadcrumb'
+    import Hamburger from '../../../../../components/Hamburger'
     // import ErrorLog from '@/components/ErrorLog'
     // import Screenfull from '@/components/Screenfull'
     // import SizeSelect from '@/components/SizeSelect'
-    import LangSelect from '../../../../components/LangSelect'
+    import LangSelect from '../../../../../components/LangSelect'
     // import ThemePicker from '../../../components/ThemePicker'
-    import {charactersProtocolToCodeHex} from '../../../../utils'
+    import {charactersProtocolToCodeHex} from '../../../../../utils'
 
     export default {
         components: {
@@ -67,7 +67,7 @@
             // Screenfull,
             // SizeSelect,
             LangSelect,
-            // ThemePicker
+            // ThemePicker,
         },
         computed: {
             ...mapGetters([
@@ -83,8 +83,8 @@
             },
             logout() {
                 this.$store.dispatch('logout').then(() => {
-                    window.location.href = window.location.origin + '/admin/login?redirect='+
-                        charactersProtocolToCodeHex(window.location.pathname)
+                    window.location.href = window.location.origin + '/admin/login?redirect=' +
+                        charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
                     // In order to re-instantiate the vue-router object to avoid bugs
                 })
             }

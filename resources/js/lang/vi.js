@@ -32,7 +32,8 @@ export default {
     },
     navbar: {
         dashboard: 'Dashboard',
-        logout: 'Đăng xuất'
+        logout: 'Đăng xuất',
+        changePassword: 'Đổi mật khẩu'
     },
     notfound: {
         home: 'Trang chủ',

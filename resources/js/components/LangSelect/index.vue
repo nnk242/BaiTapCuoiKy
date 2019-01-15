@@ -1,6 +1,5 @@
 <template>
     <el-dropdown trigger="click" @command="handleSetLanguage" class="globe">
-        <!--<div><el-button type="success" icon="fas fa-globe" circle></el-button></div>-->
         <div class="btn-lang">
             <div class="btn-lang-child"><i class="fas fa-globe"></i></div>
         </div>

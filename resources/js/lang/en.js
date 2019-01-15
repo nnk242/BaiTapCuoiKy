@@ -32,7 +32,8 @@ export default {
     },
     navbar: {
         dashboard: 'Dashboard',
-        logout: 'Log Out'
+        logout: 'Log Out',
+        changePassword: 'Change password'
     },
     notfound: {
         home: 'Home',
