@@ -2,7 +2,7 @@
     <div class="navbar">
         <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
 
-        <breadcrumb class="breadcrumb-container"/>
+        <breadcrumb v-if="device!=='mobile'" class="breadcrumb-container"/>
 
         <div class="right-menu">
             <template v-if="device!=='mobile'">
@@ -29,9 +29,9 @@
                     <i class="el-icon-caret-bottom"/>
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                    <router-link to="/">
+                    <router-link :to="{name: 'accountbe'}">
                         <el-dropdown-item>
-                            <i class="fas fa-tachometer-alt"></i> {{ $t('navbar.dashboard') }}
+                            <i class="fas fa-user-cog"></i> {{ $t('navbar.account') }}
                         </el-dropdown-item>
                     </router-link>
                     <el-dropdown-item>

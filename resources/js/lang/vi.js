@@ -31,7 +31,7 @@ export default {
         }
     },
     navbar: {
-        dashboard: 'Dashboard',
+        account: 'Tài khoản',
         logout: 'Đăng xuất',
         changePassword: 'Đổi mật khẩu'
     },
@@ -47,6 +47,7 @@ export default {
         closeAll: 'Đóng tất cả'
     },
     route: {
-        changePassword: 'Đổi mật khẩu'
+        changePassword: 'Đổi mật khẩu',
+        accountbe: 'Tài khoản',
     }
 }

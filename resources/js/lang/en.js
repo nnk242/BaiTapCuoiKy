@@ -31,7 +31,7 @@ export default {
         }
     },
     navbar: {
-        dashboard: 'Dashboard',
+        account: 'account',
         logout: 'Log Out',
         changePassword: 'Change password'
     },
@@ -47,6 +47,7 @@ export default {
         closeAll: 'Close all'
     },
     route: {
-        changePassword: 'Change password'
+        changePassword: 'Change password',
+        accountbe: 'Account',
     }
 }

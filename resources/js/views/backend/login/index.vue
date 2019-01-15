@@ -139,7 +139,7 @@
     }
 
     .login-form {
-        width: 320px;
+        width: 290px;
         background-color: $background_form;
         border-radius: 3px;
         margin: 16vh auto 0 auto;

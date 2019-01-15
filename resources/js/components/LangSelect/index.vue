@@ -34,7 +34,7 @@
 <style rel="stylesheet/scss" lang="scss" scoped>
     .btn-lang {
         text-align: center;
-        margin-top: 15px;
+        margin-top: 10px;
         .btn-lang-child {
             border: solid 1px #304156;
             width: 27px;

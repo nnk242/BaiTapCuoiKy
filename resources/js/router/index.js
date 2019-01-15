@@ -8,6 +8,7 @@ import Layout from '../views/backend/layout/layout' //layout
 import Path from '../views/backend/redirect/index'
 /**  admin */
 import changePasswordView from '../views/backend/auth/changePassword'
+import accountBEView from '../views/backend/auth/account'
 
 import error_404 from '../views/error/404'
 /**
@@ -119,6 +120,23 @@ export const asyncRouterMap = [
                 meta: { title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ROLE_STAFF}
             }
         ]
+    },
+    {
+        path: 'admin/account',
+        component: Layout,
+        children: [
+            {
+                path: '/admin/account',
+                component: accountBEView,
+                name: 'accountbe',
+                meta: {
+                    roles: ROLE_ALL,
+                    noCache: true,
+                    title: 'Account'
+                }
+            }
+        ],
+        hidden: true,
     },
     {
         path: 'admin/changePassword',
