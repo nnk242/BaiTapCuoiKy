@@ -39,5 +39,14 @@ export default {
         home: 'Trang chủ',
         title: 'Trang của bạn truy cập không tồn tại!',
         back: 'Quay lại'
+    },
+    tagsView: {
+        refresh: 'Làm mới',
+        close: 'Đóng',
+        closeOthers: 'Đóng mọi thứ khác',
+        closeAll: 'Đóng tất cả'
+    },
+    route: {
+
     }
 }

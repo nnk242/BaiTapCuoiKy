@@ -4,20 +4,19 @@
         <Sidebar class="sidebar-container"/>
         <div class="main-container">
             <navbar/>
-            <!--<tags-view/>-->
+            <tags-view/>
             <app-main/>
-            <!--<router-view></router-view>-->
         </div>
     </div>
 </template>
 
 <script>
-    import {Sidebar, Navbar, AppMain} from './components'
+    import {Sidebar, Navbar, AppMain, TagsView} from './components'
     import ResizeHandler from './mixin/ResizeHandler'
 
     export default {
         name: "layout",
-        components: {Sidebar, Navbar, AppMain},
+        components: {Sidebar, Navbar, AppMain, TagsView},
         mixins: [ResizeHandler],
         computed: {
             sidebar() {

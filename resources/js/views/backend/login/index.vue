@@ -145,10 +145,6 @@
         margin: 16vh auto 0 auto;
     }
 
-    .text-center {
-        text-align: center;
-    }
-
     .error_login{
         color: #f44259;
     }

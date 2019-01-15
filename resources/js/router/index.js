@@ -7,7 +7,6 @@ import Layout from '../views/backend/layout/layout' //layout
 /** redirect */
 import Path from '../views/backend/redirect/index'
 /**  admin */
-import Admin from '../views/backend/admin/index'
 import changePasswordView from '../views/backend/auth/changePassword'
 
 import error_404 from '../views/error/404'
@@ -21,6 +20,7 @@ import error_404 from '../views/error/404'
 import testView from '../views/test'
 import dashboardView from '../views/backend/dashboard'
 import loginView from '../views/backend/login/index'
+import redirect from '../views/backend/redirect'
 
 const ROLE_ALL = ['admin', 'staff']
 
@@ -29,6 +29,17 @@ const ROLE_ADMIN_STAFF = ['admin', 'staff']
 const ROLE_STAFF = ['staff']
 
 export const constantRouterMap = [
+    {
+        path: '/admin/redirect',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: '/admin/redirect/:path*',
+                component: redirect
+            }
+        ]
+    },
     {
         path: '/admin/login',
         component: loginView,
@@ -120,6 +131,7 @@ export const asyncRouterMap = [
                 meta: {
                     roles: ROLE_ALL,
                     noCache: true,
+                    title: 'Change password'
                 }
             }
         ],

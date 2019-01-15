@@ -81,8 +81,8 @@ const user = {
         },
         logout({commit, state}) {
             return new Promise((resolve, reject) => {
-                let access_token_full =  getTokenType() +' ' + getToken();
-                if (access_token_full = '') {
+                let access_token_full =  getTokenType() + ' ' + getToken()
+                if (access_token_full == ' ') {
                     commit('SET_ROLE', '')
                     commit('SET_TOKEN', '')
                     commit('SET_TOKEN_TYPE', '')

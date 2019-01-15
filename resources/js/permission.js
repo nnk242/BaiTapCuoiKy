@@ -4,6 +4,7 @@ import {Message} from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {getToken} from './utils/auth'
+import {charactersProtocolToCodeHex} from './utils'
 
 NProgress.configure({showSpinner: false})
 
@@ -42,7 +43,8 @@ router.beforeEach((to, from, next) => {
                         store.dispatch('fedLogout')
                             .then(() => {
                                 Message.error(error)
-                                next({path: '/admin/login'})
+                                window.location.href = window.location.origin + '/admin/login?redirect=' +
+                                    charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
                             })
                     })
             } else {

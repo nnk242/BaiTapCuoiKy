@@ -1,7 +1,7 @@
 <template>
-<div>
-<h1>change password</h1>
-</div>
+    <div>
+        <h1 class="text-center">change password</h1>
+    </div>
 </template>
 
 <script>
