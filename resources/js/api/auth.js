@@ -19,3 +19,13 @@ export function logout(access_token) {
         }
     })
 }
+
+export function checkPassword(access_token) {
+    return request({
+        url: 'api/auth/checkPassword',
+        method: 'POST',
+        headers: {
+            Authorization: access_token
+        }
+    })
+}

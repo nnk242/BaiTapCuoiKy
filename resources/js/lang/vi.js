@@ -46,6 +46,22 @@ export default {
         closeOthers: 'Đóng mọi thứ khác',
         closeAll: 'Đóng tất cả'
     },
+    changePassword: {
+        title: 'Thay đổi mật khẩu',
+        oldPassword: 'Mật khẩu cũ',
+        newPassword: 'Mật khẩu mới',
+        rePassword: 'Nhập lại',
+        button: 'Thay đổi',
+        notification: {
+            oldPassword: {
+                error: 'Mật khẩu không chính xác',
+            },
+            rePassword: {
+                error: 'Mật khẩu không khớp'
+            },
+            error: 'Mật khẩu cần lớn hơn 6 kí tự'
+        }
+    },
     route: {
         changePassword: 'Đổi mật khẩu',
         accountbe: 'Tài khoản',

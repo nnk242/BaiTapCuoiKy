@@ -70,7 +70,6 @@ const user = {
                         } else {
                             reject('getInfo: roles must be a non-null array!')
                         }
-                        console.log(data)
                         commit('SET_AVATAR', data.avatar)
                         resolve(response)
                     })

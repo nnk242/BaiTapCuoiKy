@@ -15,10 +15,11 @@ export function setToken(token) {
     return Cookies.set(token_key, token)
 }
 
-export function destroyToken() {
-    return Cookies.remove(token_key)
-}
-
 export function setTokenType(type) {
     return Cookies.set(token_type, type)
+}
+
+export function destroyToken() {
+    return Cookies.remove(token_key)
+    return Cookies.remove(token_type)
 }

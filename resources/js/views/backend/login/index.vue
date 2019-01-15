@@ -80,28 +80,30 @@
         },
         methods: {
             handleLogin() {
-                this.$refs.loginForm.validate(valid => {
-                        this.loading = true
-                        this.hidden_error = 'hidden-error'
-                        if (valid) {
-                            this.$store.dispatch('login', this.loginForm)
-                                .then(() => {
-                                    this.loading = false
-                                    this.$router.push({path: this.redirect || '/admin/dashboard' })
-                                })
-                                .catch(error => {
-                                    this.loading = false
-                                    //error
-                                    this.hidden_error = ''
-                                    this.text_error = this.$t('login.notification.error')
-                                    console.log(error)
-                                })
-                        } else {
-                            console.log('required valid')
-                            this.loading = false
+                this.loading = true
+                setTimeout(() => {
+                    this.$refs.loginForm.validate(valid => {
+                            this.hidden_error = 'hidden-error'
+                            if (valid) {
+                                this.$store.dispatch('login', this.loginForm)
+                                    .then(() => {
+                                        this.loading = false
+                                        this.$router.push({path: this.redirect || '/admin/dashboard'})
+                                    })
+                                    .catch(error => {
+                                        this.loading = false
+                                        //error
+                                        this.hidden_error = ''
+                                        this.text_error = this.$t('login.notification.error')
+                                        console.log(error)
+                                    })
+                            } else {
+                                console.log('required valid')
+                                this.loading = false
+                            }
                         }
-                    }
-                )
+                    )
+                }, 250)
             }
         },
         name: "index"
@@ -145,7 +147,7 @@
         margin: 16vh auto 0 auto;
     }
 
-    .error_login{
+    .error_login {
         color: #f44259;
     }
 

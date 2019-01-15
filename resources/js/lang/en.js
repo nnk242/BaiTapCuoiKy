@@ -46,6 +46,22 @@ export default {
         closeOthers: 'Close other',
         closeAll: 'Close all'
     },
+    changePassword: {
+        title: 'Change password',
+        oldPassword: 'Old password',
+        newPassword: 'New password',
+        rePassword: 'Confirm',
+        button: 'Submit',
+        notification: {
+            oldPassword: {
+                error: 'Incorrect password',
+            },
+            rePassword: {
+                error: 'Mật khẩu không khớp'
+            },
+            error: 'The password can not be less than 6 digits.'
+        }
+    },
     route: {
         changePassword: 'Change password',
         accountbe: 'Account',

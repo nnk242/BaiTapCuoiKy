@@ -3683,6 +3683,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api/auth */ "./resources/js/api/auth.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3704,8 +3710,91 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "changePassword"
+  name: "changePassword",
+  data: function data() {
+    var _this = this;
+
+    var validatePass = function validatePass(rule, value, callback) {
+      if (value.length < 6) {
+        callback(new Error(_this.$t('changePassword.notification.error')));
+      } else {
+        if (_this.ruleForm.checkPass !== '') {
+          _this.$refs.ruleForm.validateField('checkPass');
+        }
+
+        callback();
+      }
+    };
+
+    var validateCheckPass = function validateCheckPass(rule, value, callback) {
+      if (value.length < 6) {
+        callback(new Error(_this.$t('changePassword.notification.error')));
+      } else if (value !== _this.ruleForm.pass) {
+        callback(new Error(_this.$t('changePassword.notification.rePassword.error')));
+      } else {
+        callback();
+      }
+    };
+
+    var validateOldPass = function validateOldPass(rule, value, callback) {
+      if (value.length < 6) {
+        callback(new Error(_this.$t('changePassword.notification.error')));
+      } else setTimeout(function () {
+        Object(_api_auth__WEBPACK_IMPORTED_MODULE_1__["checkPassword"])(_this.access_token).then(function (response) {
+          callback();
+        }).catch(function () {
+          callback(new Error(_this.$t('changePassword.notification.oldPassword.error')));
+        });
+      }, 1000);
+    };
+
+    return {
+      ruleForm: {
+        oldPass: '',
+        pass: '',
+        checkPass: ''
+      },
+      rules: {
+        oldPass: [{
+          validator: validateOldPass,
+          trigger: 'blur'
+        }],
+        pass: [{
+          validator: validatePass,
+          trigger: 'blur'
+        }],
+        checkPass: [{
+          validator: validateCheckPass,
+          trigger: 'blur'
+        }]
+      },
+      access_token: this.token_type + ' ' + this.token
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['device', 'token', 'token_type'])),
+  methods: {
+    submitForm: function submitForm(formName) {
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm: function resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
 });
 
 /***/ }),
@@ -4534,29 +4623,31 @@ __webpack_require__.r(__webpack_exports__);
     handleLogin: function handleLogin() {
       var _this2 = this;
 
-      this.$refs.loginForm.validate(function (valid) {
-        _this2.loading = true;
-        _this2.hidden_error = 'hidden-error';
+      this.loading = true;
+      setTimeout(function () {
+        _this2.$refs.loginForm.validate(function (valid) {
+          _this2.hidden_error = 'hidden-error';
 
-        if (valid) {
-          _this2.$store.dispatch('login', _this2.loginForm).then(function () {
-            _this2.loading = false;
+          if (valid) {
+            _this2.$store.dispatch('login', _this2.loginForm).then(function () {
+              _this2.loading = false;
 
-            _this2.$router.push({
-              path: _this2.redirect || '/admin/dashboard'
+              _this2.$router.push({
+                path: _this2.redirect || '/admin/dashboard'
+              });
+            }).catch(function (error) {
+              _this2.loading = false; //error
+
+              _this2.hidden_error = '';
+              _this2.text_error = _this2.$t('login.notification.error');
+              console.log(error);
             });
-          }).catch(function (error) {
-            _this2.loading = false; //error
-
-            _this2.hidden_error = '';
-            _this2.text_error = _this2.$t('login.notification.error');
-            console.log(error);
-          });
-        } else {
-          console.log('required valid');
-          _this2.loading = false;
-        }
-      });
+          } else {
+            console.log('required valid');
+            _this2.loading = false;
+          }
+        });
+      }, 250);
     }
   },
   name: "index"
@@ -6747,7 +6838,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.el-form-item[data-v-fb08d7f0] {\n    margin-bottom: 33px;\n}\n", ""]);
 
 // exports
 
@@ -56695,37 +56786,134 @@ var render = function() {
         "el-row",
         { attrs: { gutter: 20 } },
         [
-          _c("h1", { staticClass: "text-center" }, [_vm._v("change password")]),
+          _c("h1", { staticClass: "text-center" }, [
+            _vm._v(_vm._s(_vm.$t("changePassword.title")))
+          ]),
           _vm._v(" "),
           _c(
             "el-col",
-            { attrs: { span: 12, offset: 6 } },
+            {
+              attrs: {
+                span: _vm.device !== "mobile" ? 12 : 24,
+                offset: _vm.device !== "mobile" ? 6 : 0
+              }
+            },
             [
-              _c("div"),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
-              _vm._v(" "),
-              _c("el-input", {
-                attrs: {
-                  placeholder: "Password",
-                  "suffix-icon": "fas fa-unlock",
-                  type: "password",
-                  id: "password"
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "re_password" } }, [
-                _vm._v("Confirm password")
-              ]),
-              _vm._v(" "),
-              _c("el-input", {
-                attrs: {
-                  placeholder: "Pick a date",
-                  "suffix-icon": "fas fa-unlock",
-                  type: "password",
-                  id: "re_password"
-                }
-              })
+              _c(
+                "el-form",
+                {
+                  ref: "ruleForm",
+                  staticClass: "demo-ruleForm",
+                  attrs: {
+                    model: _vm.ruleForm,
+                    "status-icon": "",
+                    rules: _vm.rules,
+                    "label-width": "120px"
+                  }
+                },
+                [
+                  _c(
+                    "el-form-item",
+                    {
+                      attrs: {
+                        label: _vm.$t("changePassword.oldPassword"),
+                        prop: "oldPass"
+                      }
+                    },
+                    [
+                      _c("el-input", {
+                        attrs: { type: "password", autocomplete: "off" },
+                        model: {
+                          value: _vm.ruleForm.oldPass,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "oldPass", $$v)
+                          },
+                          expression: "ruleForm.oldPass"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    {
+                      attrs: {
+                        label: _vm.$t("changePassword.newPassword"),
+                        prop: "pass"
+                      }
+                    },
+                    [
+                      _c("el-input", {
+                        attrs: { type: "password", autocomplete: "off" },
+                        model: {
+                          value: _vm.ruleForm.pass,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "pass", $$v)
+                          },
+                          expression: "ruleForm.pass"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    {
+                      attrs: {
+                        label: _vm.$t("changePassword.rePassword"),
+                        prop: "checkPass"
+                      }
+                    },
+                    [
+                      _c("el-input", {
+                        attrs: { type: "password", autocomplete: "off" },
+                        model: {
+                          value: _vm.ruleForm.checkPass,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "checkPass", $$v)
+                          },
+                          expression: "ruleForm.checkPass"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    [
+                      _c(
+                        "el-button",
+                        {
+                          attrs: { type: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.submitForm("ruleForm")
+                            }
+                          }
+                        },
+                        [_vm._v("Submit")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-button",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.resetForm("ruleForm")
+                            }
+                          }
+                        },
+                        [_vm._v("Reset")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )
@@ -72417,13 +72605,14 @@ module.exports = g;
 /*!**********************************!*\
   !*** ./resources/js/api/auth.js ***!
   \**********************************/
-/*! exports provided: getUserInfo, logout */
+/*! exports provided: getUserInfo, logout, checkPassword */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserInfo", function() { return getUserInfo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkPassword", function() { return checkPassword; });
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
 
 function getUserInfo(access_token) {
@@ -72439,6 +72628,15 @@ function logout(access_token) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: 'api/auth/logout',
     method: 'GET',
+    headers: {
+      Authorization: access_token
+    }
+  });
+}
+function checkPassword(access_token) {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: 'api/auth/checkPassword',
+    method: 'POST',
     headers: {
       Authorization: access_token
     }
@@ -73047,6 +73245,22 @@ __webpack_require__.r(__webpack_exports__);
     closeOthers: 'Close other',
     closeAll: 'Close all'
   },
+  changePassword: {
+    title: 'Change password',
+    oldPassword: 'Old password',
+    newPassword: 'New password',
+    rePassword: 'Confirm',
+    button: 'Submit',
+    notification: {
+      oldPassword: {
+        error: 'Incorrect password'
+      },
+      rePassword: {
+        error: 'Mật khẩu không khớp'
+      },
+      error: 'The password can not be less than 6 digits.'
+    }
+  },
   route: {
     changePassword: 'Change password',
     accountbe: 'Account'
@@ -73156,6 +73370,22 @@ __webpack_require__.r(__webpack_exports__);
     closeOthers: 'Đóng mọi thứ khác',
     closeAll: 'Đóng tất cả'
   },
+  changePassword: {
+    title: 'Thay đổi mật khẩu',
+    oldPassword: 'Mật khẩu cũ',
+    newPassword: 'Mật khẩu mới',
+    rePassword: 'Nhập lại',
+    button: 'Thay đổi',
+    notification: {
+      oldPassword: {
+        error: 'Mật khẩu không chính xác'
+      },
+      rePassword: {
+        error: 'Mật khẩu không khớp'
+      },
+      error: 'Mật khẩu cần lớn hơn 6 kí tự'
+    }
+  },
   route: {
     changePassword: 'Đổi mật khẩu',
     accountbe: 'Tài khoản'
@@ -73183,6 +73413,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./resources/js/utils/index.js");
+var _this = undefined;
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -73236,7 +73468,10 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
         }).catch(function (error) {
           _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('fedLogout').then(function () {
             element_ui__WEBPACK_IMPORTED_MODULE_2__["Message"].error(error);
-            window.location.href = window.location.origin + '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.search);
+
+            _this.router.replace({
+              path: '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.search)
+            });
           });
         });
       } else {
@@ -74097,7 +74332,6 @@ var user = {
             reject('getInfo: roles must be a non-null array!');
           }
 
-          console.log(data);
           commit('SET_AVATAR', data.avatar);
           resolve(response);
         }).catch(function (error) {
@@ -74146,7 +74380,7 @@ var user = {
 /*!************************************!*\
   !*** ./resources/js/utils/auth.js ***!
   \************************************/
-/*! exports provided: getToken, getTokenType, setToken, destroyToken, setTokenType */
+/*! exports provided: getToken, getTokenType, setToken, setTokenType, destroyToken */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74154,8 +74388,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getToken", function() { return getToken; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTokenType", function() { return getTokenType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setToken", function() { return setToken; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroyToken", function() { return destroyToken; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTokenType", function() { return setTokenType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroyToken", function() { return destroyToken; });
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -74170,11 +74404,12 @@ function getTokenType() {
 function setToken(token) {
   return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.set(token_key, token);
 }
-function destroyToken() {
-  return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.remove(token_key);
-}
 function setTokenType(type) {
   return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.set(token_type, type);
+}
+function destroyToken() {
+  return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.remove(token_key);
+  return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.remove(token_type);
 }
 
 /***/ }),

@@ -43,8 +43,10 @@ router.beforeEach((to, from, next) => {
                         store.dispatch('fedLogout')
                             .then(() => {
                                 Message.error(error)
-                                window.location.href = window.location.origin + '/admin/login?redirect=' +
-                                    charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
+                                this.router.replace({
+                                    path: '/admin/login?redirect=' +
+                                        charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
+                                })
                             })
                     })
             } else {

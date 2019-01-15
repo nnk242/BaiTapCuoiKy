@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Http\Controllers\Controller;
 use App\User;
+use phpDocumentor\Reflection\Types\Boolean;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -79,14 +80,28 @@ class AuthController extends Controller
         return auth()->user();
     }
 
+    /**
+     * Logout.
+     *
+     * @param $token
+     * @return response()->json()
+     */
     public function logout()
     {
-//        return 1;
-
-        if(JWTAuth::invalidate(JWTAuth::getToken())){
+        if (JWTAuth::invalidate(JWTAuth::getToken())) {
             return response()->json(['message' => 'Successfully logged out']);
         } else {
-            return 1;
+            return response()->json(['message' => 'Successfully logged out'], 401);;
         }
+    }
+    /**
+     * Check password
+     *
+     * @param $token
+     * @return Boolean
+     */
+    public function checkPassword()
+    {
+        return response()->json(['message' => true]);
     }
 }

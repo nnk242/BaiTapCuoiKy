@@ -21,6 +21,7 @@ Route::group(['prefix'=> 'auth', 'namespace'=>'API', 'middleware' => 'api'], fun
     Route::post('login', 'AuthController@login');
     Route::get('logout', 'AuthController@logout');
     Route::get('getUserInfo', 'AuthController@getUserInfo');
+    Route::post('checkPassword', 'AuthController@checkPassword');
 //        ->where('id', '[0-9]+');
     //test
     Route::get('/', 'AuthController@index');
