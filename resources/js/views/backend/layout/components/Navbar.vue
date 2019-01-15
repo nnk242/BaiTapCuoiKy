@@ -83,9 +83,12 @@
             },
             logout() {
                 this.$store.dispatch('logout').then(() => {
-                    window.location.href = window.location.origin + '/admin/login?redirect=' +
-                        charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
-                    // In order to re-instantiate the vue-router object to avoid bugs
+                    const {params, query} = this.$route
+                    this.$router.replace({
+                        path: '/admin/login?redirect=' + charactersProtocolToCodeHex(window.location.pathname) +
+                            charactersProtocolToCodeHex(window.location.search)
+                    })
+
                 })
             }
         }

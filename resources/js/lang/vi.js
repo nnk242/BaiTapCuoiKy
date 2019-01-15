@@ -47,6 +47,6 @@ export default {
         closeAll: 'Đóng tất cả'
     },
     route: {
-
+        changePassword: 'Đổi mật khẩu'
     }
 }

@@ -39,5 +39,14 @@ export default {
         home: 'Home',
         title: 'Page notfound!',
         back: 'Back'
+    },
+    tagsView: {
+        refresh: 'Refresh',
+        close: 'Close',
+        closeOthers: 'Close other',
+        closeAll: 'Close all'
+    },
+    route: {
+        changePassword: 'Change password'
     }
 }

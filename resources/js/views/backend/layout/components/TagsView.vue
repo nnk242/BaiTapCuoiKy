@@ -11,7 +11,7 @@
                 class="tags-view-item"
                 @click.middle.native="closeSelectedTag(tag)"
                 @contextmenu.prevent.native="openMenu(tag,$event)">
-                {{ generateTitle(tag.title) }}
+                {{ generateTitle(tag.name) }}
                 <span class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)"/>
             </router-link>
         </scroll-pane>
@@ -106,7 +106,7 @@
                         if (latestView) {
                             this.$router.push(latestView)
                         } else {
-                            this.$router.push('/')
+                            this.$router.push({name: 'dashboard'})
                         }
                     }
                 })

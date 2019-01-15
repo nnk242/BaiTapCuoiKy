@@ -3822,8 +3822,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('toggleSideBar');
     },
     logout: function logout() {
+      var _this = this;
+
       this.$store.dispatch('logout').then(function () {
-        window.location.href = window.location.origin + '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.search); // In order to re-instantiate the vue-router object to avoid bugs
+        var _this$$route = _this.$route,
+            params = _this$$route.params,
+            query = _this$$route.query;
+
+        _this.$router.replace({
+          path: '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.search)
+        });
       });
     }
   }
@@ -4276,7 +4284,9 @@ __webpack_require__.r(__webpack_exports__);
           if (latestView) {
             _this3.$router.push(latestView);
           } else {
-            _this3.$router.push('/');
+            _this3.$router.push({
+              name: 'dashboard'
+            });
           }
         }
       });
@@ -57059,7 +57069,7 @@ var render = function() {
             [
               _vm._v(
                 "\n            " +
-                  _vm._s(_vm.generateTitle(tag.title)) +
+                  _vm._s(_vm.generateTitle(tag.name)) +
                   "\n            "
               ),
               _c("span", {
@@ -72875,6 +72885,15 @@ __webpack_require__.r(__webpack_exports__);
     home: 'Home',
     title: 'Page notfound!',
     back: 'Back'
+  },
+  tagsView: {
+    refresh: 'Refresh',
+    close: 'Close',
+    closeOthers: 'Close other',
+    closeAll: 'Close all'
+  },
+  route: {
+    changePassword: 'Change password'
   }
 });
 
@@ -72981,7 +73000,9 @@ __webpack_require__.r(__webpack_exports__);
     closeOthers: 'Đóng mọi thứ khác',
     closeAll: 'Đóng tất cả'
   },
-  route: {}
+  route: {
+    changePassword: 'Đổi mật khẩu'
+  }
 });
 
 /***/ }),
