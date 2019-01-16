@@ -21,6 +21,8 @@ function hasPermission(role, permissionRoles) {
 }
 
 // const whileList = ['/admin/login']
+const path = window.location.origin + '/admin/login?redirect=' +
+    charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
 
 router.beforeEach((to, from, next) => {
     NProgress.start() //start nprogress
@@ -41,14 +43,21 @@ router.beforeEach((to, from, next) => {
                     .catch(() => {
                         store.dispatch('fedLogout')
                             .then(() => {
-                                next({
-                                    path: '/admin/login?redirect=' +
-                                        charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
-                                })
+                                window.location.href =  path
                             })
                     })
             } else {
                 if (hasPermission(store.getters.role, to.meta.roles)) {
+                    store.dispatch('getUserInfo')
+                        .then(() => {
+                            next()
+                        })
+                        .catch(() => {
+                            store.dispatch('fedLogout')
+                                .then(() => {
+                                    window.location.href =  path
+                                })
+                        })
                     next()
                 } else {
                     console.log('401')
@@ -57,12 +66,6 @@ router.beforeEach((to, from, next) => {
             }
         }
     } else {
-        // if (whileList.indexOf(to.path) !== -1) {
-        //     next()
-        // } else {
-        //     next(`/admin/login?redirect=${to.path}`)
-        //     NProgress.done()
-        // }
         next()
     }
 })

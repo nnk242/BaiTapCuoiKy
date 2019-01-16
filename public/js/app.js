@@ -73809,6 +73809,7 @@ function hasPermission(role, permissionRoles) {
 } // const whileList = ['/admin/login']
 
 
+var path = window.location.origin + '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.search);
 _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.start(); //start nprogress
 
@@ -73829,13 +73830,18 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
           });
         }).catch(function () {
           _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('fedLogout').then(function () {
-            next({
-              path: '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.search)
-            });
+            window.location.href = path;
           });
         });
       } else {
         if (hasPermission(_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.role, to.meta.roles)) {
+          _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('getUserInfo').then(function () {
+            next();
+          }).catch(function () {
+            _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('fedLogout').then(function () {
+              window.location.href = path;
+            });
+          });
           next();
         } else {
           console.log('401');
@@ -73844,12 +73850,6 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
       }
     }
   } else {
-    // if (whileList.indexOf(to.path) !== -1) {
-    //     next()
-    // } else {
-    //     next(`/admin/login?redirect=${to.path}`)
-    //     NProgress.done()
-    // }
     next();
   }
 });
