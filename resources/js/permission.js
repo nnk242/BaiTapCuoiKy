@@ -1,6 +1,5 @@
 import router from './router'
 import store from './store'
-import {Message} from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {getToken} from './utils/auth'
@@ -39,10 +38,9 @@ router.beforeEach((to, from, next) => {
                                 next({...to, replace: true})
                             })
                     })
-                    .catch((error) => {
+                    .catch(() => {
                         store.dispatch('fedLogout')
                             .then(() => {
-                                Message.error(error)
                                 next({
                                     path: '/admin/login?redirect=' +
                                         charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)

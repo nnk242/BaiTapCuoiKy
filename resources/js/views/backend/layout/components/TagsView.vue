@@ -58,7 +58,6 @@
         },
         mounted() {
             this.addViewTags()
-            console.log(this.visitedViews[0])
         },
         methods: {
             generateTitle, // generateTitle by vue-i18n

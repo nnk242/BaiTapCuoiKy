@@ -4370,7 +4370,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.addViewTags();
-    console.log(this.visitedViews[0]);
   },
   methods: {
     generateTitle: _utils_i18n__WEBPACK_IMPORTED_MODULE_1__["generateTitle"],
@@ -73478,14 +73477,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var element_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! element-ui */ "./node_modules/element-ui/lib/element-ui.common.js");
-/* harmony import */ var element_ui__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(element_ui__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
-/* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./resources/js/utils/index.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
+/* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./resources/js/utils/index.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -73496,8 +73493,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.configure({
+nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.configure({
   showSpinner: false
 }); //has permission
 
@@ -73519,14 +73515,14 @@ function hasPermission(role, permissionRoles) {
 
 
 _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, next) {
-  nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.start(); //start nprogress
+  nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.start(); //start nprogress
 
-  if (Object(_utils_auth__WEBPACK_IMPORTED_MODULE_5__["getToken"])()) {
+  if (Object(_utils_auth__WEBPACK_IMPORTED_MODULE_4__["getToken"])()) {
     if (to.path === '/admin/login') {
       next({
         path: '/admin/dashboard'
       });
-      nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.done();
+      nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.done();
     } else {
       if (_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.role === "") {
         _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('getUserInfo').then(function (response) {
@@ -73536,11 +73532,10 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
               replace: true
             }));
           });
-        }).catch(function (error) {
+        }).catch(function () {
           _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('fedLogout').then(function () {
-            element_ui__WEBPACK_IMPORTED_MODULE_2__["Message"].error(error);
             next({
-              path: '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.search)
+              path: '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.search)
             });
           });
         });
@@ -73564,7 +73559,7 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
   }
 });
 _router__WEBPACK_IMPORTED_MODULE_0__["default"].afterEach(function () {
-  nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.done(); // finish progress bar
+  nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.done(); // finish progress bar
 });
 
 /***/ }),
@@ -74371,7 +74366,6 @@ var user = {
           var _response$data = response.data,
               access_token = _response$data.access_token,
               token_type = _response$data.token_type;
-          console.log(access_token);
           commit('SET_TOKEN', access_token);
           commit('SET_TOKEN_TYPE', token_type);
           Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["setToken"])(access_token);
@@ -74436,6 +74430,8 @@ var user = {
       var commit = _ref4.commit;
       return new Promise(function (resolve) {
         commit('SET_ROLE', '');
+        commit('SET_TOKEN', '');
+        commit('SET_TOKEN_TYPE', '');
         Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["destroyToken"])();
         resolve();
       });
