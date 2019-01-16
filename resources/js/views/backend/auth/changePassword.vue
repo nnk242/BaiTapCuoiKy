@@ -2,8 +2,8 @@
     <div>
         <el-row :gutter="20">
             <h1 class="text-center">{{$t('changePassword.title')}}</h1>
-            <el-col :span="this.$store.getters.device!=='mobile'?12:24"
-                    :offset="this.$store.getters.device!=='mobile'?6:0">
+            <el-col :span="this.$store.getters.device!=='mobile'?8:24"
+                    :offset="this.$store.getters.device!=='mobile'?7:0">
                 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px"
                          class="demo-ruleForm">
                     <el-form-item :label="$t('changePassword.oldPassword')" prop="oldPass">

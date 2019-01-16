@@ -16,12 +16,16 @@ class InitDatabase extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('last_name')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('avatar', 255)->nullable();
             $table->enum('role', ['admin', 'member', 'staff'])->default('member');
             $table->rememberToken();
+            $table->string('phone', 20)->nullable();
+            $table->string('description', 255)->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

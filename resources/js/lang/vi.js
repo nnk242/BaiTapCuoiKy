@@ -68,5 +68,8 @@ export default {
     route: {
         changePassword: 'Đổi mật khẩu',
         accountbe: 'Tài khoản',
+    },
+    account: {
+        title: 'Thông tin tài khoản',
     }
 }

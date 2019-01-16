@@ -3662,14 +3662,161 @@ var tagAndTagSpacing = 4; // tagAndTagSpacing
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../api/auth */ "./resources/js/api/auth.js");
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "account"
+  name: "account",
+  data: function data() {
+    var _this = this;
+
+    var validatePass = function validatePass(rule, value, callback) {
+      if (value.length < 6) {
+        callback(new Error(_this.$t('changePassword.notification.error')));
+      } else {
+        if (_this.ruleForm.checkPass !== '') {
+          _this.$refs.ruleForm.validateField('checkPass');
+        }
+
+        callback();
+      }
+    };
+
+    var validateCheckPass = function validateCheckPass(rule, value, callback) {
+      if (value.length < 6) {
+        callback(new Error(_this.$t('changePassword.notification.error')));
+      } else if (value !== _this.ruleForm.pass) {
+        callback(new Error(_this.$t('changePassword.notification.rePassword.error')));
+      } else {
+        callback();
+      }
+    };
+
+    var validateOldPass = function validateOldPass(rule, value, callback) {
+      if (value.length < 6) {
+        callback(new Error(_this.$t('changePassword.notification.error')));
+      } else setTimeout(function () {
+        Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["checkPassword"])(_this.tokenFull, _this.ruleForm.oldPass).then(function (response) {
+          var message = response.data.message;
+          message === true ? callback() : callback(new Error(_this.$t('changePassword.notification.oldPassword.error')));
+        }).catch(function () {
+          callback(new Error(_this.$t('changePassword.notification.oldPassword.errorServer')));
+        });
+      }, 250);
+    };
+
+    return {
+      ruleForm: {
+        oldPass: '',
+        pass: '',
+        checkPass: ''
+      },
+      rules: {
+        oldPass: [{
+          validator: validateOldPass,
+          trigger: 'blur'
+        }],
+        pass: [{
+          validator: validatePass,
+          trigger: 'blur'
+        }],
+        checkPass: [{
+          validator: validateCheckPass,
+          trigger: 'blur'
+        }]
+      },
+      loading: false,
+      tokenFull: ''
+    };
+  },
+  mounted: function mounted() {
+    this.tokenFull = (this.$store.getters.token_type + ' ' + this.$store.getters.token).trim();
+  },
+  methods: {
+    submitForm: function submitForm(formName) {
+      var _this2 = this;
+
+      this.loading = true;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          setTimeout(function () {
+            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["changePassword"])(_this2.tokenFull, _this2.ruleForm.oldPass, _this2.ruleForm.pass).then(function (response) {
+              var message = response.data.message;
+
+              switch (message) {
+                case true:
+                  _this2.$message({
+                    message: _this2.$t('changePassword.notification.success'),
+                    type: 'success'
+                  });
+
+                  _this2.$refs['ruleForm'].resetFields();
+
+                  break;
+
+                case false:
+                  _this2.$message({
+                    message: _this2.$t('changePassword.notification.errorCt'),
+                    type: 'error'
+                  });
+
+                  break;
+
+                default:
+                  _this2.$message({
+                    message: _this2.$t('changePassword.notification.errorCt'),
+                    type: 'error'
+                  });
+
+              }
+
+              _this2.loading = false;
+            }).catch(function () {
+              _this2.$message({
+                message: _this2.$t('changePassword.notification.errorCt'),
+                type: 'error'
+              });
+
+              _this2.loading = false;
+            });
+          }, 500);
+        } else {
+          _this2.loading = false;
+        }
+      });
+    },
+    resetForm: function resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
 });
 
 /***/ }),
@@ -6861,7 +7008,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.el-form-item[data-v-2fbaad60] {\n    margin-bottom: 33px;\n}\n", ""]);
 
 // exports
 
@@ -56790,16 +56937,158 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c(
+        "el-row",
+        { attrs: { gutter: 20 } },
+        [
+          _c("h1", { staticClass: "text-center" }, [
+            _vm._v(_vm._s(_vm.$t("account.title")))
+          ]),
+          _vm._v(" "),
+          _c(
+            "el-col",
+            {
+              attrs: {
+                span: this.$store.getters.device !== "mobile" ? 8 : 24,
+                offset: this.$store.getters.device !== "mobile" ? 7 : 0
+              }
+            },
+            [
+              _c(
+                "el-form",
+                {
+                  ref: "ruleForm",
+                  staticClass: "demo-ruleForm",
+                  attrs: {
+                    model: _vm.ruleForm,
+                    "status-icon": "",
+                    rules: _vm.rules,
+                    "label-width": "120px"
+                  }
+                },
+                [
+                  _c(
+                    "el-form-item",
+                    {
+                      attrs: {
+                        label: _vm.$t("changePassword.oldPassword"),
+                        prop: "oldPass"
+                      }
+                    },
+                    [
+                      _c("el-input", {
+                        attrs: { type: "password", autocomplete: "off" },
+                        model: {
+                          value: _vm.ruleForm.oldPass,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "oldPass", $$v)
+                          },
+                          expression: "ruleForm.oldPass"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    {
+                      attrs: {
+                        label: _vm.$t("changePassword.newPassword"),
+                        prop: "pass"
+                      }
+                    },
+                    [
+                      _c("el-input", {
+                        attrs: { type: "password", autocomplete: "off" },
+                        model: {
+                          value: _vm.ruleForm.pass,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "pass", $$v)
+                          },
+                          expression: "ruleForm.pass"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    {
+                      attrs: {
+                        label: _vm.$t("changePassword.rePassword"),
+                        prop: "checkPass"
+                      }
+                    },
+                    [
+                      _c("el-input", {
+                        attrs: { type: "password", autocomplete: "off" },
+                        model: {
+                          value: _vm.ruleForm.checkPass,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "checkPass", $$v)
+                          },
+                          expression: "ruleForm.checkPass"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    [
+                      _c(
+                        "el-button",
+                        {
+                          attrs: { loading: _vm.loading, type: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.submitForm("ruleForm")
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.$t("changePassword.button")) +
+                              "\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-button",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.resetForm("ruleForm")
+                            }
+                          }
+                        },
+                        [_vm._v("Reset")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("h1", [_vm._v("Account")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -56836,8 +57125,8 @@ var render = function() {
             "el-col",
             {
               attrs: {
-                span: this.$store.getters.device !== "mobile" ? 12 : 24,
-                offset: this.$store.getters.device !== "mobile" ? 6 : 0
+                span: this.$store.getters.device !== "mobile" ? 8 : 24,
+                offset: this.$store.getters.device !== "mobile" ? 7 : 0
               }
             },
             [
@@ -73333,6 +73622,9 @@ __webpack_require__.r(__webpack_exports__);
   route: {
     changePassword: 'Change password',
     accountbe: 'Account'
+  },
+  account: {
+    title: 'Account'
   }
 });
 
@@ -73461,6 +73753,9 @@ __webpack_require__.r(__webpack_exports__);
   route: {
     changePassword: 'Đổi mật khẩu',
     accountbe: 'Tài khoản'
+  },
+  account: {
+    title: 'Thông tin tài khoản'
   }
 });
 

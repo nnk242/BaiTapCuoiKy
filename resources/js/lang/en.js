@@ -68,5 +68,8 @@ export default {
     route: {
         changePassword: 'Change password',
         accountbe: 'Account',
+    },
+    account: {
+        title: 'Account',
     }
 }
