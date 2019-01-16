@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Rules\ValidPassword;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Controllers\Controller;
 use App\User;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -19,6 +20,11 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'index', 'logout']]);
+    }
+
+    private function model()
+    {
+        return User::class;
     }
 
     /**
@@ -94,14 +100,51 @@ class AuthController extends Controller
             return response()->json(['message' => 'Successfully logged out'], 401);;
         }
     }
+
     /**
      * Check password
      *
      * @param $token
-     * @return Boolean
+     * @return bool
      */
     public function checkPassword()
     {
-        return response()->json(['message' => true]);
+        $password = \request()->password;
+        if (Hash::check($password, $this->model()::find(Auth::id())->password))
+            return response()->json(['message' => true]);
+        else
+            return response()->json(['message' => false]);
     }
+
+    /**
+     * Check password
+     *
+     * @param $token
+     * @return bool
+     */
+    public function changePassword()
+    {
+        $user = $this->model()::findOrFail(Auth::id());
+        $old_password = \request()->old_password;
+        $new_password = \request()->new_password;
+        if (Hash::check($old_password, $user->password)) {
+            if ($old_password === $new_password){
+                return response()->json(['message' => true]);
+            }
+            else {
+                \request()->validate([
+                    'old_password' => ['required', 'string', new ValidPassword()],
+                    'new_password' => ['required', 'string', new ValidPassword()]
+                ]);
+                $user->update(
+                    [
+                        'password' => Hash::make($new_password)
+                    ]
+                );
+                return response()->json(['message' => true]);
+            }
+        }
+        return response()->json(['message' => false]);
+    }
+
 }

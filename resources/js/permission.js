@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
                         store.dispatch('fedLogout')
                             .then(() => {
                                 Message.error(error)
-                                this.router.replace({
+                                next({
                                     path: '/admin/login?redirect=' +
                                         charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
                                 })

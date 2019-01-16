@@ -55,11 +55,14 @@ export default {
         notification: {
             oldPassword: {
                 error: 'Incorrect password',
+                errorServer: 'Server error'
             },
             rePassword: {
-                error: 'Mật khẩu không khớp'
+                error: 'Passwords don\'t match'
             },
-            error: 'The password can not be less than 6 digits.'
+            success: 'Change password success',
+            error: 'The password can not be less than 6 digits',
+            errorCt: 'Send request error'
         }
     },
     route: {

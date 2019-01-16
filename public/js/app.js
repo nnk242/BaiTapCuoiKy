@@ -3683,12 +3683,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api/auth */ "./resources/js/api/auth.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../api/auth */ "./resources/js/api/auth.js");
 //
 //
 //
@@ -3715,7 +3710,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "changePassword",
@@ -3748,12 +3745,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (value.length < 6) {
         callback(new Error(_this.$t('changePassword.notification.error')));
       } else setTimeout(function () {
-        Object(_api_auth__WEBPACK_IMPORTED_MODULE_1__["checkPassword"])(_this.access_token).then(function (response) {
-          callback();
+        Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["checkPassword"])(_this.tokenFull, _this.ruleForm.oldPass).then(function (response) {
+          var message = response.data.message;
+          message === true ? callback() : callback(new Error(_this.$t('changePassword.notification.oldPassword.error')));
         }).catch(function () {
-          callback(new Error(_this.$t('changePassword.notification.oldPassword.error')));
+          callback(new Error(_this.$t('changePassword.notification.oldPassword.errorServer')));
         });
-      }, 1000);
+      }, 250);
     };
 
     return {
@@ -3776,18 +3774,63 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           trigger: 'blur'
         }]
       },
-      access_token: this.token_type + ' ' + this.token
+      loading: false,
+      tokenFull: ''
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['device', 'token', 'token_type'])),
+  mounted: function mounted() {
+    this.tokenFull = (this.$store.getters.token_type + ' ' + this.$store.getters.token).trim();
+  },
   methods: {
     submitForm: function submitForm(formName) {
+      var _this2 = this;
+
+      this.loading = true;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          alert('submit!');
+          setTimeout(function () {
+            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["changePassword"])(_this2.tokenFull, _this2.ruleForm.oldPass, _this2.ruleForm.pass).then(function (response) {
+              var message = response.data.message;
+
+              switch (message) {
+                case true:
+                  _this2.$message({
+                    message: _this2.$t('changePassword.notification.success'),
+                    type: 'success'
+                  });
+
+                  _this2.$refs['ruleForm'].resetFields();
+
+                  break;
+
+                case false:
+                  _this2.$message({
+                    message: _this2.$t('changePassword.notification.errorCt'),
+                    type: 'error'
+                  });
+
+                  break;
+
+                default:
+                  _this2.$message({
+                    message: _this2.$t('changePassword.notification.errorCt'),
+                    type: 'error'
+                  });
+
+              }
+
+              _this2.loading = false;
+            }).catch(function () {
+              _this2.$message({
+                message: _this2.$t('changePassword.notification.errorCt'),
+                type: 'error'
+              });
+
+              _this2.loading = false;
+            });
+          }, 500);
         } else {
-          console.log('error submit!!');
-          return false;
+          _this2.loading = false;
         }
       });
     },
@@ -56794,8 +56837,8 @@ var render = function() {
             "el-col",
             {
               attrs: {
-                span: _vm.device !== "mobile" ? 12 : 24,
-                offset: _vm.device !== "mobile" ? 6 : 0
+                span: this.$store.getters.device !== "mobile" ? 12 : 24,
+                offset: this.$store.getters.device !== "mobile" ? 6 : 0
               }
             },
             [
@@ -56887,14 +56930,20 @@ var render = function() {
                       _c(
                         "el-button",
                         {
-                          attrs: { type: "primary" },
+                          attrs: { loading: _vm.loading, type: "primary" },
                           on: {
                             click: function($event) {
                               _vm.submitForm("ruleForm")
                             }
                           }
                         },
-                        [_vm._v("Submit")]
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.$t("changePassword.button")) +
+                              "\n                    "
+                          )
+                        ]
                       ),
                       _vm._v(" "),
                       _c(
@@ -72605,7 +72654,7 @@ module.exports = g;
 /*!**********************************!*\
   !*** ./resources/js/api/auth.js ***!
   \**********************************/
-/*! exports provided: getUserInfo, logout, checkPassword */
+/*! exports provided: getUserInfo, logout, checkPassword, changePassword */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72613,6 +72662,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserInfo", function() { return getUserInfo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkPassword", function() { return checkPassword; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changePassword", function() { return changePassword; });
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
 
 function getUserInfo(access_token) {
@@ -72633,13 +72683,30 @@ function logout(access_token) {
     }
   });
 }
-function checkPassword(access_token) {
+function checkPassword(access_token, old_password) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: 'api/auth/checkPassword',
     method: 'POST',
     headers: {
       Authorization: access_token
+    },
+    data: {
+      password: old_password
     }
+  });
+}
+function changePassword(access_token, old_password, new_password) {
+  var data = {
+    old_password: old_password,
+    new_password: new_password
+  };
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: 'api/auth/changePassword',
+    method: 'PUT',
+    headers: {
+      Authorization: access_token
+    },
+    data: data
   });
 }
 
@@ -73253,12 +73320,15 @@ __webpack_require__.r(__webpack_exports__);
     button: 'Submit',
     notification: {
       oldPassword: {
-        error: 'Incorrect password'
+        error: 'Incorrect password',
+        errorServer: 'Server error'
       },
       rePassword: {
-        error: 'Mật khẩu không khớp'
+        error: 'Passwords don\'t match'
       },
-      error: 'The password can not be less than 6 digits.'
+      success: 'Change password success',
+      error: 'The password can not be less than 6 digits',
+      errorCt: 'Send request error'
     }
   },
   route: {
@@ -73378,12 +73448,15 @@ __webpack_require__.r(__webpack_exports__);
     button: 'Thay đổi',
     notification: {
       oldPassword: {
-        error: 'Mật khẩu không chính xác'
+        error: 'Mật khẩu không chính xác',
+        errorServer: 'Có lỗi từ server'
       },
       rePassword: {
         error: 'Mật khẩu không khớp'
       },
-      error: 'Mật khẩu cần lớn hơn 6 kí tự'
+      success: 'Thay đổi mật khẩu thành công',
+      error: 'Mật khẩu cần lớn hơn 6 kí tự',
+      errorCt: 'Thông tin gửi lên chưa chính xác'
     }
   },
   route: {
@@ -73413,8 +73486,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./resources/js/utils/index.js");
-var _this = undefined;
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -73468,8 +73539,7 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
         }).catch(function (error) {
           _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('fedLogout').then(function () {
             element_ui__WEBPACK_IMPORTED_MODULE_2__["Message"].error(error);
-
-            _this.router.replace({
+            next({
               path: '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_6__["charactersProtocolToCodeHex"])(window.location.search)
             });
           });

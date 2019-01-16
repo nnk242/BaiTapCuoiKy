@@ -55,11 +55,14 @@ export default {
         notification: {
             oldPassword: {
                 error: 'Mật khẩu không chính xác',
+                errorServer: 'Có lỗi từ server'
             },
             rePassword: {
                 error: 'Mật khẩu không khớp'
             },
-            error: 'Mật khẩu cần lớn hơn 6 kí tự'
+            success: 'Thay đổi mật khẩu thành công',
+            error: 'Mật khẩu cần lớn hơn 6 kí tự',
+            errorCt: 'Thông tin gửi lên chưa chính xác'
         }
     },
     route: {
