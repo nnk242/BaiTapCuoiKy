@@ -25,7 +25,8 @@
 
             <el-dropdown class="avatar-container right-menu-item" trigger="click">
                 <div class="avatar-wrapper">
-                    <img :src="avatar? avatar : '/images/default/avatar.svg'" class="user-avatar">
+                    <div class="user-avatar" :style="avatar? 'background-image: url('+ avatar +')' : ''">
+                    </div>
                     <i class="el-icon-caret-bottom"/>
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -151,10 +152,19 @@
                     position: relative;
 
                     .user-avatar {
+                        background: no-repeat center #dbdbdb;
+                        background-size: 50px;
                         cursor: pointer;
                         width: 40px;
                         height: 40px;
-                        border-radius: 10px;
+                        border-radius: 50%;
+                        transition: 2s;
+                    }
+
+                    &:hover .user-avatar {
+                        background: #cccccc;
+                        background-size: 50px;
+                        transition: 10s;
                     }
 
                     .el-icon-caret-bottom {

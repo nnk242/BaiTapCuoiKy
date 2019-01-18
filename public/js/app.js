@@ -4162,6 +4162,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
  // import ErrorLog from '../../../../components/ErrorLog'
@@ -6868,7 +6869,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".upload-center[data-v-2fbaad60] {\n  text-align: center;\n}\n.el-form-item[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.title-change-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n}\n.img-profile[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.img-profile .form-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n  border: solid 5px #ccc;\n  border-radius: 50%;\n  margin: 0 auto;\n  background: no-repeat center #dbdbdb;\n  background-size: 170px;\n  cursor: pointer;\n}\n.img-profile .form-img .title-change-img[data-v-2fbaad60] {\n  border: solid 5px #997997;\n  border-radius: 50%;\n  margin-left: -5px;\n  margin-top: -5px;\n  text-align: center;\n  background: #cccccc;\n  padding-top: 60px;\n  transition: 1s;\n  opacity: 0;\n}\n.img-profile .form-img .title-change-img i[data-v-2fbaad60] {\n  font-size: 29px;\n}\n.img-profile .form-img:hover .title-change-img[data-v-2fbaad60] {\n  transition: 1s;\n  opacity: 0.7;\n}", ""]);
+exports.push([module.i, ".upload-center[data-v-2fbaad60] {\n  text-align: center;\n}\n.el-form-item[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.title-change-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n}\n.img-profile[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.img-profile .form-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n  border: solid 5px #cccccc;\n  border-radius: 50%;\n  margin: 0 auto;\n  background: no-repeat center #dbdbdb;\n  background-size: 170px;\n  cursor: pointer;\n}\n.img-profile .form-img .title-change-img[data-v-2fbaad60] {\n  border: solid 5px #997997;\n  border-radius: 50%;\n  margin-left: -5px;\n  margin-top: -5px;\n  text-align: center;\n  background: #cccccc;\n  padding-top: 60px;\n  transition: 1s;\n  opacity: 0;\n}\n.img-profile .form-img .title-change-img i[data-v-2fbaad60] {\n  font-size: 29px;\n}\n.img-profile .form-img:hover .title-change-img[data-v-2fbaad60] {\n  transition: 1s;\n  opacity: 0.7;\n}", ""]);
 
 // exports
 
@@ -6887,7 +6888,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, ".navbar[data-v-0f566f84] {\n  height: 50px;\n  line-height: 50px;\n  border-radius: 0px !important;\n}\n.navbar .hamburger-container[data-v-0f566f84] {\n  line-height: 58px;\n  height: 50px;\n  float: left;\n  padding: 0 10px;\n}\n.navbar .breadcrumb-container[data-v-0f566f84] {\n  float: left;\n}\n.navbar .errLog-container[data-v-0f566f84] {\n  display: inline-block;\n  vertical-align: top;\n}\n.navbar .right-menu[data-v-0f566f84] {\n  float: right;\n  height: 100%;\n}\n.navbar .right-menu[data-v-0f566f84]:focus {\n  outline: none;\n}\n.navbar .right-menu .right-menu-item[data-v-0f566f84] {\n  display: inline-block;\n  margin: 0 8px;\n}\n.navbar .right-menu .screenfull[data-v-0f566f84] {\n  height: 20px;\n}\n.navbar .right-menu .international[data-v-0f566f84] {\n  vertical-align: top;\n}\n.navbar .right-menu .theme-switch[data-v-0f566f84] {\n  vertical-align: 15px;\n}\n.navbar .right-menu .avatar-container[data-v-0f566f84] {\n  height: 50px;\n  margin-right: 30px;\n}\n.navbar .right-menu .avatar-container .avatar-wrapper[data-v-0f566f84] {\n  margin-top: 5px;\n  position: relative;\n}\n.navbar .right-menu .avatar-container .avatar-wrapper .user-avatar[data-v-0f566f84] {\n  cursor: pointer;\n  width: 40px;\n  height: 40px;\n  border-radius: 10px;\n}\n.navbar .right-menu .avatar-container .avatar-wrapper .el-icon-caret-bottom[data-v-0f566f84] {\n  cursor: pointer;\n  position: absolute;\n  right: -20px;\n  top: 25px;\n  font-size: 12px;\n}", ""]);
+exports.push([module.i, ".navbar[data-v-0f566f84] {\n  height: 50px;\n  line-height: 50px;\n  border-radius: 0px !important;\n}\n.navbar .hamburger-container[data-v-0f566f84] {\n  line-height: 58px;\n  height: 50px;\n  float: left;\n  padding: 0 10px;\n}\n.navbar .breadcrumb-container[data-v-0f566f84] {\n  float: left;\n}\n.navbar .errLog-container[data-v-0f566f84] {\n  display: inline-block;\n  vertical-align: top;\n}\n.navbar .right-menu[data-v-0f566f84] {\n  float: right;\n  height: 100%;\n}\n.navbar .right-menu[data-v-0f566f84]:focus {\n  outline: none;\n}\n.navbar .right-menu .right-menu-item[data-v-0f566f84] {\n  display: inline-block;\n  margin: 0 8px;\n}\n.navbar .right-menu .screenfull[data-v-0f566f84] {\n  height: 20px;\n}\n.navbar .right-menu .international[data-v-0f566f84] {\n  vertical-align: top;\n}\n.navbar .right-menu .theme-switch[data-v-0f566f84] {\n  vertical-align: 15px;\n}\n.navbar .right-menu .avatar-container[data-v-0f566f84] {\n  height: 50px;\n  margin-right: 30px;\n}\n.navbar .right-menu .avatar-container .avatar-wrapper[data-v-0f566f84] {\n  margin-top: 5px;\n  position: relative;\n}\n.navbar .right-menu .avatar-container .avatar-wrapper .user-avatar[data-v-0f566f84] {\n  background: no-repeat center #dbdbdb;\n  background-size: 50px;\n  cursor: pointer;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  transition: 2s;\n}\n.navbar .right-menu .avatar-container .avatar-wrapper:hover .user-avatar[data-v-0f566f84] {\n  background: #cccccc;\n  background-size: 50px;\n  transition: 10s;\n}\n.navbar .right-menu .avatar-container .avatar-wrapper .el-icon-caret-bottom[data-v-0f566f84] {\n  cursor: pointer;\n  position: absolute;\n  right: -20px;\n  top: 25px;\n  font-size: 12px;\n}", ""]);
 
 // exports
 
@@ -57547,11 +57548,11 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "avatar-wrapper" }, [
-                _c("img", {
+                _c("div", {
                   staticClass: "user-avatar",
-                  attrs: {
-                    src: _vm.avatar ? _vm.avatar : "/images/default/avatar.svg"
-                  }
+                  style: _vm.avatar
+                    ? "background-image: url(" + _vm.avatar + ")"
+                    : ""
                 }),
                 _vm._v(" "),
                 _c("i", { staticClass: "el-icon-caret-bottom" })

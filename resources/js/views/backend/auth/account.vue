@@ -229,7 +229,7 @@
             position: relative;
             width: 150px;
             height: 150px;
-            border: solid 5px #ccc;
+            border: solid 5px #cccccc;
             border-radius: 50%;
             margin: 0 auto;
             background: no-repeat center #dbdbdb;
