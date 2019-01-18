@@ -3838,7 +3838,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loadingUploadImg = true;
       setTimeout(function () {
-        if (_this4.upload === true) {
+        if (_this4.upload == true) {
           _this4.$message.success(_this4.$t('account.notification.file.success'));
 
           _this4.imageUrl = URL.createObjectURL(file.raw);
@@ -3865,6 +3865,7 @@ __webpack_require__.r(__webpack_exports__);
           break;
 
         default:
+          this.upload = true;
       }
 
       return isJPG && isLt2M;

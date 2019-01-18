@@ -178,7 +178,7 @@
             handleAvatarSuccess(res, file) {
                 this.loadingUploadImg = true
                 setTimeout(() => {
-                    if (this.upload === true) {
+                    if (this.upload == true) {
                         this.$message.success(this.$t('account.notification.file.success'))
                         this.imageUrl = URL.createObjectURL(file.raw)
                         this.$store.dispatch('setAvatar')
@@ -199,7 +199,7 @@
                         this.upload = false
                         break
                     default:
-
+                        this.upload = true
                 }
                 return isJPG && isLt2M;
             }
