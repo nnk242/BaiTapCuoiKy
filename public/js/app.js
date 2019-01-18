@@ -3512,18 +3512,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Hamburger',
   props: {
@@ -4189,16 +4177,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('toggleSideBar');
     },
     logout: function logout() {
-      var _this = this;
-
       this.$store.dispatch('logout').then(function () {
-        var _this$$route = _this.$route,
-            params = _this$$route.params,
-            query = _this$$route.query;
-
-        _this.$router.replace({
-          path: '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.search)
-        });
+        window.location.href = '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["charactersProtocolToCodeHex"])(window.location.search);
       });
     }
   }
@@ -7060,7 +7040,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.hamburger[data-v-0727e9b1] {\n  display: inline-block;\n  cursor: pointer;\n  width: 20px;\n  height: 20px;\n  -webkit-transform: rotate(90deg);\n          transform: rotate(90deg);\n  transition: .38s;\n  -webkit-transform-origin: 50% 50%;\n          transform-origin: 50% 50%;\n}\n.hamburger.is-active[data-v-0727e9b1] {\n  -webkit-transform: rotate(0deg);\n          transform: rotate(0deg);\n}\n", ""]);
+exports.push([module.i, "\n.hamburger[data-v-0727e9b1] {\n    display: inline-block;\n    cursor: pointer;\n    width: 20px;\n    height: 20px;\n}\n.hamburger.is-active[data-v-0727e9b1] {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg);\n}\n", ""]);
 
 // exports
 
@@ -56831,12 +56811,8 @@ var render = function() {
         staticClass: "hamburger",
         class: { "is-active": _vm.isActive },
         attrs: {
-          t: "1492500959545",
           viewBox: "0 0 1024 1024",
-          version: "1.1",
           xmlns: "http://www.w3.org/2000/svg",
-          "p-id": "1691",
-          "xmlns:xlink": "http://www.w3.org/1999/xlink",
           width: "64",
           height: "64"
         },
@@ -56846,24 +56822,7 @@ var render = function() {
         _c("path", {
           attrs: {
             d:
-              "M966.8023 568.849776 57.196677 568.849776c-31.397081 0-56.850799-25.452695-56.850799-56.850799l0 0c0-31.397081 25.452695-56.849776 56.850799-56.849776l909.605623 0c31.397081 0 56.849776 25.452695 56.849776 56.849776l0 0C1023.653099 543.397081 998.200404 568.849776 966.8023 568.849776z",
-            "p-id": "1692"
-          }
-        }),
-        _vm._v(" "),
-        _c("path", {
-          attrs: {
-            d:
-              "M966.8023 881.527125 57.196677 881.527125c-31.397081 0-56.850799-25.452695-56.850799-56.849776l0 0c0-31.397081 25.452695-56.849776 56.850799-56.849776l909.605623 0c31.397081 0 56.849776 25.452695 56.849776 56.849776l0 0C1023.653099 856.07443 998.200404 881.527125 966.8023 881.527125z",
-            "p-id": "1693"
-          }
-        }),
-        _vm._v(" "),
-        _c("path", {
-          attrs: {
-            d:
-              "M966.8023 256.17345 57.196677 256.17345c-31.397081 0-56.850799-25.452695-56.850799-56.849776l0 0c0-31.397081 25.452695-56.850799 56.850799-56.850799l909.605623 0c31.397081 0 56.849776 25.452695 56.849776 56.850799l0 0C1023.653099 230.720755 998.200404 256.17345 966.8023 256.17345z",
-            "p-id": "1694"
+              "M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM142.4 642.1L298.7 519a8.84 8.84 0 0 0 0-13.9L142.4 381.9c-5.8-4.6-14.4-.5-14.4 6.9v246.3a8.9 8.9 0 0 0 14.4 7z"
           }
         })
       ]
@@ -57904,7 +57863,7 @@ var render = function() {
             [
               _vm._v(
                 "\n            " +
-                  _vm._s(_vm.generateTitle(tag.name)) +
+                  _vm._s(_vm.generateTitle(tag.title)) +
                   "\n            "
               ),
               _c("span", {
@@ -74043,8 +74002,7 @@ function hasPermission(role, permissionRoles) {
   return roles.some(function (role) {
     return permissionRoles.indexOf(role) >= 0;
   });
-} // const whileList = ['/admin/login']
-
+}
 
 var path = window.location.origin + '/admin/login?redirect=' + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.pathname) + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["charactersProtocolToCodeHex"])(window.location.search);
 _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, next) {
@@ -74090,7 +74048,10 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
     next();
   }
 });
-_router__WEBPACK_IMPORTED_MODULE_0__["default"].afterEach(function () {
+_router__WEBPACK_IMPORTED_MODULE_0__["default"].afterEach(function (to, from) {
+  // console.log(this.$t('route.changePassword'))
+  _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('setTitle', to.meta.title);
+  document.title = _store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.title;
   nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.done(); // finish progress bar
 });
 
@@ -74159,7 +74120,10 @@ var constantRouterMap = [{
   path: '/admin/login',
   component: _views_backend_login_index__WEBPACK_IMPORTED_MODULE_9__["default"],
   hidden: true,
-  name: 'login'
+  name: 'login',
+  meta: {
+    title: 'loginbe'
+  }
 }, //
 {
   path: '/',
@@ -74168,7 +74132,10 @@ var constantRouterMap = [{
   name: 'fdhome'
 }, {
   path: '*',
-  component: _views_error_404__WEBPACK_IMPORTED_MODULE_6__["default"]
+  component: _views_error_404__WEBPACK_IMPORTED_MODULE_6__["default"],
+  meta: {
+    title: 'error404'
+  }
 }];
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -74249,7 +74216,7 @@ var asyncRouterMap = [{
     meta: {
       roles: ROLE_ALL,
       noCache: true,
-      title: 'Account'
+      title: 'accountbe'
     }
   }],
   hidden: true
@@ -74263,7 +74230,7 @@ var asyncRouterMap = [{
     meta: {
       roles: ROLE_ALL,
       noCache: true,
-      title: 'Change password'
+      title: 'changePassword'
     }
   }],
   hidden: true
@@ -74292,6 +74259,9 @@ var getters = {
   },
   size: function size(state) {
     return state.app.size;
+  },
+  title: function title(state) {
+    return state.app.title;
   },
   role: function role(state) {
     return state.user.role;
@@ -74371,6 +74341,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/i18n */ "./resources/js/utils/i18n.js");
+
 
 var app = {
   state: {
@@ -74380,7 +74352,8 @@ var app = {
       withoutAnimation: false
     },
     device: 'desktop',
-    size: js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.get('size') || 'medium'
+    size: js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.get('size') || 'medium',
+    title: js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.get('title')
   },
   mutations: {
     SET_LANGUAGE: function SET_LANGUAGE(state, language) {
@@ -74407,7 +74380,11 @@ var app = {
     },
     SET_SIZE: function SET_SIZE(state, size) {
       state.size = size;
-      js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.get('size', size);
+      js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.set('size', size);
+    },
+    SET_TITLE: function SET_TITLE(state, title) {
+      state.title = title;
+      js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.set('title', title);
     }
   },
   actions: {
@@ -74430,6 +74407,11 @@ var app = {
     setSize: function setSize(_ref5, size) {
       var commit = _ref5.commit;
       commit('SET_SIZE', size);
+    },
+    setTitle: function setTitle(_ref6, title) {
+      var commit = _ref6.commit;
+      // const value = generateTitle(title)
+      commit('SET_TITLE', title);
     }
   }
 };

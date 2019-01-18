@@ -84,12 +84,8 @@
             },
             logout() {
                 this.$store.dispatch('logout').then(() => {
-                    const {params, query} = this.$route
-                    this.$router.replace({
-                        path: '/admin/login?redirect=' + charactersProtocolToCodeHex(window.location.pathname) +
-                            charactersProtocolToCodeHex(window.location.search)
-                    })
-
+                    window.location.href = '/admin/login?redirect=' + charactersProtocolToCodeHex(window.location.pathname) +
+                        charactersProtocolToCodeHex(window.location.search)
                 })
             }
         }

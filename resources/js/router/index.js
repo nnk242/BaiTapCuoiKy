@@ -45,7 +45,8 @@ export const constantRouterMap = [
         path: '/admin/login',
         component: loginView,
         hidden: true,
-        name: 'login'
+        name: 'login',
+        meta: { title: 'loginbe' }
     },
     //
     {
@@ -56,7 +57,8 @@ export const constantRouterMap = [
     },
     {
         path: '*',
-        component: error_404
+        component: error_404,
+        meta: { title: 'error404' }
     }
 ]
 
@@ -132,7 +134,7 @@ export const asyncRouterMap = [
                 meta: {
                     roles: ROLE_ALL,
                     noCache: true,
-                    title: 'Account'
+                    title: 'accountbe'
                 }
             }
         ],
@@ -149,7 +151,7 @@ export const asyncRouterMap = [
                 meta: {
                     roles: ROLE_ALL,
                     noCache: true,
-                    title: 'Change password'
+                    title: 'changePassword'
                 }
             }
         ],

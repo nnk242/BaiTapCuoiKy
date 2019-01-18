@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import {generateTitle} from '../../utils/i18n'
 
 const app = {
     state: {
@@ -8,7 +9,8 @@ const app = {
             withoutAnimation: false
         },
         device: 'desktop',
-        size: Cookies.get('size') || 'medium'
+        size: Cookies.get('size') || 'medium',
+        title: Cookies.get('title')
     },
     mutations: {
         SET_LANGUAGE: (state, language) => {
@@ -34,7 +36,11 @@ const app = {
         },
         SET_SIZE: (state, size) => {
             state.size = size
-            Cookies.get('size', size)
+            Cookies.set('size', size)
+        },
+        SET_TITLE: (state, title) => {
+            state.title = title
+            Cookies.set('title', title)
         }
 
     },
@@ -53,6 +59,10 @@ const app = {
         },
         setSize({commit}, size) {
             commit('SET_SIZE', size)
+        },
+        setTitle({commit}, title) {
+            // const value = generateTitle(title)
+            commit('SET_TITLE', title)
         }
     }
 }

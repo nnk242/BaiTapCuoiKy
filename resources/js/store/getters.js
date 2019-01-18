@@ -3,6 +3,7 @@ const getters = {
     sidebar: state => state.app.sidebar,
     device: state => state.app.device,
     size: state => state.app.size,
+    title: state => state.app.title,
 
     role: state => state.user.role,
     avatar: state => state.user.avatar,

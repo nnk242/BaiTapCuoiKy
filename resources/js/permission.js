@@ -20,7 +20,6 @@ function hasPermission(role, permissionRoles) {
     return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
 
-// const whileList = ['/admin/login']
 const path = window.location.origin + '/admin/login?redirect=' +
     charactersProtocolToCodeHex(window.location.pathname) + charactersProtocolToCodeHex(window.location.search)
 
@@ -43,7 +42,7 @@ router.beforeEach((to, from, next) => {
                     .catch(() => {
                         store.dispatch('fedLogout')
                             .then(() => {
-                                window.location.href =  path
+                                window.location.href = path
                             })
                     })
             } else {
@@ -55,7 +54,7 @@ router.beforeEach((to, from, next) => {
                         .catch(() => {
                             store.dispatch('fedLogout')
                                 .then(() => {
-                                    window.location.href =  path
+                                    window.location.href = path
                                 })
                         })
                     next()
@@ -71,6 +70,9 @@ router.beforeEach((to, from, next) => {
 })
 
 
-router.afterEach(() => {
+router.afterEach((to, from) => {
+    // console.log(this.$t('route.changePassword'))
+    store.dispatch('setTitle', to.meta.title)
+    document.title = store.getters.title
     NProgress.done() // finish progress bar
 })
