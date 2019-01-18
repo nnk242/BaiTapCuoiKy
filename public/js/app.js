@@ -3692,39 +3692,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "account",
   data: function data() {
     var _this = this;
 
-    var validatePass = function validatePass(rule, value, callback) {
-      if (value.length < 6) {
-        callback(new Error(_this.$t('changePassword.notification.error')));
-      } else {
-        if (_this.ruleForm.checkPass !== '') {
-          _this.$refs.ruleForm.validateField('checkPass');
-        }
-
-        callback();
-      }
-    };
-
-    var validateCheckPass = function validateCheckPass(rule, value, callback) {
-      if (value.length < 6) {
-        callback(new Error(_this.$t('changePassword.notification.error')));
-      } else if (value !== _this.ruleForm.pass) {
-        callback(new Error(_this.$t('changePassword.notification.rePassword.error')));
-      } else {
-        callback();
-      }
-    };
-
     var validateOldPass = function validateOldPass(rule, value, callback) {
       if (value.length < 6) {
         callback(new Error(_this.$t('changePassword.notification.error')));
       } else setTimeout(function () {
-        Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["checkPassword"])(_this.tokenFull, _this.ruleForm.oldPass).then(function (response) {
+        Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["checkPassword"])(_this.ruleForm.oldPass).then(function (response) {
           var message = response.data.message;
           message === true ? callback() : callback(new Error(_this.$t('changePassword.notification.oldPassword.error')));
         }).catch(function () {
@@ -3733,88 +3739,121 @@ __webpack_require__.r(__webpack_exports__);
       }, 250);
     };
 
+    var validateName = function validateName(rule, value, callback) {
+      !value || typeof value === 'undefined' ? callback(new Error(_this.$t('account.notification.name.error'))) : callback();
+    };
+
+    var validateNumberPhone = function validateNumberPhone(rule, value, callback) {
+      if (value.length === 0) {
+        callback();
+      } else {
+        if (value.length < 8) {
+          callback(new Error(_this.$t('account.notification.numberPhone.errorLength')));
+        } else {
+          callback();
+        }
+      }
+
+      callback();
+    };
+
     return {
       ruleForm: {
+        lastName: '',
+        name: '',
         oldPass: '',
-        pass: '',
-        checkPass: ''
+        birthDay: '',
+        numberPhone: '',
+        gender: ''
       },
       rules: {
         oldPass: [{
           validator: validateOldPass,
           trigger: 'blur'
         }],
-        pass: [{
-          validator: validatePass,
-          trigger: 'blur'
+        name: [{
+          validator: validateName,
+          tripper: 'blur'
         }],
-        checkPass: [{
-          validator: validateCheckPass,
-          trigger: 'blur'
+        numberPhone: [{
+          validator: validateNumberPhone,
+          tripper: 'blur'
         }]
       },
       loading: false,
-      tokenFull: ''
+      loadingUploadImg: false,
+      upload: true,
+      imageUrl: ''
     };
   },
   mounted: function mounted() {
-    this.tokenFull = (this.$store.getters.token_type + ' ' + this.$store.getters.token).trim();
+    var _this2 = this;
+
+    Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["getUserInfo"])().then(function (response) {
+      _this2.ruleForm.birthDay = response.data.birth_day;
+      _this2.ruleForm.lastName = response.data.last_name;
+      _this2.ruleForm.name = response.data.name;
+      _this2.ruleForm.gender = response.data.gender;
+      _this2.ruleForm.numberPhone = response.data.phone === null ? '' : response.data.phone;
+    }).catch(function () {});
   },
   methods: {
     submitForm: function submitForm(formName) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.loading = true;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           setTimeout(function () {
-            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["changePassword"])(_this2.tokenFull, _this2.ruleForm.oldPass, _this2.ruleForm.pass).then(function (response) {
-              var message = response.data.message;
-
-              switch (message) {
-                case true:
-                  _this2.$message({
-                    message: _this2.$t('changePassword.notification.success'),
-                    type: 'success'
-                  });
-
-                  _this2.$refs['ruleForm'].resetFields();
-
-                  break;
-
-                case false:
-                  _this2.$message({
-                    message: _this2.$t('changePassword.notification.errorCt'),
-                    type: 'error'
-                  });
-
-                  break;
-
-                default:
-                  _this2.$message({
-                    message: _this2.$t('changePassword.notification.errorCt'),
-                    type: 'error'
-                  });
-
-              }
-
-              _this2.loading = false;
-            }).catch(function () {
-              _this2.$message({
-                message: _this2.$t('changePassword.notification.errorCt'),
-                type: 'error'
-              });
-
-              _this2.loading = false;
-            });
+            var data = {
+              last_name: _this3.ruleForm.lastName,
+              name: _this3.ruleForm.name,
+              birth_day: _this3.ruleForm.birthDay,
+              phone: _this3.ruleForm.numberPhone,
+              gender: _this3.ruleForm.gender
+            };
+            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["updateUserInfo"])(data);
+            _this3.loading = false;
           }, 500);
         } else {
-          _this2.loading = false;
+          _this3.loading = false;
         }
       });
     },
     resetForm: function resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    handleAvatarSuccess: function handleAvatarSuccess(res, file) {
+      var _this4 = this;
+
+      this.loadingUploadImg = true;
+      setTimeout(function () {
+        if (_this4.upload === true) {
+          _this4.imageUrl = URL.createObjectURL(file.raw);
+        }
+
+        _this4.loadingUploadImg = false;
+      }, 1000);
+    },
+    beforeAvatarUpload: function beforeAvatarUpload(file) {
+      var isJPG = file.type === 'image/jpeg';
+      var isLt2M = file.size / 1024 / 1024 < 2;
+
+      switch (true) {
+        case !isJPG:
+          this.$message.error('Avatar picture must be JPG format!');
+          this.upload = false;
+          break;
+
+        case !isLt2M:
+          this.$message.error('Avatar picture size can not exceed 2MB!');
+          this.upload = false;
+          break;
+
+        default:
+      }
+
+      return isJPG && isLt2M;
     }
   }
 });
@@ -3892,7 +3931,7 @@ __webpack_require__.r(__webpack_exports__);
       if (value.length < 6) {
         callback(new Error(_this.$t('changePassword.notification.error')));
       } else setTimeout(function () {
-        Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["checkPassword"])(_this.tokenFull, _this.ruleForm.oldPass).then(function (response) {
+        Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["checkPassword"])(_this.ruleForm.oldPass).then(function (response) {
           var message = response.data.message;
           message === true ? callback() : callback(new Error(_this.$t('changePassword.notification.oldPassword.error')));
         }).catch(function () {
@@ -3925,9 +3964,6 @@ __webpack_require__.r(__webpack_exports__);
       tokenFull: ''
     };
   },
-  mounted: function mounted() {
-    this.tokenFull = (this.$store.getters.token_type + ' ' + this.$store.getters.token).trim();
-  },
   methods: {
     submitForm: function submitForm(formName) {
       var _this2 = this;
@@ -3936,7 +3972,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           setTimeout(function () {
-            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["changePassword"])(_this2.tokenFull, _this2.ruleForm.oldPass, _this2.ruleForm.pass).then(function (response) {
+            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["changePassword"])(_this2.ruleForm.oldPass, _this2.ruleForm.pass).then(function (response) {
               var message = response.data.message;
 
               switch (message) {
@@ -4113,9 +4149,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
- // import ErrorLog from '@/components/ErrorLog'
-// import Screenfull from '@/components/Screenfull'
-// import SizeSelect from '@/components/SizeSelect'
+ // import ErrorLog from '../../../../components/ErrorLog'
+// import Screenfull from '../../../../components/Screenfull'
+// import SizeSelect from '../../../../components/SizeSelect'
 
  // import ThemePicker from '../../../components/ThemePicker'
 
@@ -6805,6 +6841,25 @@ exports.push([module.i, ".scroll-container[data-v-17425083] {\n  white-space: no
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".upload-center[data-v-2fbaad60] {\n  text-align: center;\n}\n.el-form-item[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.title-change-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n}\n.img-profile[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.img-profile .form-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n  border: solid 5px #ccc;\n  border-radius: 50%;\n  margin: 0 auto;\n  background: no-repeat center #dbdbdb;\n  background-size: 170px;\n  cursor: pointer;\n}\n.img-profile .form-img .title-change-img[data-v-2fbaad60] {\n  border: solid 5px #997997;\n  border-radius: 50%;\n  margin-left: -5px;\n  margin-top: -5px;\n  text-align: center;\n  background: #cccccc;\n  padding-top: 60px;\n  transition: 1s;\n  opacity: 0;\n}\n.img-profile .form-img .title-change-img i[data-v-2fbaad60] {\n  font-size: 29px;\n}\n.img-profile .form-img:hover .title-change-img[data-v-2fbaad60] {\n  transition: 1s;\n  opacity: 0.7;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/layout/components/Navbar.vue?vue&type=style&index=0&id=0f566f84&rel=stylesheet%2Fscss&lang=scss&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/backend/layout/components/Navbar.vue?vue&type=style&index=0&id=0f566f84&rel=stylesheet%2Fscss&lang=scss&scoped=true& ***!
@@ -6990,25 +7045,6 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.hamburger[data-v-0727e9b1] {\n  display: inline-block;\n  cursor: pointer;\n  width: 20px;\n  height: 20px;\n  -webkit-transform: rotate(90deg);\n          transform: rotate(90deg);\n  transition: .38s;\n  -webkit-transform-origin: 50% 50%;\n          transform-origin: 50% 50%;\n}\n.hamburger.is-active[data-v-0727e9b1] {\n  -webkit-transform: rotate(0deg);\n          transform: rotate(0deg);\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css&":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css& ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.el-form-item[data-v-2fbaad60] {\n    margin-bottom: 33px;\n}\n", ""]);
 
 // exports
 
@@ -53821,6 +53857,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/layout/components/Navbar.vue?vue&type=style&index=0&id=0f566f84&rel=stylesheet%2Fscss&lang=scss&scoped=true&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/backend/layout/components/Navbar.vue?vue&type=style&index=0&id=0f566f84&rel=stylesheet%2Fscss&lang=scss&scoped=true& ***!
@@ -54054,36 +54120,6 @@ options.transform = transform
 options.insertInto = undefined;
 
 var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css&":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -56953,10 +56989,49 @@ var render = function() {
             {
               attrs: {
                 span: this.$store.getters.device !== "mobile" ? 8 : 24,
-                offset: this.$store.getters.device !== "mobile" ? 7 : 0
+                offset: this.$store.getters.device !== "mobile" ? 8 : 0
               }
             },
             [
+              _c(
+                "el-upload",
+                {
+                  directives: [
+                    {
+                      name: "loading",
+                      rawName: "v-loading",
+                      value: _vm.loadingUploadImg,
+                      expression: "loadingUploadImg"
+                    }
+                  ],
+                  staticClass: "upload-center",
+                  attrs: {
+                    action: "http://127.0.0.1:8000/api/auth/uploadAvatar",
+                    "show-file-list": false,
+                    "on-success": _vm.handleAvatarSuccess,
+                    "before-upload": _vm.beforeAvatarUpload
+                  }
+                },
+                [
+                  _c("div", { staticClass: "img-profile" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form-img",
+                        style: _vm.imageUrl
+                          ? "background-image: url(" + _vm.imageUrl + ")"
+                          : "background-image: url(/images/default/avatar.svg)"
+                      },
+                      [
+                        _c("div", { staticClass: "title-change-img" }, [
+                          _c("i", { staticClass: "fas fa-camera" })
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
               _c(
                 "el-form",
                 {
@@ -56972,9 +57047,118 @@ var render = function() {
                 [
                   _c(
                     "el-form-item",
+                    { attrs: { label: _vm.$t("account.lastName") } },
+                    [
+                      _c("el-input", {
+                        model: {
+                          value: _vm.ruleForm.lastName,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "lastName", $$v)
+                          },
+                          expression: "ruleForm.lastName"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: _vm.$t("account.name"), prop: "name" } },
+                    [
+                      _c("el-input", {
+                        model: {
+                          value: _vm.ruleForm.name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "name", $$v)
+                          },
+                          expression: "ruleForm.name"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: _vm.$t("account.birthDay") } },
+                    [
+                      _c("el-date-picker", {
+                        staticStyle: { width: "100%" },
+                        attrs: { type: "date" },
+                        model: {
+                          value: _vm.ruleForm.birthDay,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "birthDay", $$v)
+                          },
+                          expression: "ruleForm.birthDay"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
                     {
                       attrs: {
-                        label: _vm.$t("changePassword.oldPassword"),
+                        label: _vm.$t("account.numberPhone"),
+                        prop: "numberPhone"
+                      }
+                    },
+                    [
+                      _c("el-input", {
+                        model: {
+                          value: _vm.ruleForm.numberPhone,
+                          callback: function($$v) {
+                            _vm.$set(_vm.ruleForm, "numberPhone", $$v)
+                          },
+                          expression: "ruleForm.numberPhone"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    { attrs: { label: _vm.$t("account.gender.label") } },
+                    [
+                      _c(
+                        "el-radio-group",
+                        {
+                          model: {
+                            value: _vm.ruleForm.gender,
+                            callback: function($$v) {
+                              _vm.$set(_vm.ruleForm, "gender", $$v)
+                            },
+                            expression: "ruleForm.gender"
+                          }
+                        },
+                        [
+                          _c("el-radio", { attrs: { label: "male" } }, [
+                            _vm._v(_vm._s(_vm.$t("account.gender.male")))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "el-radio",
+                            {
+                              attrs: { label: "female", "aria-checked": "true" }
+                            },
+                            [_vm._v(_vm._s(_vm.$t("account.gender.female")))]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form-item",
+                    {
+                      attrs: {
+                        label: _vm.$t("account.password"),
                         prop: "oldPass"
                       }
                     },
@@ -56987,52 +57171,6 @@ var render = function() {
                             _vm.$set(_vm.ruleForm, "oldPass", $$v)
                           },
                           expression: "ruleForm.oldPass"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    {
-                      attrs: {
-                        label: _vm.$t("changePassword.newPassword"),
-                        prop: "pass"
-                      }
-                    },
-                    [
-                      _c("el-input", {
-                        attrs: { type: "password", autocomplete: "off" },
-                        model: {
-                          value: _vm.ruleForm.pass,
-                          callback: function($$v) {
-                            _vm.$set(_vm.ruleForm, "pass", $$v)
-                          },
-                          expression: "ruleForm.pass"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    {
-                      attrs: {
-                        label: _vm.$t("changePassword.rePassword"),
-                        prop: "checkPass"
-                      }
-                    },
-                    [
-                      _c("el-input", {
-                        attrs: { type: "password", autocomplete: "off" },
-                        model: {
-                          value: _vm.ruleForm.checkPass,
-                          callback: function($$v) {
-                            _vm.$set(_vm.ruleForm, "checkPass", $$v)
-                          },
-                          expression: "ruleForm.checkPass"
                         }
                       })
                     ],
@@ -72942,7 +73080,7 @@ module.exports = g;
 /*!**********************************!*\
   !*** ./resources/js/api/auth.js ***!
   \**********************************/
-/*! exports provided: getUserInfo, logout, checkPassword, changePassword */
+/*! exports provided: getUserInfo, logout, checkPassword, changePassword, updateUserInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72951,39 +73089,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkPassword", function() { return checkPassword; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changePassword", function() { return changePassword; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUserInfo", function() { return updateUserInfo; });
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
 
-function getUserInfo(access_token) {
+
+
+function full_token() {
+  return (_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.token_type + ' ' + _store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.token).trim();
+}
+
+function getUserInfo() {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: 'api/auth/getUserInfo',
     method: 'GET',
     headers: {
-      Authorization: access_token
+      Authorization: full_token()
     }
   });
 }
-function logout(access_token) {
+function logout() {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: 'api/auth/logout',
     method: 'GET',
     headers: {
-      Authorization: access_token
+      Authorization: full_token()
     }
   });
 }
-function checkPassword(access_token, old_password) {
+function checkPassword(old_password) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: 'api/auth/checkPassword',
     method: 'POST',
     headers: {
-      Authorization: access_token
+      Authorization: full_token()
     },
     data: {
       password: old_password
     }
   });
 }
-function changePassword(access_token, old_password, new_password) {
+function changePassword(old_password, new_password) {
   var data = {
     old_password: old_password,
     new_password: new_password
@@ -72992,7 +73138,17 @@ function changePassword(access_token, old_password, new_password) {
     url: 'api/auth/changePassword',
     method: 'PUT',
     headers: {
-      Authorization: access_token
+      Authorization: full_token()
+    },
+    data: data
+  });
+}
+function updateUserInfo(data) {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: 'api/auth/updateUserInfo',
+    method: 'PUT',
+    headers: {
+      Authorization: full_token()
     },
     data: data
   });
@@ -73624,7 +73780,27 @@ __webpack_require__.r(__webpack_exports__);
     accountbe: 'Account'
   },
   account: {
-    title: 'Account'
+    title: 'Account',
+    changeImg: 'Change Image',
+    birthDay: 'Birth day',
+    name: 'Name',
+    lastName: 'Last name',
+    numberPhone: 'Number phone',
+    password: 'Password',
+    gender: {
+      label: 'Gender',
+      male: 'Male',
+      female: 'Female'
+    },
+    notification: {
+      name: {
+        error: 'Name is required'
+      },
+      numberPhone: {
+        error: 'Please input digits',
+        errorLength: 'The password can not be less than 8 digits'
+      }
+    }
   }
 });
 
@@ -73755,7 +73931,27 @@ __webpack_require__.r(__webpack_exports__);
     accountbe: 'Tài khoản'
   },
   account: {
-    title: 'Thông tin tài khoản'
+    title: 'Thông tin tài khoản',
+    changeImg: 'Thay đổi',
+    birthDay: 'Sinh nhật',
+    name: 'Tên',
+    lastName: 'Họ tên đệm',
+    numberPhone: 'Số điện thoại',
+    password: 'Mật khẩu',
+    gender: {
+      label: 'Giới tính',
+      male: 'Nam',
+      female: 'Nữ'
+    },
+    notification: {
+      name: {
+        error: 'Tên không được bỏ trống'
+      },
+      numberPhone: {
+        error: 'Phải là số',
+        errorLength: 'Số điện thoại phải trên 8 ký tự'
+      }
+    }
   }
 });
 
@@ -74675,10 +74871,7 @@ var user = {
       var commit = _ref2.commit,
           state = _ref2.state;
       return new Promise(function (resolve, reject) {
-        var token_type = state.token_type,
-            access_token = state.access_token;
-
-        Object(_api_auth__WEBPACK_IMPORTED_MODULE_2__["getUserInfo"])((token_type + ' ' + access_token).trim()).then(function (response) {
+        Object(_api_auth__WEBPACK_IMPORTED_MODULE_2__["getUserInfo"])().then(function (response) {
           var data = response.data;
 
           if (!data) {
@@ -74710,7 +74903,7 @@ var user = {
           commit('SET_TOKEN_TYPE', '');
           Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["destroyToken"])();
           resolve('Logout success');
-        } else Object(_api_auth__WEBPACK_IMPORTED_MODULE_2__["logout"])(access_token_full).then(function (response) {
+        } else Object(_api_auth__WEBPACK_IMPORTED_MODULE_2__["logout"])().then(function (response) {
           commit('SET_ROLE', '');
           commit('SET_TOKEN', '');
           commit('SET_TOKEN_TYPE', '');
@@ -74877,7 +75070,7 @@ service.interceptors.response.use(function (response) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _account_vue_vue_type_template_id_2fbaad60_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./account.vue?vue&type=template&id=2fbaad60&scoped=true& */ "./resources/js/views/backend/auth/account.vue?vue&type=template&id=2fbaad60&scoped=true&");
 /* harmony import */ var _account_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./account.vue?vue&type=script&lang=js& */ "./resources/js/views/backend/auth/account.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _account_vue_vue_type_style_index_0_id_2fbaad60_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css& */ "./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _account_vue_vue_type_style_index_0_id_2fbaad60_rel_stylesheet_2Fscss_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true& */ "./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -74919,19 +75112,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css&":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css& ***!
-  \**************************************************************************************************************/
+/***/ "./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true&":
+/*!*************************************************************************************************************************************!*\
+  !*** ./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true& ***!
+  \*************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_rel_stylesheet_2Fscss_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/backend/auth/account.vue?vue&type=style&index=0&id=2fbaad60&rel=stylesheet%2Fscss&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_rel_stylesheet_2Fscss_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_rel_stylesheet_2Fscss_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_rel_stylesheet_2Fscss_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_rel_stylesheet_2Fscss_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_account_vue_vue_type_style_index_0_id_2fbaad60_rel_stylesheet_2Fscss_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

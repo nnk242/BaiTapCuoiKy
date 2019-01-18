@@ -58,7 +58,7 @@
                     callback(new Error(this.$t('changePassword.notification.error')))
                 } else
                     setTimeout(() => {
-                        checkPassword(this.tokenFull, this.ruleForm.oldPass)
+                        checkPassword(this.ruleForm.oldPass)
                             .then(response => {
                                 const {message} = response.data
                                 message === true ?
@@ -92,16 +92,13 @@
                 tokenFull: ''
             }
         },
-        mounted() {
-            this.tokenFull = (this.$store.getters.token_type + ' ' + this.$store.getters.token).trim()
-        },
         methods: {
             submitForm(formName) {
                 this.loading = true
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         setTimeout(()=> {
-                            changePassword(this.tokenFull, this.ruleForm.oldPass, this.ruleForm.pass)
+                            changePassword(this.ruleForm.oldPass, this.ruleForm.pass)
                                 .then(response => {
                                     const {message} = response.data
                                     switch (message) {

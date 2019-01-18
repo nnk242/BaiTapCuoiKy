@@ -21,8 +21,12 @@ Route::group(['prefix'=> 'auth', 'namespace'=>'API', 'middleware' => 'api'], fun
     Route::post('login', 'AuthController@login');
     Route::get('logout', 'AuthController@logout');
     Route::get('getUserInfo', 'AuthController@getUserInfo');
-    Route::post('checkPassword', 'AuthController@checkPassword');
-    Route::put('changePassword', 'AuthController@changePassword');
+    Route::put('updateUserInfo', 'AuthController@updateUserInfo');
+
+    Route::post('checkPassword', 'AuthController@checkPassword');//check password
+    Route::put('changePassword', 'AuthController@changePassword');//update password
+
+    Route::post('uploadAvatar', 'AuthController@uploadAvatar');//change password
 //        ->where('id', '[0-9]+');
     //test
     Route::get('/', 'AuthController@index');

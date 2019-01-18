@@ -19,10 +19,10 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'index', 'logout']]);
+        $this->middleware('auth:api', ['except' => ['login', 'index', 'logout', 'uploadAvatar']]);
     }
 
-    private function model()
+    protected function model()
     {
         return User::class;
     }
@@ -87,6 +87,27 @@ class AuthController extends Controller
     }
 
     /**
+     * get user info.
+     *
+     * @param $token
+     * @return response()->json()
+     */
+    public function updateUserInfo(Request $request)
+    {
+        $user = $this->model()::findOrFail(Auth::id());
+
+        $user->update([
+            'last_name' => $request->last_name,
+            'name' => $request->name,
+            'birth_day' => date('Y-m-d', strtotime($request->birth_day)),
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+        ]);
+
+        return response()->json(['message' => date('Y-m-d', strtotime($request->birth_day))]);
+    }
+
+    /**
      * Logout.
      *
      * @param $token
@@ -94,11 +115,10 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        if (JWTAuth::invalidate(JWTAuth::getToken())) {
+        if (JWTAuth::invalidate(JWTAuth::getToken()))
             return response()->json(['message' => 'Successfully logged out']);
-        } else {
-            return response()->json(['message' => 'Successfully logged out'], 401);;
-        }
+        else
+            return response()->json(['message' => 'Successfully logged out']);
     }
 
     /**
@@ -107,9 +127,9 @@ class AuthController extends Controller
      * @param $token
      * @return bool
      */
-    public function checkPassword()
+    public function checkPassword(Request $request)
     {
-        $password = \request()->password;
+        $password = $request->password;
         if (Hash::check($password, $this->model()::find(Auth::id())->password))
             return response()->json(['message' => true]);
         else
@@ -122,17 +142,16 @@ class AuthController extends Controller
      * @param $token
      * @return bool
      */
-    public function changePassword()
+    public function changePassword(Request $request)
     {
         $user = $this->model()::findOrFail(Auth::id());
-        $old_password = \request()->old_password;
-        $new_password = \request()->new_password;
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
         if (Hash::check($old_password, $user->password)) {
-            if ($old_password === $new_password){
+            if ($old_password === $new_password) {
                 return response()->json(['message' => true]);
-            }
-            else {
-                \request()->validate([
+            } else {
+                $request->validate([
                     'old_password' => ['required', 'string', new ValidPassword()],
                     'new_password' => ['required', 'string', new ValidPassword()]
                 ]);
@@ -147,4 +166,8 @@ class AuthController extends Controller
         return response()->json(['message' => false]);
     }
 
+    public function uploadAvatar()
+    {
+        return response()->json(['message' => true]);
+    }
 }

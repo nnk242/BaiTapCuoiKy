@@ -3,17 +3,45 @@
         <el-row :gutter="20">
             <h1 class="text-center">{{$t('account.title')}}</h1>
             <el-col :span="this.$store.getters.device!=='mobile'?8:24"
-                    :offset="this.$store.getters.device!=='mobile'?7:0">
+                    :offset="this.$store.getters.device!=='mobile'?8:0">
+                <el-upload class="upload-center" action="http://127.0.0.1:8000/api/auth/uploadAvatar"
+                           :show-file-list="false"
+                           :on-success="handleAvatarSuccess"
+                           :before-upload="beforeAvatarUpload"
+                           v-loading="loadingUploadImg">
+                    <div class="img-profile">
+                        <div class="form-img"
+                             :style="imageUrl?
+                             'background-image: url(' + imageUrl + ')':'background-image: url(/images/default/avatar.svg)'">
+                            <div class="title-change-img">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                    </div>
+                </el-upload>
+
                 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px"
                          class="demo-ruleForm">
-                    <el-form-item :label="$t('changePassword.oldPassword')" prop="oldPass">
+                    <el-form-item :label="$t('account.lastName')">
+                        <el-input v-model="ruleForm.lastName"></el-input>
+                    </el-form-item>
+                    <el-form-item :label="$t('account.name')" prop="name">
+                        <el-input v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item :label="$t('account.birthDay')">
+                        <el-date-picker type="date" v-model="ruleForm.birthDay" style="width: 100%"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item :label="$t('account.numberPhone')" prop="numberPhone">
+                        <el-input v-model="ruleForm.numberPhone"></el-input>
+                    </el-form-item>
+                    <el-form-item :label="$t('account.gender.label')">
+                        <el-radio-group v-model="ruleForm.gender">
+                            <el-radio label="male">{{$t('account.gender.male')}}</el-radio>
+                            <el-radio label="female" aria-checked="true">{{$t('account.gender.female')}}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item :label="$t('account.password')" prop="oldPass">
                         <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item :label="$t('changePassword.newPassword')" prop="pass">
-                        <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item :label="$t('changePassword.rePassword')" prop="checkPass">
-                        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button :loading="loading" type="primary" @click="submitForm('ruleForm')">
@@ -28,37 +56,17 @@
 </template>
 
 <script>
-    import {checkPassword, changePassword} from '../../../api/auth'
+    import {checkPassword, updateUserInfo, getUserInfo} from '../../../api/auth'
 
     export default {
         name: "account",
         data() {
-            var validatePass = (rule, value, callback) => {
-                if (value.length < 6) {
-                    callback(new Error(this.$t('changePassword.notification.error')))
-                } else {
-                    if (this.ruleForm.checkPass !== '') {
-                        this.$refs.ruleForm.validateField('checkPass')
-                    }
-                    callback();
-                }
-            };
-            var validateCheckPass = (rule, value, callback) => {
-                if (value.length < 6) {
-                    callback(new Error(this.$t('changePassword.notification.error')))
-                } else if (value !== this.ruleForm.pass) {
-                    callback(new Error(this.$t('changePassword.notification.rePassword.error')))
-                } else {
-                    callback()
-                }
-            }
-
             var validateOldPass = (rule, value, callback) => {
                 if (value.length < 6) {
                     callback(new Error(this.$t('changePassword.notification.error')))
                 } else
                     setTimeout(() => {
-                        checkPassword(this.tokenFull, this.ruleForm.oldPass)
+                        checkPassword(this.ruleForm.oldPass)
                             .then(response => {
                                 const {message} = response.data
                                 message === true ?
@@ -70,70 +78,80 @@
                     }, 250)
 
             }
+            var validateName = (rule, value, callback) => {
+                (!value || typeof value === 'undefined') ?
+                    callback(new Error(this.$t('account.notification.name.error'))) :
+                    callback()
+            }
+            var validateNumberPhone = (rule, value, callback) => {
+                if (value.length === 0) {
+                    callback()
+                } else {
+                    if (value.length < 8) {
+                        callback(new Error(this.$t('account.notification.numberPhone.errorLength')))
+                    } else {
+                        callback()
+                    }
+                }
+
+                callback()
+            }
 
             return {
                 ruleForm: {
+                    lastName: '',
+                    name: '',
                     oldPass: '',
-                    pass: '',
-                    checkPass: ''
+                    birthDay: '',
+                    numberPhone: '',
+                    gender: ''
                 },
                 rules: {
                     oldPass: [
                         {validator: validateOldPass, trigger: 'blur'}
                     ],
-                    pass: [
-                        {validator: validatePass, trigger: 'blur'}
+                    name: [
+                        {validator: validateName, tripper: 'blur'}
                     ],
-                    checkPass: [
-                        {validator: validateCheckPass, trigger: 'blur'}
+                    numberPhone: [
+                        {validator: validateNumberPhone, tripper: 'blur'}
                     ]
                 },
                 loading: false,
-                tokenFull: ''
+                loadingUploadImg: false,
+                upload: true,
+                imageUrl: ''
             }
         },
         mounted() {
-            this.tokenFull = (this.$store.getters.token_type + ' ' + this.$store.getters.token).trim()
+            getUserInfo()
+                .then(response => {
+                    this.ruleForm.birthDay = response.data.birth_day
+                    this.ruleForm.lastName = response.data.last_name
+                    this.ruleForm.name = response.data.name
+                    this.ruleForm.gender = response.data.gender
+                    this.ruleForm.numberPhone = response.data.phone === null? '': response.data.phone
+                })
+                .catch(() => {
+
+                })
         },
         methods: {
             submitForm(formName) {
                 this.loading = true
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        setTimeout(()=> {
-                            changePassword(this.tokenFull, this.ruleForm.oldPass, this.ruleForm.pass)
-                                .then(response => {
-                                    const {message} = response.data
-                                    switch (message) {
-                                        case true:
-                                            this.$message({
-                                                message: this.$t('changePassword.notification.success'),
-                                                type: 'success'
-                                            })
-                                            this.$refs['ruleForm'].resetFields();
-                                            break
-                                        case false:
-                                            this.$message({
-                                                message: this.$t('changePassword.notification.errorCt'),
-                                                type: 'error'
-                                            })
-                                            break
-                                        default:
-                                            this.$message({
-                                                message: this.$t('changePassword.notification.errorCt'),
-                                                type: 'error'
-                                            })
+                        setTimeout(() => {
+                            const data = {
+                                last_name: this.ruleForm.lastName,
+                                name: this.ruleForm.name,
+                                birth_day: this.ruleForm.birthDay,
+                                phone: this.ruleForm.numberPhone,
+                                gender: this.ruleForm.gender
+                            }
 
-                                    }
-                                    this.loading = false
-                                })
-                                .catch(() => {
-                                    this.$message({
-                                        message: this.$t('changePassword.notification.errorCt'),
-                                        type: 'error'
-                                    })
-                                    this.loading = false
-                                })
+                            updateUserInfo(data)
+                            this.loading = false
                         }, 500)
                     } else {
                         this.loading = false
@@ -142,13 +160,86 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
+            },
+            handleAvatarSuccess(res, file) {
+                this.loadingUploadImg = true
+                setTimeout(() => {
+                    if (this.upload === true) {
+                        this.imageUrl = URL.createObjectURL(file.raw);
+                    }
+                    this.loadingUploadImg = false
+                }, 1000)
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                switch (true) {
+                    case !isJPG:
+                        this.$message.error('Avatar picture must be JPG format!')
+                        this.upload = false
+                        break
+                    case !isLt2M:
+                        this.$message.error('Avatar picture size can not exceed 2MB!')
+                        this.upload = false
+                        break
+                    default:
+
+                }
+                return isJPG && isLt2M;
             }
         }
     }
 </script>
 
-<style scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+    .upload-center {
+        text-align: center;
+    }
+
     .el-form-item {
         margin-bottom: 33px;
+    }
+
+    .title-change-img {
+        position: relative;
+        width: 150px;
+        height: 150px;
+    }
+
+    .img-profile {
+        margin-bottom: 33px;
+
+        .form-img {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border: solid 5px #ccc;
+            border-radius: 50%;
+            margin: 0 auto;
+            background: no-repeat center #dbdbdb;
+            background-size: 170px;
+            cursor: pointer;
+
+            .title-change-img {
+                border: solid 5px #997997;
+                border-radius: 50%;
+                margin-left: -5px;
+                margin-top: -5px;
+                text-align: center;
+                background: #cccccc;
+                padding-top: 60px;
+                transition: 1s;
+                opacity: 0;
+
+                i {
+                    font-size: 29px;
+                }
+            }
+
+            &:hover .title-change-img {
+                transition: 1s;
+                opacity: 0.7;
+            }
+        }
     }
 </style>

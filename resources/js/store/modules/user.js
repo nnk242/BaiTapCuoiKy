@@ -1,4 +1,4 @@
-import {getToken, getTokenType, setToken, setTokenType,destroyToken} from '../../utils/auth'
+import {getToken, getTokenType, setToken, setTokenType, destroyToken} from '../../utils/auth'
 import {login} from "../../api/login";
 import {getUserInfo, logout} from "../../api/auth";
 
@@ -56,14 +56,13 @@ const user = {
         },
         getUserInfo({commit, state}) {
             return new Promise((resolve, reject) => {
-                const {token_type, access_token} = state
-                getUserInfo((token_type + ' ' + access_token).trim())
+                getUserInfo()
                     .then(response => {
                         const {data} = response
                         if (!data) {
                             reject('Verification failed, please login again.')
                         }
-                        if(typeof data.role !== 'undefined') {
+                        if (typeof data.role !== 'undefined') {
                             commit('SET_ROLE', data.role)
 
                         } else {
@@ -79,7 +78,7 @@ const user = {
         },
         logout({commit, state}) {
             return new Promise((resolve, reject) => {
-                let access_token_full =  getTokenType() + ' ' + getToken()
+                let access_token_full = getTokenType() + ' ' + getToken()
                 if (access_token_full == ' ') {
                     commit('SET_ROLE', '')
                     commit('SET_TOKEN', '')
@@ -87,17 +86,17 @@ const user = {
                     destroyToken()
                     resolve('Logout success')
                 } else
-                logout(access_token_full)
-                    .then(response => {
-                        commit('SET_ROLE', '')
-                        commit('SET_TOKEN', '')
-                        commit('SET_TOKEN_TYPE', '')
-                        destroyToken()
-                        resolve(response)
-                    })
-                    .catch(error => {
-                        reject(error)
-                    })
+                    logout()
+                        .then(response => {
+                            commit('SET_ROLE', '')
+                            commit('SET_TOKEN', '')
+                            commit('SET_TOKEN_TYPE', '')
+                            destroyToken()
+                            resolve(response)
+                        })
+                        .catch(error => {
+                            reject(error)
+                        })
             })
         },
         fedLogout({commit}) {

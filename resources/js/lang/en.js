@@ -71,5 +71,25 @@ export default {
     },
     account: {
         title: 'Account',
+        changeImg: 'Change Image',
+        birthDay: 'Birth day',
+        name: 'Name',
+        lastName: 'Last name',
+        numberPhone: 'Number phone',
+        password: 'Password',
+        gender: {
+            label: 'Gender',
+            male: 'Male',
+            female: 'Female'
+        },
+        notification: {
+            name: {
+                error: 'Name is required'
+            },
+            numberPhone: {
+                error: 'Please input digits',
+                errorLength: 'The password can not be less than 8 digits'
+            }
+        }
     }
 }

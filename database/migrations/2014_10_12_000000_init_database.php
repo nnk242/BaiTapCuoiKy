@@ -22,10 +22,11 @@ class InitDatabase extends Migration
             $table->string('password');
             $table->string('avatar', 255)->nullable();
             $table->enum('role', ['admin', 'member', 'staff'])->default('member');
-            $table->rememberToken();
+//            $table->rememberToken();
+            $table->date('birth_day')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('description', 255)->nullable();
-            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->enum('gender', ['male', 'female'])->default('male');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

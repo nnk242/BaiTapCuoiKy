@@ -71,5 +71,25 @@ export default {
     },
     account: {
         title: 'Thông tin tài khoản',
+        changeImg: 'Thay đổi',
+        birthDay: 'Sinh nhật',
+        name: 'Tên',
+        lastName: 'Họ tên đệm',
+        numberPhone: 'Số điện thoại',
+        password: 'Mật khẩu',
+        gender: {
+            label: 'Giới tính',
+            male: 'Nam',
+            female: 'Nữ'
+        },
+        notification: {
+            name: {
+                error: 'Tên không được bỏ trống'
+            },
+            numberPhone: {
+                error: 'Phải là số',
+                errorLength: 'Số điện thoại phải trên 8 ký tự'
+            }
+        }
     }
 }
