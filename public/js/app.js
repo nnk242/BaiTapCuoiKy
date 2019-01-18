@@ -3720,6 +3720,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "account",
@@ -3764,7 +3765,8 @@ __webpack_require__.r(__webpack_exports__);
         oldPass: '',
         birthDay: '',
         numberPhone: '',
-        gender: ''
+        gender: '',
+        avatar: ''
       },
       rules: {
         oldPass: [{
@@ -3783,18 +3785,24 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       loadingUploadImg: false,
       upload: true,
-      imageUrl: ''
+      imageUrl: '',
+      headers: {
+        authorization: '' // key: ''
+
+      }
     };
   },
   mounted: function mounted() {
     var _this2 = this;
 
+    this.headers.authorization = this.$store.getters.token_type + ' ' + this.$store.getters.token;
     Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["getUserInfo"])().then(function (response) {
       _this2.ruleForm.birthDay = response.data.birth_day;
       _this2.ruleForm.lastName = response.data.last_name;
       _this2.ruleForm.name = response.data.name;
       _this2.ruleForm.gender = response.data.gender;
       _this2.ruleForm.numberPhone = response.data.phone === null ? '' : response.data.phone;
+      _this2.ruleForm.avatar = response.data.avatar === null ? '/images/default/avatar.svg' : response.data.avatar;
     }).catch(function () {});
   },
   methods: {
@@ -3812,7 +3820,9 @@ __webpack_require__.r(__webpack_exports__);
               phone: _this3.ruleForm.numberPhone,
               gender: _this3.ruleForm.gender
             };
-            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["updateUserInfo"])(data);
+            Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["updateUserInfo"])(data).then(function (response) {
+              if (response.data.message === true) _this3.$message.success(_this3.$t('account.notification.success.update'));else _this3.$message.error(_this3.$t('account.notification.error.update'));
+            });
             _this3.loading = false;
           }, 500);
         } else {
@@ -3829,6 +3839,8 @@ __webpack_require__.r(__webpack_exports__);
       this.loadingUploadImg = true;
       setTimeout(function () {
         if (_this4.upload === true) {
+          _this4.$message.error(_this4.$t('account.notification.file.success'));
+
           _this4.imageUrl = URL.createObjectURL(file.raw);
         }
 
@@ -3836,17 +3848,17 @@ __webpack_require__.r(__webpack_exports__);
       }, 1000);
     },
     beforeAvatarUpload: function beforeAvatarUpload(file) {
-      var isJPG = file.type === 'image/jpeg';
+      var isJPG = file.type === 'image/jpeg' || 'image/png';
       var isLt2M = file.size / 1024 / 1024 < 2;
 
       switch (true) {
         case !isJPG:
-          this.$message.error('Avatar picture must be JPG format!');
+          this.$message.error(this.$t('account.notification.file.type.error'));
           this.upload = false;
           break;
 
         case !isLt2M:
-          this.$message.error('Avatar picture size can not exceed 2MB!');
+          this.$message.error(this.$t('account.notification.file.size.error'));
           this.upload = false;
           break;
 
@@ -57009,7 +57021,8 @@ var render = function() {
                     action: "http://127.0.0.1:8000/api/auth/uploadAvatar",
                     "show-file-list": false,
                     "on-success": _vm.handleAvatarSuccess,
-                    "before-upload": _vm.beforeAvatarUpload
+                    "before-upload": _vm.beforeAvatarUpload,
+                    headers: _vm.headers
                   }
                 },
                 [
@@ -57020,7 +57033,7 @@ var render = function() {
                         staticClass: "form-img",
                         style: _vm.imageUrl
                           ? "background-image: url(" + _vm.imageUrl + ")"
-                          : "background-image: url(/images/default/avatar.svg)"
+                          : "background-image: url(" + _vm.ruleForm.avatar + ")"
                       },
                       [
                         _c("div", { staticClass: "title-change-img" }, [
@@ -73799,7 +73812,19 @@ __webpack_require__.r(__webpack_exports__);
       numberPhone: {
         error: 'Please input digits',
         errorLength: 'The password can not be less than 8 digits'
-      }
+      },
+      file: {
+        size: {
+          error: 'Avatar picture size can not exceed 2MB'
+        },
+        type: {
+          error: 'Avatar picture must be JPG, PNG format'
+        },
+        success: 'Update avatar success',
+        error: 'Update avatar fail'
+      },
+      success: 'Update info success',
+      error: 'Update info fail'
     }
   }
 });
@@ -73950,7 +73975,19 @@ __webpack_require__.r(__webpack_exports__);
       numberPhone: {
         error: 'Phải là số',
         errorLength: 'Số điện thoại phải trên 8 ký tự'
-      }
+      },
+      file: {
+        size: {
+          error: 'Phải nhỏ hơn 2Mb'
+        },
+        type: {
+          error: 'Phải là jpeg, png'
+        },
+        success: 'Thay đổi ảnh thành công',
+        error: 'Thay đổi ảnh thất bại'
+      },
+      success: 'Cập nhật thông tin tài khoản thành công',
+      error: 'Cập nhật thông tin thất bại'
     }
   }
 });

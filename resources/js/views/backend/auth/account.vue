@@ -8,11 +8,12 @@
                            :show-file-list="false"
                            :on-success="handleAvatarSuccess"
                            :before-upload="beforeAvatarUpload"
+                           :headers="headers"
                            v-loading="loadingUploadImg">
                     <div class="img-profile">
                         <div class="form-img"
                              :style="imageUrl?
-                             'background-image: url(' + imageUrl + ')':'background-image: url(/images/default/avatar.svg)'">
+                             'background-image: url(' + imageUrl + ')':'background-image: url('+ ruleForm.avatar +')'">
                             <div class="title-change-img">
                                 <i class="fas fa-camera"></i>
                             </div>
@@ -104,7 +105,8 @@
                     oldPass: '',
                     birthDay: '',
                     numberPhone: '',
-                    gender: ''
+                    gender: '',
+                    avatar: ''
                 },
                 rules: {
                     oldPass: [
@@ -120,17 +122,23 @@
                 loading: false,
                 loadingUploadImg: false,
                 upload: true,
-                imageUrl: ''
+                imageUrl: '',
+                headers: {
+                    authorization: '',
+                    // key: ''
+                }
             }
         },
         mounted() {
+            this.headers.authorization = this.$store.getters.token_type + ' ' + this.$store.getters.token
             getUserInfo()
                 .then(response => {
                     this.ruleForm.birthDay = response.data.birth_day
                     this.ruleForm.lastName = response.data.last_name
                     this.ruleForm.name = response.data.name
                     this.ruleForm.gender = response.data.gender
-                    this.ruleForm.numberPhone = response.data.phone === null? '': response.data.phone
+                    this.ruleForm.numberPhone = response.data.phone === null ? '' : response.data.phone
+                    this.ruleForm.avatar = response.data.avatar === null? '/images/default/avatar.svg': response.data.avatar
                 })
                 .catch(() => {
 
@@ -151,6 +159,12 @@
                             }
 
                             updateUserInfo(data)
+                                .then(response => {
+                                    if (response.data.message === true)
+                                        this.$message.success(this.$t('account.notification.success.update'))
+                                    else
+                                        this.$message.error(this.$t('account.notification.error.update'))
+                                })
                             this.loading = false
                         }, 500)
                     } else {
@@ -165,21 +179,22 @@
                 this.loadingUploadImg = true
                 setTimeout(() => {
                     if (this.upload === true) {
+                        this.$message.error(this.$t('account.notification.file.success'))
                         this.imageUrl = URL.createObjectURL(file.raw);
                     }
                     this.loadingUploadImg = false
                 }, 1000)
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
+                const isJPG = file.type === 'image/jpeg' || 'image/png';
                 const isLt2M = file.size / 1024 / 1024 < 2;
                 switch (true) {
                     case !isJPG:
-                        this.$message.error('Avatar picture must be JPG format!')
+                        this.$message.error(this.$t('account.notification.file.type.error'))
                         this.upload = false
                         break
                     case !isLt2M:
-                        this.$message.error('Avatar picture size can not exceed 2MB!')
+                        this.$message.error(this.$t('account.notification.file.size.error'))
                         this.upload = false
                         break
                     default:

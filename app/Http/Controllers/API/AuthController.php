@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Component\Upload;
 use App\Rules\ValidPassword;
 use Illuminate\Http\Request;
 use Auth;
@@ -51,28 +52,11 @@ class AuthController extends Controller
         $credentials = ['email' => $email, 'password' => $password];
 
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized', 'code' => 401], 401);
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
 
 
         return $this->responseWithToken($token);
-    }
-
-    /**
-     * get token and author.
-     *
-     * @param $token
-     * @return response()->json()
-     */
-    public function responseWithToken($token)
-    {
-        return response()->json(
-            [
-                'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
-            ]
-        );
     }
 
     /**
@@ -104,7 +88,7 @@ class AuthController extends Controller
             'gender' => $request->gender,
         ]);
 
-        return response()->json(['message' => date('Y-m-d', strtotime($request->birth_day))]);
+        return response()->json(['message' => true]);
     }
 
     /**
@@ -166,8 +150,36 @@ class AuthController extends Controller
         return response()->json(['message' => false]);
     }
 
-    public function uploadAvatar()
+    public function uploadAvatar(Request $request)
     {
-        return response()->json(['message' => true]);
+        $upload = new Upload();
+        $user = $this->model()::findOrFail(Auth::id());
+        $data = $upload->uploadAvatar($request->file, $user->avatar);
+
+        if ($data['message']['status'] === true) {
+            $user->update([
+                'avatar' => $data['message']['path']
+            ]);
+            return response()->json(['message' => true]);
+        }
+        return response()->json(['message' => false]);
+
+    }
+
+    /**
+     * get token and author.
+     *
+     * @param $token
+     * @return response()->json()
+     */
+    public function responseWithToken($token)
+    {
+        return response()->json(
+            [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]
+        );
     }
 }

@@ -89,7 +89,19 @@ export default {
             numberPhone: {
                 error: 'Phải là số',
                 errorLength: 'Số điện thoại phải trên 8 ký tự'
-            }
+            },
+            file: {
+                size: {
+                    error: 'Phải nhỏ hơn 2Mb'
+                },
+                type: {
+                    error: 'Phải là jpeg, png'
+                },
+                success: 'Thay đổi ảnh thành công',
+                error: 'Thay đổi ảnh thất bại'
+            },
+            success: 'Cập nhật thông tin tài khoản thành công',
+            error: 'Cập nhật thông tin thất bại',
         }
     }
 }

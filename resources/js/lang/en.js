@@ -89,7 +89,19 @@ export default {
             numberPhone: {
                 error: 'Please input digits',
                 errorLength: 'The password can not be less than 8 digits'
-            }
+            },
+            file: {
+                size: {
+                    error: 'Avatar picture size can not exceed 2MB'
+                },
+                type: {
+                    error: 'Avatar picture must be JPG, PNG format'
+                },
+                success: 'Update avatar success',
+                error: 'Update avatar fail'
+            },
+            success: 'Update info success',
+            error: 'Update info fail'
         }
     }
 }
