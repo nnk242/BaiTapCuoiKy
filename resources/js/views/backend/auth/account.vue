@@ -179,14 +179,15 @@
                 this.loadingUploadImg = true
                 setTimeout(() => {
                     if (this.upload === true) {
-                        this.$message.error(this.$t('account.notification.file.success'))
-                        this.imageUrl = URL.createObjectURL(file.raw);
+                        this.$message.success(this.$t('account.notification.file.success'))
+                        this.imageUrl = URL.createObjectURL(file.raw)
+                        this.$store.dispatch('setAvatar')
                     }
                     this.loadingUploadImg = false
                 }, 1000)
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg' || 'image/png';
+                const isJPG = file.type === 'image/jpeg' || 'image/png'
                 const isLt2M = file.size / 1024 / 1024 < 2;
                 switch (true) {
                     case !isJPG:

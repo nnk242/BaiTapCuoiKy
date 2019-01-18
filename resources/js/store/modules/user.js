@@ -107,6 +107,13 @@ const user = {
                 destroyToken()
                 resolve()
             })
+        },
+        setAvatar({commit}) {
+            getUserInfo()
+                .then(response => {
+                    const {data} = response
+                    commit('SET_AVATAR', data.avatar)
+                })
         }
     }
 }

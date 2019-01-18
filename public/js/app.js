@@ -3839,9 +3839,11 @@ __webpack_require__.r(__webpack_exports__);
       this.loadingUploadImg = true;
       setTimeout(function () {
         if (_this4.upload === true) {
-          _this4.$message.error(_this4.$t('account.notification.file.success'));
+          _this4.$message.success(_this4.$t('account.notification.file.success'));
 
           _this4.imageUrl = URL.createObjectURL(file.raw);
+
+          _this4.$store.dispatch('setAvatar');
         }
 
         _this4.loadingUploadImg = false;
@@ -74959,6 +74961,14 @@ var user = {
         commit('SET_TOKEN_TYPE', '');
         Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["destroyToken"])();
         resolve();
+      });
+    },
+    setAvatar: function setAvatar(_ref5) {
+      var commit = _ref5.commit;
+
+      Object(_api_auth__WEBPACK_IMPORTED_MODULE_2__["getUserInfo"])().then(function (response) {
+        var data = response.data;
+        commit('SET_AVATAR', data.avatar);
       });
     }
   }
