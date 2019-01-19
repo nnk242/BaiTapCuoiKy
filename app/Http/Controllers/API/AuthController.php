@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Component\Upload;
-use App\Rules\ValidPassword;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -20,9 +20,10 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'index', 'logout', 'uploadAvatar']]);
+        $this->middleware('auth:api', ['except' => ['login', 'index', 'logout']]);
     }
 
+//set model current class
     protected function model()
     {
         return User::class;
@@ -47,15 +48,11 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $email = $request->username;
-        $password = $request->password;
-        $credentials = ['email' => $email, 'password' => $password];
+        $credentials = ['email' => $request->username, 'password' => $request->password];
 
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => false]);
         }
-
-
         return $this->responseWithToken($token);
     }
 
@@ -100,9 +97,8 @@ class AuthController extends Controller
     public function logout()
     {
         if (JWTAuth::invalidate(JWTAuth::getToken()))
-            return response()->json(['message' => 'Successfully logged out']);
-        else
-            return response()->json(['message' => 'Successfully logged out']);
+            return response()->json(['message' => true]);
+        return response()->json(['message' => true]);
     }
 
     /**
@@ -113,8 +109,7 @@ class AuthController extends Controller
      */
     public function checkPassword(Request $request)
     {
-        $password = $request->password;
-        if (Hash::check($password, $this->model()::find(Auth::id())->password))
+        if (Hash::check($request->password, $this->model()::find(Auth::id())->password))
             return response()->json(['message' => true]);
         else
             return response()->json(['message' => false]);
@@ -135,16 +130,14 @@ class AuthController extends Controller
             if ($old_password === $new_password) {
                 return response()->json(['message' => true]);
             } else {
-                $request->validate([
-                    'old_password' => ['required', 'string', new ValidPassword()],
-                    'new_password' => ['required', 'string', new ValidPassword()]
+                $validate = Validator::make($request->all(), [
+                    'old_password' => 'required|string|max:6',
+                    'new_password' => 'required|string|max:6'
                 ]);
-                $user->update(
-                    [
-                        'password' => Hash::make($new_password)
-                    ]
-                );
-                return response()->json(['message' => true]);
+                if ($validate->fails()) {
+                    $user->update(['password' => Hash::make($new_password)]);
+                    return response()->json(['message' => true]);
+                }
             }
         }
         return response()->json(['message' => false]);
@@ -154,16 +147,16 @@ class AuthController extends Controller
     {
         $upload = new Upload();
         $user = $this->model()::findOrFail(Auth::id());
-        $data = $upload->uploadAvatar($request->file, $user->avatar);
+        $validate = Validator::make($request->all(), ['file' => 'required|mimes:png,jpg,jpeg|size:2048']);
+        if ($validate->fails()) {
+            $data = $upload->uploadAvatar($request->file, $user->avatar);
 
-        if ($data['message']['status'] === true) {
-            $user->update([
-                'avatar' => $data['message']['path']
-            ]);
-            return response()->json(['message' => true]);
+            if ($data['message']['status'] === true) {
+                $user->update(['avatar' => $data['message']['path']]);
+                return response()->json(['message' => true]);
+            }
         }
         return response()->json(['message' => false]);
-
     }
 
     /**
