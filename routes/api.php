@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix'=> 'auth', 'namespace'=>'API', 'middleware' => 'api'], function () {
+Route::group(['prefix' => 'auth', 'namespace' => 'API', 'middleware' => 'api'], function () {
     Route::post('login', 'AuthController@login');
     Route::get('logout', 'AuthController@logout');
     Route::get('getUserInfo', 'AuthController@getUserInfo');
@@ -30,4 +30,8 @@ Route::group(['prefix'=> 'auth', 'namespace'=>'API', 'middleware' => 'api'], fun
 //        ->where('id', '[0-9]+');
     //test
     Route::get('/', 'AuthController@index');
+});
+
+Route::group(['prefix' => 'distributor', 'namespace' => 'API', 'middleware' => 'api'], function () {
+    Route::get('/', 'DistributorController@index');
 });

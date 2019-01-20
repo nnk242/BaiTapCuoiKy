@@ -5,9 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Distributor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class DistributorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index']]);
+    }
+
     //model Distributor
     private function model()
     {
@@ -21,7 +27,8 @@ class DistributorController extends Controller
      */
     public function index()
     {
-        //
+        $data = $this->model()::all();
+        return Response::json(['message' => $data]);
     }
 
     /**

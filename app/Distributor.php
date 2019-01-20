@@ -12,8 +12,8 @@ class Distributor extends Model
     protected $table = 'distributors';
 
     protected $fillable = [
-        'name', 'image', 'phone', 'address', 'description', 'status'
+        'first_name', 'last_name', 'name_distributors', 'image', 'phone', 'address', 'description', 'status'
     ];
 
-
+    protected $dates = ['deleted_at'];
 }
