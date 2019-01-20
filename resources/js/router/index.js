@@ -2,55 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
+
+//all site show user
+import page from './modules/fontend'
+//login and redirect
+import common from './modules/common'
 //router hidden in sidebar
-import hide from './modules/backend/hideSidebar'
+import hideSidebar from './modules/backend/hideSidebar'
 //router show in sidebar
-import show from './modules/backend/showSidebar'
-
-import Layout from '../views/backend/layout' //layout
-
-import error_404 from '../views/error/404'
-
-import testView from '../views/test'
-import loginView from '../views/backend/login/index'
-import redirect from '../views/backend/redirect'
+import showSidebar from './modules/backend/showSidebar'
 
 export const constantRouterMap = [
-    {
-        path: '/admin/redirect',
-        component: Layout,
-        hidden: true,
-        children: [
-            {
-                path: '/admin/redirect/:path*',
-                component: redirect
-            }
-        ]
-    },
-    {
-        path: '/admin/login',
-        component: loginView,
-        hidden: true,
-        name: 'login',
-        meta: {title: 'loginbe'}
-    },
-    //
-    {
-        path: '/',
-        component: testView,
-        hidden: true,
-        name: 'fdhome'
-    },
-    {
-        path: '*',
-        component: error_404,
-        meta: {title: 'error404'}
-    }
+    ...page,
+    ...common
 ]
 
 export default new VueRouter({mode: 'history', scrollBehavior: () => ({y: 0}), routes: constantRouterMap})
 
 export const asyncRouterMap = [
-    ...show,
-    ...hide
+    ...showSidebar,
+    ...hideSidebar
 ]

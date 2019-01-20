@@ -74119,13 +74119,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _modules_backend_hideSidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/backend/hideSidebar */ "./resources/js/router/modules/backend/hideSidebar.js");
-/* harmony import */ var _modules_backend_showSidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/backend/showSidebar */ "./resources/js/router/modules/backend/showSidebar.js");
-/* harmony import */ var _views_backend_layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/backend/layout */ "./resources/js/views/backend/layout/index.vue");
-/* harmony import */ var _views_error_404__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/error/404 */ "./resources/js/views/error/404.vue");
-/* harmony import */ var _views_test__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/test */ "./resources/js/views/test.vue");
-/* harmony import */ var _views_backend_login_index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/backend/login/index */ "./resources/js/views/backend/login/index.vue");
-/* harmony import */ var _views_backend_redirect__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/backend/redirect */ "./resources/js/views/backend/redirect/index.vue");
+/* harmony import */ var _modules_fontend__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/fontend */ "./resources/js/router/modules/fontend/index.js");
+/* harmony import */ var _modules_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/common */ "./resources/js/router/modules/common.js");
+/* harmony import */ var _modules_backend_hideSidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/backend/hideSidebar */ "./resources/js/router/modules/backend/hideSidebar.js");
+/* harmony import */ var _modules_backend_showSidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/backend/showSidebar */ "./resources/js/router/modules/backend/showSidebar.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -74136,46 +74133,16 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); //router hidden in sidebar
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); //all site show user
+
+ //login and redirect
+
+ //router hidden in sidebar
 
  //router show in sidebar
 
 
- //layout
-
-
-
-
-
-var constantRouterMap = [{
-  path: '/admin/redirect',
-  component: _views_backend_layout__WEBPACK_IMPORTED_MODULE_4__["default"],
-  hidden: true,
-  children: [{
-    path: '/admin/redirect/:path*',
-    component: _views_backend_redirect__WEBPACK_IMPORTED_MODULE_8__["default"]
-  }]
-}, {
-  path: '/admin/login',
-  component: _views_backend_login_index__WEBPACK_IMPORTED_MODULE_7__["default"],
-  hidden: true,
-  name: 'login',
-  meta: {
-    title: 'loginbe'
-  }
-}, //
-{
-  path: '/',
-  component: _views_test__WEBPACK_IMPORTED_MODULE_6__["default"],
-  hidden: true,
-  name: 'fdhome'
-}, {
-  path: '*',
-  component: _views_error_404__WEBPACK_IMPORTED_MODULE_5__["default"],
-  meta: {
-    title: 'error404'
-  }
-}];
+var constantRouterMap = [].concat(_toConsumableArray(_modules_fontend__WEBPACK_IMPORTED_MODULE_2__["default"]), _toConsumableArray(_modules_common__WEBPACK_IMPORTED_MODULE_3__["default"]));
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   scrollBehavior: function scrollBehavior() {
@@ -74185,7 +74152,7 @@ var constantRouterMap = [{
   },
   routes: constantRouterMap
 }));
-var asyncRouterMap = [].concat(_toConsumableArray(_modules_backend_showSidebar__WEBPACK_IMPORTED_MODULE_3__["default"]), _toConsumableArray(_modules_backend_hideSidebar__WEBPACK_IMPORTED_MODULE_2__["default"]));
+var asyncRouterMap = [].concat(_toConsumableArray(_modules_backend_showSidebar__WEBPACK_IMPORTED_MODULE_5__["default"]), _toConsumableArray(_modules_backend_hideSidebar__WEBPACK_IMPORTED_MODULE_4__["default"]));
 
 /***/ }),
 
@@ -74317,6 +74284,70 @@ __webpack_require__.r(__webpack_exports__);
       roles: _roles__WEBPACK_IMPORTED_MODULE_3__["ROLE_STAFF"]
     }
   }]
+}]);
+
+/***/ }),
+
+/***/ "./resources/js/router/modules/common.js":
+/*!***********************************************!*\
+  !*** ./resources/js/router/modules/common.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _views_backend_layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../views/backend/layout */ "./resources/js/views/backend/layout/index.vue");
+/* harmony import */ var _views_backend_login_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../views/backend/login/index */ "./resources/js/views/backend/login/index.vue");
+/* harmony import */ var _views_backend_redirect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../views/backend/redirect */ "./resources/js/views/backend/redirect/index.vue");
+ //layout
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ([{
+  path: '/admin/redirect',
+  component: _views_backend_layout__WEBPACK_IMPORTED_MODULE_0__["default"],
+  hidden: true,
+  children: [{
+    path: '/admin/redirect/:path*',
+    component: _views_backend_redirect__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }]
+}, {
+  path: '/admin/login',
+  component: _views_backend_login_index__WEBPACK_IMPORTED_MODULE_1__["default"],
+  hidden: true,
+  name: 'login',
+  meta: {
+    title: 'loginbe'
+  }
+}]);
+
+/***/ }),
+
+/***/ "./resources/js/router/modules/fontend/index.js":
+/*!******************************************************!*\
+  !*** ./resources/js/router/modules/fontend/index.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _views_error_404__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../views/error/404 */ "./resources/js/views/error/404.vue");
+/* harmony import */ var _views_test__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../views/test */ "./resources/js/views/test.vue");
+
+
+/* harmony default export */ __webpack_exports__["default"] = ([{
+  path: '/',
+  component: _views_test__WEBPACK_IMPORTED_MODULE_1__["default"],
+  hidden: true,
+  name: 'fdhome'
+}, {
+  path: '*',
+  component: _views_error_404__WEBPACK_IMPORTED_MODULE_0__["default"],
+  meta: {
+    title: 'error404'
+  }
 }]);
 
 /***/ }),
