@@ -71,7 +71,6 @@ router.beforeEach((to, from, next) => {
 
 
 router.afterEach((to, from) => {
-    // console.log(this.$t('route.changePassword'))
     store.dispatch('setTitle', to.meta.title)
     document.title = store.getters.title
     NProgress.done() // finish progress bar

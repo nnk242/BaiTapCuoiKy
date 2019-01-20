@@ -82,6 +82,7 @@ export default {
             male: 'Nam',
             female: 'Nữ'
         },
+        description: 'Giới thiệu',
         notification: {
             name: {
                 error: 'Tên không được bỏ trống'

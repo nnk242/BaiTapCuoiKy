@@ -82,6 +82,7 @@ export default {
             male: 'Male',
             female: 'Female'
         },
+        description: 'Description',
         notification: {
             name: {
                 error: 'Name is required'

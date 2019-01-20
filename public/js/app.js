@@ -3709,6 +3709,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "account",
@@ -3754,7 +3761,8 @@ __webpack_require__.r(__webpack_exports__);
         birthDay: '',
         numberPhone: '',
         gender: '',
-        avatar: ''
+        avatar: '',
+        description: ''
       },
       rules: {
         oldPass: [{
@@ -3791,7 +3799,10 @@ __webpack_require__.r(__webpack_exports__);
       _this2.ruleForm.gender = response.data.gender;
       _this2.ruleForm.numberPhone = response.data.phone === null ? '' : response.data.phone;
       _this2.ruleForm.avatar = response.data.avatar === null ? '/images/default/avatar.svg' : response.data.avatar;
-    }).catch(function () {});
+      _this2.ruleForm.description = response.data.description;
+    }).catch(function () {
+      console.log('get data fail!');
+    });
   },
   methods: {
     submitForm: function submitForm(formName) {
@@ -3806,10 +3817,12 @@ __webpack_require__.r(__webpack_exports__);
               name: _this3.ruleForm.name,
               birth_day: _this3.ruleForm.birthDay,
               phone: _this3.ruleForm.numberPhone,
-              gender: _this3.ruleForm.gender
+              gender: _this3.ruleForm.gender,
+              description: _this3.ruleForm.description
             };
             Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["updateUserInfo"])(data).then(function (response) {
-              if (response.data.message === true) _this3.$message.success(_this3.$t('account.notification.success.update'));else _this3.$message.error(_this3.$t('account.notification.error.update'));
+              if (response.data.message === true) _this3.$message.success(_this3.$t('account.notification.success'));else _this3.$message.error(_this3.$t('account.notification.error'));
+              _this3.ruleForm.oldPass = '';
             });
             _this3.loading = false;
           }, 500);
@@ -6849,7 +6862,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".upload-center[data-v-2fbaad60] {\n  text-align: center;\n}\n.el-form-item[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.title-change-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n}\n.img-profile[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.img-profile .form-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n  border: solid 5px #cccccc;\n  border-radius: 50%;\n  margin: 0 auto;\n  background: no-repeat center #dbdbdb;\n  background-size: 170px;\n  cursor: pointer;\n}\n.img-profile .form-img .title-change-img[data-v-2fbaad60] {\n  border: solid 5px #997997;\n  border-radius: 50%;\n  margin-left: -5px;\n  margin-top: -5px;\n  text-align: center;\n  background: #cccccc;\n  padding-top: 60px;\n  transition: 1s;\n  opacity: 0;\n}\n.img-profile .form-img .title-change-img i[data-v-2fbaad60] {\n  font-size: 29px;\n}\n.img-profile .form-img:hover .title-change-img[data-v-2fbaad60] {\n  transition: 1s;\n  opacity: 0.7;\n}", ""]);
+exports.push([module.i, ".upload-center[data-v-2fbaad60] {\n  text-align: center;\n}\n.el-form-item[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.title-change-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n}\n.action-change[data-v-2fbaad60] {\n  border-bottom: solid 1px #c8cbcf;\n  margin-bottom: 20px;\n}\n.img-profile[data-v-2fbaad60] {\n  margin-bottom: 33px;\n}\n.img-profile .form-img[data-v-2fbaad60] {\n  position: relative;\n  width: 150px;\n  height: 150px;\n  border: solid 5px #cccccc;\n  border-radius: 50%;\n  margin: 0 auto;\n  background: no-repeat center #dbdbdb;\n  background-size: 170px;\n  cursor: pointer;\n}\n.img-profile .form-img .title-change-img[data-v-2fbaad60] {\n  border: solid 5px #997997;\n  border-radius: 50%;\n  margin-left: -5px;\n  margin-top: -5px;\n  text-align: center;\n  background: #cccccc;\n  padding-top: 60px;\n  transition: 1s;\n  opacity: 0;\n}\n.img-profile .form-img .title-change-img i[data-v-2fbaad60] {\n  font-size: 29px;\n}\n.img-profile .form-img:hover .title-change-img[data-v-2fbaad60] {\n  transition: 1s;\n  opacity: 0.7;\n}", ""]);
 
 // exports
 
@@ -57022,107 +57035,141 @@ var render = function() {
                 },
                 [
                   _c(
-                    "el-form-item",
-                    { attrs: { label: _vm.$t("account.lastName") } },
-                    [
-                      _c("el-input", {
-                        model: {
-                          value: _vm.ruleForm.lastName,
-                          callback: function($$v) {
-                            _vm.$set(_vm.ruleForm, "lastName", $$v)
-                          },
-                          expression: "ruleForm.lastName"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    { attrs: { label: _vm.$t("account.name"), prop: "name" } },
-                    [
-                      _c("el-input", {
-                        model: {
-                          value: _vm.ruleForm.name,
-                          callback: function($$v) {
-                            _vm.$set(_vm.ruleForm, "name", $$v)
-                          },
-                          expression: "ruleForm.name"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    { attrs: { label: _vm.$t("account.birthDay") } },
-                    [
-                      _c("el-date-picker", {
-                        staticStyle: { width: "100%" },
-                        attrs: { type: "date" },
-                        model: {
-                          value: _vm.ruleForm.birthDay,
-                          callback: function($$v) {
-                            _vm.$set(_vm.ruleForm, "birthDay", $$v)
-                          },
-                          expression: "ruleForm.birthDay"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    {
-                      attrs: {
-                        label: _vm.$t("account.numberPhone"),
-                        prop: "numberPhone"
-                      }
-                    },
-                    [
-                      _c("el-input", {
-                        model: {
-                          value: _vm.ruleForm.numberPhone,
-                          callback: function($$v) {
-                            _vm.$set(_vm.ruleForm, "numberPhone", $$v)
-                          },
-                          expression: "ruleForm.numberPhone"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "el-form-item",
-                    { attrs: { label: _vm.$t("account.gender.label") } },
+                    "div",
+                    { staticClass: "action-change" },
                     [
                       _c(
-                        "el-radio-group",
+                        "el-form-item",
+                        { attrs: { label: _vm.$t("account.lastName") } },
+                        [
+                          _c("el-input", {
+                            model: {
+                              value: _vm.ruleForm.lastName,
+                              callback: function($$v) {
+                                _vm.$set(_vm.ruleForm, "lastName", $$v)
+                              },
+                              expression: "ruleForm.lastName"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
                         {
-                          model: {
-                            value: _vm.ruleForm.gender,
-                            callback: function($$v) {
-                              _vm.$set(_vm.ruleForm, "gender", $$v)
-                            },
-                            expression: "ruleForm.gender"
+                          attrs: { label: _vm.$t("account.name"), prop: "name" }
+                        },
+                        [
+                          _c("el-input", {
+                            model: {
+                              value: _vm.ruleForm.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.ruleForm, "name", $$v)
+                              },
+                              expression: "ruleForm.name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        { attrs: { label: _vm.$t("account.birthDay") } },
+                        [
+                          _c("el-date-picker", {
+                            staticStyle: { width: "100%" },
+                            attrs: { type: "date" },
+                            model: {
+                              value: _vm.ruleForm.birthDay,
+                              callback: function($$v) {
+                                _vm.$set(_vm.ruleForm, "birthDay", $$v)
+                              },
+                              expression: "ruleForm.birthDay"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        {
+                          attrs: {
+                            label: _vm.$t("account.numberPhone"),
+                            prop: "numberPhone"
                           }
                         },
                         [
-                          _c("el-radio", { attrs: { label: "male" } }, [
-                            _vm._v(_vm._s(_vm.$t("account.gender.male")))
-                          ]),
-                          _vm._v(" "),
+                          _c("el-input", {
+                            model: {
+                              value: _vm.ruleForm.numberPhone,
+                              callback: function($$v) {
+                                _vm.$set(_vm.ruleForm, "numberPhone", $$v)
+                              },
+                              expression: "ruleForm.numberPhone"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        { attrs: { label: _vm.$t("account.gender.label") } },
+                        [
                           _c(
-                            "el-radio",
+                            "el-radio-group",
                             {
-                              attrs: { label: "female", "aria-checked": "true" }
+                              model: {
+                                value: _vm.ruleForm.gender,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.ruleForm, "gender", $$v)
+                                },
+                                expression: "ruleForm.gender"
+                              }
                             },
-                            [_vm._v(_vm._s(_vm.$t("account.gender.female")))]
+                            [
+                              _c("el-radio", { attrs: { label: "male" } }, [
+                                _vm._v(_vm._s(_vm.$t("account.gender.male")))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "el-radio",
+                                {
+                                  attrs: {
+                                    label: "female",
+                                    "aria-checked": "true"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.$t("account.gender.female"))
+                                  )
+                                ]
+                              )
+                            ],
+                            1
                           )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        { attrs: { label: _vm.$t("account.description") } },
+                        [
+                          _c("el-input", {
+                            attrs: { type: "textarea" },
+                            model: {
+                              value: _vm.ruleForm.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.ruleForm, "description", $$v)
+                              },
+                              expression: "ruleForm.description"
+                            }
+                          })
                         ],
                         1
                       )
@@ -73768,6 +73815,7 @@ __webpack_require__.r(__webpack_exports__);
       male: 'Male',
       female: 'Female'
     },
+    description: 'Description',
     notification: {
       name: {
         error: 'Name is required'
@@ -73931,6 +73979,7 @@ __webpack_require__.r(__webpack_exports__);
       male: 'Nam',
       female: 'Nữ'
     },
+    description: 'Giới thiệu',
     notification: {
       name: {
         error: 'Tên không được bỏ trống'
@@ -74049,7 +74098,6 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
   }
 });
 _router__WEBPACK_IMPORTED_MODULE_0__["default"].afterEach(function (to, from) {
-  // console.log(this.$t('route.changePassword'))
   _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('setTitle', to.meta.title);
   document.title = _store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.title;
   nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.done(); // finish progress bar

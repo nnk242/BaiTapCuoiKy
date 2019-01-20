@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Component\Upload;
-use Illuminate\Http\Request;
-use Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -51,7 +51,7 @@ class AuthController extends Controller
         $credentials = ['email' => $request->username, 'password' => $request->password];
 
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['message' => false]);
+            return response()->json(['message' => false], 401);
         }
         return $this->responseWithToken($token);
     }
@@ -83,6 +83,7 @@ class AuthController extends Controller
             'birth_day' => date('Y-m-d', strtotime($request->birth_day)),
             'phone' => $request->phone,
             'gender' => $request->gender,
+            'description' => $request->description
         ]);
 
         return response()->json(['message' => true]);

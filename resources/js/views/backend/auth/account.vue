@@ -23,24 +23,31 @@
 
                 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px"
                          class="demo-ruleForm">
-                    <el-form-item :label="$t('account.lastName')">
-                        <el-input v-model="ruleForm.lastName"></el-input>
-                    </el-form-item>
-                    <el-form-item :label="$t('account.name')" prop="name">
-                        <el-input v-model="ruleForm.name"></el-input>
-                    </el-form-item>
-                    <el-form-item :label="$t('account.birthDay')">
-                        <el-date-picker type="date" v-model="ruleForm.birthDay" style="width: 100%"></el-date-picker>
-                    </el-form-item>
-                    <el-form-item :label="$t('account.numberPhone')" prop="numberPhone">
-                        <el-input v-model="ruleForm.numberPhone"></el-input>
-                    </el-form-item>
-                    <el-form-item :label="$t('account.gender.label')">
-                        <el-radio-group v-model="ruleForm.gender">
-                            <el-radio label="male">{{$t('account.gender.male')}}</el-radio>
-                            <el-radio label="female" aria-checked="true">{{$t('account.gender.female')}}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
+                    <div class="action-change">
+                        <el-form-item :label="$t('account.lastName')">
+                            <el-input v-model="ruleForm.lastName"></el-input>
+                        </el-form-item>
+                        <el-form-item :label="$t('account.name')" prop="name">
+                            <el-input v-model="ruleForm.name"></el-input>
+                        </el-form-item>
+                        <el-form-item :label="$t('account.birthDay')">
+                            <el-date-picker type="date" v-model="ruleForm.birthDay" style="width: 100%"></el-date-picker>
+                        </el-form-item>
+                        <el-form-item :label="$t('account.numberPhone')" prop="numberPhone">
+                            <el-input v-model="ruleForm.numberPhone"></el-input>
+                        </el-form-item>
+                        <el-form-item :label="$t('account.gender.label')">
+                            <el-radio-group v-model="ruleForm.gender">
+                                <el-radio label="male">{{$t('account.gender.male')}}</el-radio>
+                                <el-radio label="female" aria-checked="true">{{$t('account.gender.female')}}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item :label="$t('account.description')">
+                            <el-input type="textarea" v-model="ruleForm.description"></el-input>
+                        </el-form-item>
+                    </div>
+
+
                     <el-form-item :label="$t('account.password')" prop="oldPass">
                         <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
                     </el-form-item>
@@ -106,7 +113,8 @@
                     birthDay: '',
                     numberPhone: '',
                     gender: '',
-                    avatar: ''
+                    avatar: '',
+                    description: ''
                 },
                 rules: {
                     oldPass: [
@@ -139,9 +147,10 @@
                     this.ruleForm.gender = response.data.gender
                     this.ruleForm.numberPhone = response.data.phone === null ? '' : response.data.phone
                     this.ruleForm.avatar = response.data.avatar === null? '/images/default/avatar.svg': response.data.avatar
+                    this.ruleForm.description = response.data.description
                 })
                 .catch(() => {
-
+                    console.log('get data fail!')
                 })
         },
         methods: {
@@ -155,15 +164,17 @@
                                 name: this.ruleForm.name,
                                 birth_day: this.ruleForm.birthDay,
                                 phone: this.ruleForm.numberPhone,
-                                gender: this.ruleForm.gender
+                                gender: this.ruleForm.gender,
+                                description: this.ruleForm.description
                             }
 
                             updateUserInfo(data)
                                 .then(response => {
                                     if (response.data.message === true)
-                                        this.$message.success(this.$t('account.notification.success.update'))
+                                        this.$message.success(this.$t('account.notification.success'))
                                     else
-                                        this.$message.error(this.$t('account.notification.error.update'))
+                                        this.$message.error(this.$t('account.notification.error'))
+                                    this.ruleForm.oldPass = ''
                                 })
                             this.loading = false
                         }, 500)
@@ -220,6 +231,11 @@
         position: relative;
         width: 150px;
         height: 150px;
+    }
+
+    .action-change {
+        border-bottom: solid 1px #c8cbcf;
+        margin-bottom: 20px;
     }
 
     .img-profile {
