@@ -1,6 +1,7 @@
 import Layout from '../../../views/backend/layout' //layout
-import dashboardView from '../../../views/backend/dashboard'
+import dashboard from '../../../views/backend/dashboard'
 import testView from '../../../views/test'
+import distributorIndex from '../../../views/backend/distributor'
 import {ROLE_ADMIN_STAFF, ROLE_ADMIN, ROLE_STAFF} from "../../roles";
 
 export default [
@@ -11,7 +12,7 @@ export default [
         children: [
             {
                 path: '/admin/dashboard',
-                component: dashboardView,
+                component: dashboard,
                 name: 'dashboard',
                 meta: {title: 'dashboard', icon: 'fas fa-tachometer-alt', noCache: true}
             }
@@ -25,7 +26,7 @@ export default [
         meta: {
             title: 'test 123',
             icon: 'fas fa-tooth',
-            roles: ['admin', 'staff'] // you can set roles in root nav
+            roles: ROLE_ADMIN_STAFF // you can set roles in root nav
         },
         children: [
             {
@@ -58,7 +59,29 @@ export default [
                 path: '/admin/staff',
                 component: testView,
                 name: 'staff',
-                meta: {title: 'test', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ROLE_STAFF}
+                meta: {title: 'staff', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ROLE_STAFF}
+            }
+        ]
+    },
+    {
+        path: '/admin/distributor',
+        component: Layout,
+        redirect: '/admin/distributor/index',
+        alwaysShow: true, // will always show the root menu
+        meta: {
+            title: 'distributor',
+            icon: 'fas fa-dolly-flatbed',
+            roles: ['admin', 'staff'] // you can set roles in root nav
+        },
+        children: [
+            {
+                path: 'index',
+                component: distributorIndex,
+                name: 'DistributorIndex',
+                meta: {
+                    title: 'distributorIndex',
+                    roles: ROLE_ADMIN_STAFF // or you can only set roles in sub nav
+                }
             }
         ]
     }

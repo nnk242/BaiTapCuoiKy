@@ -68,6 +68,8 @@ export default {
     route: {
         changePassword: 'Đổi mật khẩu',
         accountbe: 'Tài khoản',
+        distributor: 'Nhà phân phối',
+        distributorIndex: 'Xem nhà phân phối'
     },
     account: {
         title: 'Thông tin tài khoản',

@@ -1,6 +1,6 @@
 <template>
     <div>
-        distributor
+        <h1 class="text-center">{{$t('route.distributor')}}</h1>
     </div>
 </template>
 

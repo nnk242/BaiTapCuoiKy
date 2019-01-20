@@ -68,6 +68,8 @@ export default {
     route: {
         changePassword: 'Change password',
         accountbe: 'Account',
+        distributor: 'Distributor',
+        distributorIndex: 'View distributor'
     },
     account: {
         title: 'Account',
