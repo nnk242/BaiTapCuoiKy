@@ -23,31 +23,32 @@
             </el-col>
         </el-row>
 
+        <div class="table-parent">
+            <vuetable ref="vuetable"
+                      :api-url="apiUrl"
+                      :http-options="httpOptions"
+                      :fields="fields"
 
-        <vuetable ref="vuetable"
-                  :api-url="apiUrl"
-                  :http-options="httpOptions"
-                  :fields="fields"
+                      pagination-path=""
+                      :per-page="perPage"
+                      @vuetable:pagination-data="onPaginationData"
+                      @vuetable-pagination:change-page="onChangePage"
 
-                  pagination-path=""
-                  :per-page="perPage"
-                  @vuetable:pagination-data="onPaginationData"
-                  @vuetable-pagination:change-page="onChangePage"
+                      :multi-sort="true"
+                      :sort-order="sortOrder"
 
-                  :multi-sort="true"
-                  :sort-order="sortOrder"
+                      :append-params="appendParams"
 
-                  :append-params="appendParams"
+                      :detail-row-component="detailRowComponent"
+                      @vuetable:cell-clicked="onCellClicked"
 
-                  :detail-row-component="detailRowComponent"
-                  @vuetable:cell-clicked="onCellClicked"
+                      :css="css.table"
 
-                  :css="css.table"
-
-                  @vuetable:loaded="onLoaded"
-                  @vuetable:loading="onLoading"
-        >
-        </vuetable>
+                      @vuetable:loaded="onLoaded"
+                      @vuetable:loading="onLoading"
+            >
+            </vuetable>
+        </div>
         <el-row :gutter="20">
             <el-col :span="24">
                 <vuetable-pagination-info ref="paginationInfo"></vuetable-pagination-info>
@@ -175,7 +176,6 @@
 
             ////
             onCellClicked(data, field, event) {
-                //console.log('cellClicked: ', data.id)
                 this.$refs.vuetable.toggleDetailRow(data.id)
             },
             ////
@@ -246,22 +246,58 @@
 
 <style lang="scss">
     .data-table-wp {
-        /*width: 100%;*/
-        /*float: left;*/
         margin: 44px;
-        /*padding: 20px;*/
-        /*position: relative;*/
-        /*background: #fbfbfc;*/
-        /*border: 1px solid #E4E7ED;*/
-        .vuetable-pagination-info.left.floated.left.aligned.six.wide.column {
+
+        .table-parent {
+            padding: 20px 10px 5px 10px;
+
+            .my-table {
+                margin: 0 auto;
+                border-collapse: collapse;
+                text-align: left;
+
+                th, td {
+                    border: solid #E4E7ED 1px;
+                    padding: 8px 15px;
+                }
+
+                th:first-child, td:first-child {
+                    text-align: center;
+                }
+                th {
+                    background: #e9e8ea;
+                }
+
+                tr:hover {
+                    background: #e9e8ea;
+                    opacity: 0.7;
+                }
+            }
+        }
+
+        .vuetable-pagination-info {
             padding: 20px 0;
             text-align: center;
             width: 100%;
         }
 
+        .select-parent.st2 {
+            display: flex;
+            justify-content: flex-end;
+
+            select.ui.simple.dropdown {
+                border: solid 1px #E4E7ED;
+                border-radius: 2px;
+                padding: 7px;
+                background: #fefefe;
+                margin-top: 2px;
+            }
+        }
+
         .pagination {
             justify-content: center;
             display: flex;
+
             a {
                 padding: 5px 10px;
                 border: 1px solid #ddd;

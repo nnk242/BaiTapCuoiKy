@@ -35,6 +35,21 @@ export default {
         logout: 'Đăng xuất',
         changePassword: 'Đổi mật khẩu'
     },
+    table: {
+        filterBar: {
+            search: {
+                title: 'Tìm kiếm',
+                placeholder: 'Tìm kiếm...'
+            }
+        },
+        pagination: {
+            displaying: 'Hiển thị',
+            to: 'đến',
+            of: 'của',
+            items: 'mục'
+        }
+    },
+
     notfound: {
         home: 'Trang chủ',
         title: 'Trang của bạn truy cập không tồn tại!',

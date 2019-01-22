@@ -35,6 +35,20 @@ export default {
         logout: 'Log Out',
         changePassword: 'Change password'
     },
+    table: {
+        filterBar: {
+            search: {
+                title: 'Search',
+                placeholder: 'Search...'
+            },
+            pagination: {
+                displaying: 'Displaying',
+                to: 'to',
+                of: 'of',
+                items: 'items'
+            }
+        }
+    },
     notfound: {
         home: 'Home',
         title: 'Page notfound!',

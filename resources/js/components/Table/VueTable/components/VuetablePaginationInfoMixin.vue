@@ -12,7 +12,7 @@
             infoTemplate: {
                 type: String,
                 default() {
-                    return "Displaying {from} to {to} of {total} items"
+                    return this.$t('table.pagination.displaying') + " {from} " + this.$t('table.pagination.to') + " {to} " + this.$t('table.pagination.of') + " {total} " + this.$t('table.pagination.items')
                 }
             },
             noDataTemplate: {

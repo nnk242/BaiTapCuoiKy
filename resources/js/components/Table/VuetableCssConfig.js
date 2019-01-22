@@ -1,6 +1,6 @@
 export default {
 	table: {
-		tableClass: 'table table-striped table-bordered',
+		tableClass: 'my-table',
 		ascendingIcon: 'fas fa-angle-up',
 		descendingIcon: 'fas fa-angle-down',
 		handleIcon: 'fas fa-bars',
