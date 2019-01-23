@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Component\DataTable;
 use App\Distributor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 
 class DistributorController extends Controller
 {
@@ -27,41 +27,8 @@ class DistributorController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->get_simple_all){
-            return $this->model()::select('id', 'name_distributors')->get();
-        }
-
-        if($request->per_page && $request->per_page > 0 && $request->per_page < 200){
-            $per_page = (int)$request->per_page;
-        }else{
-            $per_page = 10;
-        }
-        $first = 0;
-
-        // order
-        if($request->sort){
-            $order_handle = explode('|',$request->sort);
-            $list = $this->model()::orderBy($order_handle[0], $order_handle[1]);
-            $first = 1;
-        }
-
-        // search.
-        if($request->filter){
-            if($first == 1){
-                $list = $list->where('name_distributors', 'LIKE', "%$request->filter%");
-            }else{
-                $list = $this->model()::where('name_distributors', 'LIKE', "%$request->filter%");
-            }
-            $first = 1;
-        }
-
-        if($first == 1){
-            $list = $list->paginate($per_page);
-        }else{
-            $list =  $this->model()::paginate($per_page);
-        }
-
-        return $list;
+        $dt = new DataTable();
+        return $dt->dataTable($this->model(), $request, 'name_distributors', array('id', 'name_distributors', 'phone', 'image'));
     }
 
     /**

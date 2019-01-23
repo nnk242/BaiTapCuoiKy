@@ -4256,7 +4256,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_events__WEBPACK_IMPORTED_MODU
       return value == null ? '' : moment__WEBPACK_IMPORTED_MODULE_4___default()(value, 'YYYY-MM-DD').format(fmt);
     },
     viewImage: function viewImage(value) {
-      return '<img src=' + value + ' alt="" style="width: 100px" />';
+      return '<img src=' + value + ' alt="" style="width: 40px" />';
     },
     // pagination
     onPaginationData: function onPaginationData(paginationData) {
@@ -96234,6 +96234,14 @@ __webpack_require__.r(__webpack_exports__);
       success: 'Update info success',
       error: 'Update info fail'
     }
+  },
+  fieldDefs: {
+    actionDelete: {
+      title: 'Warning',
+      content: 'This will permanently delete the file. Continue?',
+      success: 'Delete completed',
+      cancel: 'Delete canceled'
+    }
   }
 });
 
@@ -96413,6 +96421,14 @@ __webpack_require__.r(__webpack_exports__);
       },
       success: 'Cập nhật thông tin tài khoản thành công',
       error: 'Cập nhật thông tin thất bại'
+    }
+  },
+  fieldDefs: {
+    actionDelete: {
+      title: 'Cảnh báo!',
+      content: 'Bạn có muốn xóa dự liệu này...',
+      success: 'Xóa thành công!',
+      cancel: 'Hành động đã hủy'
     }
   }
 });
@@ -96702,22 +96718,14 @@ __webpack_require__.r(__webpack_exports__);
 }, {
   path: '/admin/distributor',
   component: _views_backend_layout__WEBPACK_IMPORTED_MODULE_0__["default"],
-  redirect: '/admin/distributor/index',
-  alwaysShow: true,
-  // will always show the root menu
-  meta: {
-    title: 'distributor',
-    icon: 'fas fa-dolly-flatbed',
-    roles: ['admin', 'staff'] // you can set roles in root nav
-
-  },
   children: [{
-    path: 'index',
+    path: '/admin/distributor',
     component: _views_backend_distributor__WEBPACK_IMPORTED_MODULE_3__["default"],
     name: 'DistributorIndex',
     meta: {
-      title: 'distributorIndex',
-      roles: _roles__WEBPACK_IMPORTED_MODULE_4__["ROLE_ADMIN_STAFF"] // or you can only set roles in sub nav
+      title: 'distributor',
+      icon: 'fas fa-dolly-flatbed',
+      roles: _roles__WEBPACK_IMPORTED_MODULE_4__["ROLE_STAFF"] // you can set roles in root nav
 
     }
   }]
@@ -97935,36 +97943,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('custom-actions', {
-  template: ['<div>', '<button class="ui red button" @click="onClick(\'view-item\', rowData)"><i class="fas fa-eye"></i></button>', '<button class="ui blue button" @click="onClick(\'edit-item\', rowData)"><i class="fas fa-edit"></i></button>', '<button class="ui green button" @click="onClick(\'delete-item\', rowData)"><i class="fas fa-trash-alt"></i></button>', '</div>'].join(''),
+  template: ['<div>', '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>', '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>', '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size"></el-button>', '</div>'].join(''),
   props: {
     rowData: {
       type: Object,
       required: true
     }
   },
+  data: function data() {
+    return {
+      size: 'mini'
+    };
+  },
   methods: {
     onClick: function onClick(action, data) {
       console.log(action, data.id);
+    },
+    actionDelete: function actionDelete(data) {
+      var _this = this;
+
+      this.$confirm(this.$t('fieldDefs.actionDelete.content'), this.$t('fieldDefs.actionDelete.title'), {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      }).then(function () {
+        _this.$message({
+          type: 'success',
+          message: 'Delete completed'
+        });
+      }).catch(function () {
+        _this.$message({
+          type: 'info',
+          message: _this.$t('fieldDefs.actionDelete.cancel')
+        });
+      });
     }
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = ([{
   name: '__sequence',
   // <----
-  title: '#',
-  titleClass: 'center aligned',
-  dataClass: 'right aligned'
+  title: '#'
 }, {
   name: 'name_distributors',
   sortField: 'name_distributors',
   direction: 'asc',
-  title: 'test'
+  title: 'Distributor'
+}, {
+  name: 'image',
+  title: 'image',
+  callback: 'viewImage'
+}, {
+  name: 'phone',
+  sortField: 'name_distributors',
+  direction: 'asc',
+  title: 'Number phone'
 }, {
   name: '__component:custom-actions',
   // <----
-  title: 'Actions',
-  titleClass: 'center aligned',
-  dataClass: 'center aligned max-w-100'
+  title: 'Actions'
 }]);
 
 /***/ }),

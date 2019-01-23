@@ -121,5 +121,13 @@ export default {
             success: 'Cập nhật thông tin tài khoản thành công',
             error: 'Cập nhật thông tin thất bại',
         }
+    },
+    fieldDefs: {
+        actionDelete: {
+            title: 'Cảnh báo!',
+            content: 'Bạn có muốn xóa dự liệu này...',
+            success: 'Xóa thành công!',
+            cancel: 'Hành động đã hủy'
+        }
     }
 }

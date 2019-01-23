@@ -3,9 +3,9 @@ import Vue from 'vue'
 Vue.component('custom-actions', {
     template: [
         '<div>',
-        '<button class="ui red button" @click="onClick(\'view-item\', rowData)"><i class="fas fa-eye"></i></button>',
-        '<button class="ui blue button" @click="onClick(\'edit-item\', rowData)"><i class="fas fa-edit"></i></button>',
-        '<button class="ui green button" @click="onClick(\'delete-item\', rowData)"><i class="fas fa-trash-alt"></i></button>',
+        '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
+        '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>',
+        '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size"></el-button>',
         '</div>'
     ].join(''),
     props: {
@@ -14,30 +14,60 @@ Vue.component('custom-actions', {
             required: true
         }
     },
+    data() {
+        return {
+            size: 'mini'
+        }
+    },
     methods: {
         onClick(action, data) {
             console.log(action, data.id)
         },
+        actionDelete(data) {
+            this.$confirm(this.$t('fieldDefs.actionDelete.content'), this.$t('fieldDefs.actionDelete.title'), {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: 'Delete completed'
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: this.$t('fieldDefs.actionDelete.cancel')
+                });
+            });
+
+        }
     }
 })
 export default [
     {
         name: '__sequence',   // <----
         title: '#',
-        titleClass: 'center aligned',
-        dataClass: 'right aligned'
     },
     {
         name: 'name_distributors',
         sortField: 'name_distributors',
         direction: 'asc',
-        title: 'test'
+        title: 'Distributor'
+    },
+    {
+        name: 'image',
+        title: 'image',
+        callback: 'viewImage'
+    },
+    {
+        name: 'phone',
+        sortField: 'name_distributors',
+        direction: 'asc',
+        title: 'Number phone'
     },
     {
         name: '__component:custom-actions',   // <----
-        title: 'Actions',
-        titleClass: 'center aligned',
-        dataClass: 'center aligned max-w-100'
+        title: 'Actions'
     }
 ]
 

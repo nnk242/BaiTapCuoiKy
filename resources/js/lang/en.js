@@ -120,5 +120,13 @@ export default {
             success: 'Update info success',
             error: 'Update info fail'
         }
+    },
+    fieldDefs: {
+        actionDelete: {
+            title: 'Warning',
+            content: 'This will permanently delete the file. Continue?',
+            success: 'Delete completed',
+            cancel: 'Delete canceled'
+        }
     }
 }

@@ -66,21 +66,15 @@ export default [
     {
         path: '/admin/distributor',
         component: Layout,
-        redirect: '/admin/distributor/index',
-        alwaysShow: true, // will always show the root menu
-        meta: {
-            title: 'distributor',
-            icon: 'fas fa-dolly-flatbed',
-            roles: ['admin', 'staff'] // you can set roles in root nav
-        },
         children: [
             {
-                path: 'index',
+                path: '/admin/distributor',
                 component: distributorIndex,
                 name: 'DistributorIndex',
                 meta: {
-                    title: 'distributorIndex',
-                    roles: ROLE_ADMIN_STAFF // or you can only set roles in sub nav
+                    title: 'distributor',
+                    icon: 'fas fa-dolly-flatbed',
+                    roles: ROLE_STAFF// you can set roles in root nav
                 }
             }
         ]

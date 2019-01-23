@@ -152,7 +152,7 @@
                     : moment(value, 'YYYY-MM-DD').format(fmt)
             },
             viewImage: function (value) {
-                return '<img src=' + value + ' alt="" style="width: 100px" />';
+                return '<img src=' + value + ' alt="" style="width: 40px" />';
             },
 
             // pagination
