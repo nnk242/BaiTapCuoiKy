@@ -1,16 +1,18 @@
 <template>
     <div class="filter-bar">
-        <div class="inline field">
-            <label class="hidden">{{$t('table.filterBar.search.title')}}: </label>
-            <input type="text" v-model="filterText" class="three wide column" @keyup.enter="doFilter"
+        <div class="text-center">
+            <label>{{$t('table.filterBar.search.title')}}: </label>
+            <input type="text" v-model="filterText" @keyup.enter="doFilter"
                    :placeholder="$t('table.filterBar.search.placeholder')">
-            <button class="ui primary button hidden" @click="doFilter">{{$t('table.filterBar.search.title')}}</button>
-            <button class="ui button hidden" @click="resetFilter">Reset</button>
+            <el-button type="primary" @click="doFilter">{{$t('table.filterBar.search.title')}}</el-button>
+            <el-button @click="resetFilter">Reset</el-button>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+
     export default {
         data() {
             return {
@@ -34,7 +36,7 @@
 <style lang="scss" scoped>
     .filter-bar {
         float: left;
-
+        margin-bottom: 10px;
         label {
             font-weight: bold;
         }
@@ -46,34 +48,12 @@
             outline: none;
             padding: 0px 10px;
             min-width: 230px;
-            margin: 0px 0px 0px 10px;
+            margin: 0px 10px 10px 10px;
 
             &:focus {
                 border-color: #cad5fe;
             }
         }
 
-        .button {
-            background: #5bc0de;
-            border: 1px solid #5bc0de;
-            line-height: 30px;
-            padding: 0px 15px;
-            border-radius: 3px;
-            color: #fff;
-            margin: 0px 4px;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .button.primary {
-            background: #fff;
-            border: 1px solid #ddd;
-            line-height: 30px;
-            padding: 0px 15px;
-            border-radius: 3px;
-            color: #5bcbec;
-            outline: none;
-            cursor: pointer;
-        }
     }
 </style>

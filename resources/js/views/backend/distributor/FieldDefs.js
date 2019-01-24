@@ -66,6 +66,12 @@ export default [
         title: 'Number phone'
     },
     {
+        name: 'phone',
+        sortField: 'name_distributors',
+        direction: 'asc',
+        title: 'Number phone'
+    },
+    {
         name: '__component:custom-actions',   // <----
         title: 'Actions'
     }

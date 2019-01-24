@@ -5,12 +5,12 @@
         </div>
 
         <el-row :gutter="20">
-            <el-col :span="16">
+            <el-col :span="device!=='mobile'?16:24">
                 <slot name="btn-add"></slot>
                 <filter-bar></filter-bar>
             </el-col>
 
-            <el-col :span="8">
+            <el-col :span="device!=='mobile'?8:24">
                 <div class="select-parent st2">
                     <select class="ui simple dropdown" @change="perPageDropdown" v-model="perPageDropdownValue">
                         <option value='10'>10</option>
@@ -68,13 +68,14 @@
     //// use vue-event
     import Vue from 'vue'
     import VueEvents from 'vue-events'
+    import {mapGetters} from 'vuex'
     ////
-
     import {VuetablePagination, VuetablePaginationInfo, Vuetable} from './VueTable'
     import accounting from 'accounting'
     import moment from 'moment'
     import FilterBar from './FilterBar'
     import CssConfig from './VuetableCssConfig.js'
+    import {Loading} from 'element-ui'
 
     //// use vue-event
     Vue.use(VueEvents)
@@ -125,6 +126,12 @@
             detailRowComponent: {
                 type: String
             }
+        },
+
+        computed: {
+            ...mapGetters([
+                'device'
+            ])
         },
 
         //// use vue-event
@@ -246,10 +253,11 @@
 
 <style lang="scss">
     .data-table-wp {
-        margin: 44px;
+        margin: 33px;
 
         .table-parent {
             padding: 20px 10px 5px 10px;
+            overflow: auto;
 
             .my-table {
                 margin: 0 auto;
@@ -282,8 +290,7 @@
         }
 
         .select-parent.st2 {
-            display: flex;
-            justify-content: flex-end;
+            text-align: right;
 
             select.ui.simple.dropdown {
                 border: solid 1px #E4E7ED;
