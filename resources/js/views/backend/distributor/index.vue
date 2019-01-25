@@ -7,9 +7,10 @@
             :append-params="moreParams"
         >
             <div slot="btn-add">
-                <router-link to="{ name: 'blog_category.create' }" tag="a" class="add-new-item-table">
-                    <span></span>
-                </router-link>
+                <el-button type="primary">test</el-button>
+                <!--<router-link to="{ name: 'blog_category.create' }" tag="a" class="add-new-item-table">-->
+                    <!--<span></span>-->
+                <!--</router-link>-->
             </div>
         </my-vuetable>
     </div>

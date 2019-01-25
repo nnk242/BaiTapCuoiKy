@@ -4052,7 +4052,6 @@ var tagAndTagSpacing = 4; // tagAndTagSpacing
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -4065,7 +4064,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4109,8 +4107,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _FilterBar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./FilterBar */ "./resources/js/components/Table/FilterBar.vue");
 /* harmony import */ var _VuetableCssConfig_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./VuetableCssConfig.js */ "./resources/js/components/Table/VuetableCssConfig.js");
-/* harmony import */ var element_ui__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! element-ui */ "./node_modules/element-ui/lib/element-ui.common.js");
-/* harmony import */ var element_ui__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(element_ui__WEBPACK_IMPORTED_MODULE_8__);
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4180,11 +4176,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 //// use vue-event
 
 
  ////
-
 
 
 
@@ -4812,7 +4809,7 @@ __webpack_require__.r(__webpack_exports__);
     noDataTemplate: {
       type: String,
       default: function _default() {
-        return 'No Data Available';
+        return '<i class="el-icon-loading"></i><br />' + this.$t('table.data.noData');
       }
     },
     showSortIcons: {
@@ -5731,7 +5728,7 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       default: function _default() {
         return {
-          infoClass: 'left floated left aligned six wide column'
+          infoClass: this.$t('table.infoClass')
         };
       }
     },
@@ -5744,7 +5741,7 @@ __webpack_require__.r(__webpack_exports__);
     noDataTemplate: {
       type: String,
       default: function _default() {
-        return 'No relevant data';
+        return this.$t('table.data.noRelevant');
       }
     }
   },
@@ -6295,6 +6292,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Table_MyVuetable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../components/Table/MyVuetable */ "./resources/js/components/Table/MyVuetable.vue");
 /* harmony import */ var _FieldDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FieldDefs */ "./resources/js/views/backend/distributor/FieldDefs.js");
+//
 //
 //
 //
@@ -9164,7 +9162,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".data-table-wp {\n  margin: 33px;\n}\n.data-table-wp .table-parent {\n  padding: 20px 10px 5px 10px;\n  overflow: auto;\n}\n.data-table-wp .table-parent .my-table {\n  margin: 0 auto;\n  border-collapse: collapse;\n  text-align: left;\n}\n.data-table-wp .table-parent .my-table th, .data-table-wp .table-parent .my-table td {\n  border: solid #E4E7ED 1px;\n  padding: 8px 15px;\n}\n.data-table-wp .table-parent .my-table th:first-child, .data-table-wp .table-parent .my-table td:first-child {\n  text-align: center;\n}\n.data-table-wp .table-parent .my-table th {\n  background: #e9e8ea;\n}\n.data-table-wp .table-parent .my-table tr:hover {\n  background: #e9e8ea;\n  opacity: 0.7;\n}\n.data-table-wp .vuetable-pagination-info {\n  padding: 20px 0;\n  text-align: center;\n  width: 100%;\n}\n.data-table-wp .select-parent.st2 {\n  text-align: right;\n}\n.data-table-wp .select-parent.st2 select.ui.simple.dropdown {\n  border: solid 1px #E4E7ED;\n  border-radius: 2px;\n  padding: 7px;\n  background: #fefefe;\n  margin-top: 2px;\n}\n.data-table-wp .pagination {\n  justify-content: center;\n  display: flex;\n}\n.data-table-wp .pagination a {\n  padding: 5px 10px;\n  border: 1px solid #ddd;\n  text-decoration: none;\n  border-radius: 2px;\n  color: #101010;\n  font-size: 13px;\n  margin-left: 6px;\n  cursor: pointer;\n}\n.data-table-wp .pagination a:hover {\n  border-color: #1d89cf;\n}\n.data-table-wp .pagination a.disabled {\n  background: #eeecec;\n  pointer-events: none;\n  cursor: default;\n}\n.data-table-wp .pagination a.btn-primary {\n  background: #1d89cf;\n  color: #fff;\n  border-color: #1d89cf;\n  pointer-events: none;\n}\n.data-table-wp .vuetable-pagination-info {\n  float: left;\n  padding-left: 20px;\n}", ""]);
+exports.push([module.i, ".data-table-wp {\n  margin: 33px;\n}\n.data-table-wp .mgb-10px {\n  margin-bottom: 10px;\n}\n.data-table-wp .table-parent {\n  padding: 20px 10px 5px 10px;\n  overflow: auto;\n}\n.data-table-wp .table-parent .my-table {\n  margin: 0 auto;\n  border-collapse: collapse;\n  text-align: left;\n}\n.data-table-wp .table-parent .my-table th, .data-table-wp .table-parent .my-table td {\n  border: solid #E4E7ED 1px;\n  padding: 8px 15px;\n}\n.data-table-wp .table-parent .my-table th:first-child, .data-table-wp .table-parent .my-table td:first-child, .data-table-wp .table-parent .my-table td:last-child {\n  text-align: center;\n}\n.data-table-wp .table-parent .my-table th {\n  background: #e9e8ea;\n}\n.data-table-wp .table-parent .my-table tr:hover {\n  background: #e9e8ea;\n  opacity: 0.7;\n}\n.data-table-wp .vuetable-pagination-info {\n  padding: 20px 0;\n  text-align: center;\n  width: 100%;\n}\n.data-table-wp .select-parent.st2 {\n  text-align: right;\n}\n.data-table-wp .select-parent.st2 select.ui.simple.dropdown {\n  border: solid 1px #E4E7ED;\n  border-radius: 2px;\n  padding: 7px;\n  background: #fefefe;\n  margin-top: 2px;\n}\n.data-table-wp .pagination {\n  justify-content: center;\n  display: flex;\n}\n.data-table-wp .pagination a {\n  padding: 5px 10px;\n  border: 1px solid #ddd;\n  text-decoration: none;\n  border-radius: 2px;\n  color: #101010;\n  font-size: 13px;\n  margin-left: 6px;\n  cursor: pointer;\n}\n.data-table-wp .pagination a:hover {\n  border-color: #1d89cf;\n}\n.data-table-wp .pagination a.disabled {\n  background: #eeecec;\n  pointer-events: none;\n  cursor: default;\n}\n.data-table-wp .pagination a.btn-primary {\n  background: #1d89cf;\n  color: #fff;\n  border-color: #1d89cf;\n  pointer-events: none;\n}\n.data-table-wp .vuetable-pagination-info {\n  float: left;\n  padding-left: 20px;\n}", ""]);
 
 // exports
 
@@ -9450,7 +9448,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -77245,9 +77243,16 @@ var render = function() {
         [
           _c(
             "el-col",
-            { attrs: { span: _vm.device !== "mobile" ? 16 : 24 } },
-            [_vm._t("btn-add"), _vm._v(" "), _c("filter-bar")],
+            { staticClass: "mgb-10px", attrs: { span: 24 } },
+            [_vm._t("btn-add")],
             2
+          ),
+          _vm._v(" "),
+          _c(
+            "el-col",
+            { attrs: { span: _vm.device !== "mobile" ? 16 : 24 } },
+            [_c("filter-bar")],
+            1
           ),
           _vm._v(" "),
           _c("el-col", { attrs: { span: _vm.device !== "mobile" ? 8 : 24 } }, [
@@ -79135,16 +79140,7 @@ var render = function() {
           _c(
             "div",
             { attrs: { slot: "btn-add" }, slot: "btn-add" },
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "add-new-item-table",
-                  attrs: { to: "{ name: 'blog_category.create' }", tag: "a" }
-                },
-                [_c("span")]
-              )
-            ],
+            [_c("el-button", { attrs: { type: "primary" } }, [_vm._v("test")])],
             1
           )
         ]
@@ -94832,6 +94828,32 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/api/TOKEN.js":
+/*!***********************************!*\
+  !*** ./resources/js/api/TOKEN.js ***!
+  \***********************************/
+/*! exports provided: token_type, TOKEN, token_full */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "token_type", function() { return token_type; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOKEN", function() { return TOKEN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "token_full", function() { return token_full; });
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
+
+function token_type() {
+  return _store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.token_type.trim();
+}
+function TOKEN() {
+  return _store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.token.trim();
+}
+function token_full() {
+  return _store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.token_type.trim() + ' ' + _store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.token.trim();
+}
+
+/***/ }),
+
 /***/ "./resources/js/api/auth.js":
 /*!**********************************!*\
   !*** ./resources/js/api/auth.js ***!
@@ -94847,38 +94869,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changePassword", function() { return changePassword; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUserInfo", function() { return updateUserInfo; });
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
+/* harmony import */ var _TOKEN__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TOKEN */ "./resources/js/api/TOKEN.js");
 
 
-
-function full_token() {
-  return (_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.token_type + ' ' + _store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.token).trim();
-}
-
+var url = 'api/auth/';
 function getUserInfo() {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: 'api/auth/getUserInfo',
+    url: url + 'getUserInfo',
     method: 'GET',
     headers: {
-      Authorization: full_token()
+      Authorization: Object(_TOKEN__WEBPACK_IMPORTED_MODULE_1__["token_full"])()
     }
   });
 }
 function logout() {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: 'api/auth/logout',
+    url: url + 'logout',
     method: 'GET',
     headers: {
-      Authorization: full_token()
+      Authorization: Object(_TOKEN__WEBPACK_IMPORTED_MODULE_1__["token_full"])()
     }
   });
 }
 function checkPassword(old_password) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: 'api/auth/checkPassword',
+    url: url + 'checkPassword',
     method: 'POST',
     headers: {
-      Authorization: full_token()
+      Authorization: Object(_TOKEN__WEBPACK_IMPORTED_MODULE_1__["token_full"])()
     },
     data: {
       password: old_password
@@ -94891,20 +94909,20 @@ function changePassword(old_password, new_password) {
     new_password: new_password
   };
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: 'api/auth/changePassword',
+    url: url + 'changePassword',
     method: 'PUT',
     headers: {
-      Authorization: full_token()
+      Authorization: Object(_TOKEN__WEBPACK_IMPORTED_MODULE_1__["token_full"])()
     },
     data: data
   });
 }
 function updateUserInfo(data) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: 'api/auth/updateUserInfo',
+    url: url + 'updateUserInfo',
     method: 'PUT',
     headers: {
-      Authorization: full_token()
+      Authorization: Object(_TOKEN__WEBPACK_IMPORTED_MODULE_1__["token_full"])()
     },
     data: data
   });
@@ -96169,7 +96187,12 @@ __webpack_require__.r(__webpack_exports__);
         to: 'to',
         of: 'of',
         items: 'items'
-      }
+      },
+      data: {
+        noData: 'No Data Available',
+        noRelevant: 'No relevant data'
+      },
+      infoClass: 'Left floated left aligned six wide column'
     }
   },
   notfound: {
@@ -96206,7 +96229,8 @@ __webpack_require__.r(__webpack_exports__);
     changePassword: 'Change password',
     accountbe: 'Account',
     distributor: 'Distributor',
-    distributorIndex: 'View distributor'
+    distributorActive: 'Providing',
+    distributorDeleted: 'Stop providing'
   },
   account: {
     title: 'Account',
@@ -96358,7 +96382,12 @@ __webpack_require__.r(__webpack_exports__);
       to: 'đến',
       of: 'của',
       items: 'mục'
-    }
+    },
+    data: {
+      noData: 'Chưa có dữ liệu',
+      noRelevant: 'Chưa có dữ liệu liên quan'
+    },
+    infoClass: 'Bên trái nổi trái thẳng hàng sáu cột rộng'
   },
   notfound: {
     home: 'Trang chủ',
@@ -96394,7 +96423,8 @@ __webpack_require__.r(__webpack_exports__);
     changePassword: 'Đổi mật khẩu',
     accountbe: 'Tài khoản',
     distributor: 'Nhà phân phối',
-    distributorIndex: 'Xem nhà phân phối'
+    distributorActive: 'Đang cung cấp',
+    distributorDeleted: 'Ngưng cung cấp'
   },
   account: {
     title: 'Thông tin tài khoản',
@@ -96719,7 +96749,7 @@ __webpack_require__.r(__webpack_exports__);
     name: 'staff',
     meta: {
       title: 'staff',
-      icon: 'fas fa-tachometer-alt test',
+      icon: 'fas fa-tachometer-alt',
       noCache: true,
       roles: _roles__WEBPACK_IMPORTED_MODULE_4__["ROLE_STAFF"]
     }
@@ -96727,14 +96757,31 @@ __webpack_require__.r(__webpack_exports__);
 }, {
   path: '/admin/distributor',
   component: _views_backend_layout__WEBPACK_IMPORTED_MODULE_0__["default"],
+  // redirect: '/admin/distributor/active',
+  alwaysShow: true,
+  // will always show the root menu
+  meta: {
+    title: 'distributor',
+    icon: 'fas fa-dolly-flatbed',
+    roles: _roles__WEBPACK_IMPORTED_MODULE_4__["ROLE_ADMIN_STAFF"] // you can set roles in root nav
+
+  },
   children: [{
-    path: '/admin/distributor',
+    path: 'active',
     component: _views_backend_distributor__WEBPACK_IMPORTED_MODULE_3__["default"],
-    name: 'DistributorIndex',
+    name: 'DistributorActive',
     meta: {
-      title: 'distributor',
-      icon: 'fas fa-dolly-flatbed',
-      roles: _roles__WEBPACK_IMPORTED_MODULE_4__["ROLE_STAFF"] // you can set roles in root nav
+      title: 'distributorActive',
+      roles: _roles__WEBPACK_IMPORTED_MODULE_4__["ROLE_ADMIN_STAFF"] // or you can only set roles in sub nav
+
+    }
+  }, {
+    path: 'deleted',
+    component: _views_backend_distributor__WEBPACK_IMPORTED_MODULE_3__["default"],
+    name: 'DistributorDeleted',
+    meta: {
+      title: 'distributorDeleted',
+      roles: _roles__WEBPACK_IMPORTED_MODULE_4__["ROLE_ADMIN_STAFF"] // or you can only set roles in sub nav
 
     }
   }]
@@ -98004,14 +98051,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('custom-actions', {
   callback: 'viewImage'
 }, {
   name: 'phone',
-  sortField: 'name_distributors',
+  sortField: 'phone',
   direction: 'asc',
   title: 'Number phone'
 }, {
-  name: 'phone',
-  sortField: 'name_distributors',
+  name: 'address',
+  sortField: 'address',
   direction: 'asc',
-  title: 'Number phone'
+  title: 'Address'
+}, {
+  name: 'description',
+  title: 'Description'
 }, {
   name: '__component:custom-actions',
   // <----

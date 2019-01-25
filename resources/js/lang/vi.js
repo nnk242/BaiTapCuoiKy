@@ -47,7 +47,12 @@ export default {
             to: 'đến',
             of: 'của',
             items: 'mục'
-        }
+        },
+        data: {
+            noData: 'Chưa có dữ liệu',
+            noRelevant: 'Chưa có dữ liệu liên quan'
+        },
+        infoClass: 'Bên trái nổi trái thẳng hàng sáu cột rộng'
     },
 
     notfound: {
@@ -84,7 +89,8 @@ export default {
         changePassword: 'Đổi mật khẩu',
         accountbe: 'Tài khoản',
         distributor: 'Nhà phân phối',
-        distributorIndex: 'Xem nhà phân phối'
+        distributorActive: 'Đang cung cấp',
+        distributorDeleted: 'Ngưng cung cấp'
     },
     account: {
         title: 'Thông tin tài khoản',

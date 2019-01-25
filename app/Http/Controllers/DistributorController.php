@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Component\DataTable;
 use App\Distributor;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class DistributorController extends Controller
 {
@@ -60,6 +60,16 @@ class DistributorController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -73,23 +83,33 @@ class DistributorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Distributor $distributor
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Distributor $distributor)
     {
         //
-        return response()->json(null, 500);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Distributor $distributor
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Distributor $distributor)
+    {
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \App\Distributor $distributor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Distributor $distributor)
     {
         //
     }
@@ -97,12 +117,12 @@ class DistributorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \App\Distributor $distributor
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
-        return response()->json(['message' => $id]);
+        return $id;
     }
 }

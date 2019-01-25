@@ -32,6 +32,11 @@ Route::group(['prefix' => 'auth', 'namespace' => 'API', 'middleware' => 'api'], 
     Route::get('/', 'AuthController@index');
 });
 
-Route::group(['prefix' => 'distributor', 'namespace' => 'API', 'middleware' => 'api'], function () {
-    Route::get('/', 'DistributorController@index');
+Route::group(['namespace' => 'API', 'middleware' => 'api'], function () {
+//    Route::apiResource('/', 'DistributorController');
+//    Route::get('/test', 'DistributorController@test');
+    Route::apiResources([
+        'distributor' => 'DistributorController',
+//        'posts' => 'PostController'
+    ]);
 });

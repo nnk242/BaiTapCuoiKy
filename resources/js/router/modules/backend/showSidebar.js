@@ -59,24 +59,39 @@ export default [
                 path: '/admin/staff',
                 component: testView,
                 name: 'staff',
-                meta: {title: 'staff', icon: 'fas fa-tachometer-alt test', noCache: true, roles: ROLE_STAFF}
+                meta: {title: 'staff', icon: 'fas fa-tachometer-alt', noCache: true, roles: ROLE_STAFF}
             }
         ]
     },
     {
         path: '/admin/distributor',
         component: Layout,
+        // redirect: '/admin/distributor/active',
+        alwaysShow: true, // will always show the root menu
+        meta: {
+            title: 'distributor',
+            icon: 'fas fa-dolly-flatbed',
+            roles: ROLE_ADMIN_STAFF // you can set roles in root nav
+        },
         children: [
             {
-                path: '/admin/distributor',
+                path: 'active',
                 component: distributorIndex,
-                name: 'DistributorIndex',
+                name: 'DistributorActive',
                 meta: {
-                    title: 'distributor',
-                    icon: 'fas fa-dolly-flatbed',
-                    roles: ROLE_STAFF// you can set roles in root nav
+                    title: 'distributorActive',
+                    roles: ROLE_ADMIN_STAFF // or you can only set roles in sub nav
+                }
+            },
+            {
+                path: 'deleted',
+                component: distributorIndex,
+                name: 'DistributorDeleted',
+                meta: {
+                    title: 'distributorDeleted',
+                    roles: ROLE_ADMIN_STAFF // or you can only set roles in sub nav
                 }
             }
         ]
-    }
+    },
 ]

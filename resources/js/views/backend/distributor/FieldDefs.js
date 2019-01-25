@@ -3,9 +3,9 @@ import Vue from 'vue'
 Vue.component('custom-actions', {
     template: [
         '<div>',
-        '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
-        '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>',
-        '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size"></el-button>',
+            '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
+            '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>',
+            '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size"></el-button>',
         '</div>'
     ].join(''),
     props: {
@@ -29,6 +29,7 @@ Vue.component('custom-actions', {
                 cancelButtonText: 'Cancel',
                 type: 'warning'
             }).then(() => {
+
                 this.$message({
                     type: 'success',
                     message: 'Delete completed'
@@ -39,10 +40,10 @@ Vue.component('custom-actions', {
                     message: this.$t('fieldDefs.actionDelete.cancel')
                 });
             });
-
         }
     }
 })
+
 export default [
     {
         name: '__sequence',   // <----
@@ -61,15 +62,19 @@ export default [
     },
     {
         name: 'phone',
-        sortField: 'name_distributors',
+        sortField: 'phone',
         direction: 'asc',
         title: 'Number phone'
     },
     {
-        name: 'phone',
-        sortField: 'name_distributors',
+        name: 'address',
+        sortField: 'address',
         direction: 'asc',
-        title: 'Number phone'
+        title: 'Address'
+    },
+    {
+        name: 'description',
+        title: 'Description'
     },
     {
         name: '__component:custom-actions',   // <----

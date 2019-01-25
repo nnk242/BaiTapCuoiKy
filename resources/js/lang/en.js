@@ -46,7 +46,12 @@ export default {
                 to: 'to',
                 of: 'of',
                 items: 'items'
-            }
+            },
+            data: {
+                noData: 'No Data Available',
+                noRelevant: 'No relevant data'
+            },
+            infoClass: 'Left floated left aligned six wide column'
         }
     },
     notfound: {
@@ -83,7 +88,8 @@ export default {
         changePassword: 'Change password',
         accountbe: 'Account',
         distributor: 'Distributor',
-        distributorIndex: 'View distributor'
+        distributorActive: 'Providing',
+        distributorDeleted: 'Stop providing'
     },
     account: {
         title: 'Account',

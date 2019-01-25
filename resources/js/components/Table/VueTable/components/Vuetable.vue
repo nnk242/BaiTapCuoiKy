@@ -436,7 +436,7 @@
             noDataTemplate: {
                 type: String,
                 default() {
-                    return 'No Data Available'
+                    return '<i class="el-icon-loading"></i><br />' + this.$t('table.data.noData')
                 }
             },
             showSortIcons: {

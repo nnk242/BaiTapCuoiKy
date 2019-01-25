@@ -11,8 +11,6 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-
     export default {
         data() {
             return {
@@ -37,6 +35,7 @@
     .filter-bar {
         float: left;
         margin-bottom: 10px;
+
         label {
             font-weight: bold;
         }

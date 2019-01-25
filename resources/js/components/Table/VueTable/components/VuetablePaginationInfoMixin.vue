@@ -5,7 +5,7 @@
                 type: Object,
                 default() {
                     return {
-                        infoClass: 'left floated left aligned six wide column'
+                        infoClass: this.$t('table.infoClass')
                     }
                 }
             },
@@ -18,7 +18,7 @@
             noDataTemplate: {
                 type: String,
                 default() {
-                    return 'No relevant data'
+                    return this.$t('table.data.noRelevant')
                 }
             },
         },

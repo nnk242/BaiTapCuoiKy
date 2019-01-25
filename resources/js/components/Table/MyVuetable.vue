@@ -1,12 +1,14 @@
 <template>
     <div class="data-table-wp">
         <div v-if="loading">
-            <!--<loading-spinner class="mt4" message="Loading..."></loading-spinner>-->
+            <!--<i class="el-icon-loading"></i>-->
         </div>
 
         <el-row :gutter="20">
-            <el-col :span="device!=='mobile'?16:24">
+            <el-col :span="24" class="mgb-10px">
                 <slot name="btn-add"></slot>
+            </el-col>
+            <el-col :span="device!=='mobile'?16:24">
                 <filter-bar></filter-bar>
             </el-col>
 
@@ -75,7 +77,6 @@
     import moment from 'moment'
     import FilterBar from './FilterBar'
     import CssConfig from './VuetableCssConfig.js'
-    import {Loading} from 'element-ui'
 
     //// use vue-event
     Vue.use(VueEvents)
@@ -254,6 +255,9 @@
 <style lang="scss">
     .data-table-wp {
         margin: 33px;
+        .mgb-10px {
+            margin-bottom: 10px;
+        }
 
         .table-parent {
             padding: 20px 10px 5px 10px;
@@ -269,9 +273,10 @@
                     padding: 8px 15px;
                 }
 
-                th:first-child, td:first-child {
+                th:first-child, td:first-child, td:last-child {
                     text-align: center;
                 }
+
                 th {
                     background: #e9e8ea;
                 }

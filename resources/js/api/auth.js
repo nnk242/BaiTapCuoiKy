@@ -1,36 +1,34 @@
 import request from '../utils/request'
-import store from '../store'
+import {token_full} from './TOKEN'
 
-function full_token() {
-    return (store.getters.token_type + ' ' + store.getters.token).trim()
-}
+const url = 'api/auth/'
 
 export function getUserInfo() {
     return request({
-        url: 'api/auth/getUserInfo',
+        url: url + 'getUserInfo',
         method: 'GET',
         headers: {
-            Authorization: full_token()
+            Authorization: token_full()
         }
     })
 }
 
 export function logout() {
     return request({
-        url: 'api/auth/logout',
+        url: url + 'logout',
         method: 'GET',
         headers: {
-            Authorization: full_token()
+            Authorization: token_full()
         }
     })
 }
 
 export function checkPassword(old_password) {
     return request({
-        url: 'api/auth/checkPassword',
+        url: url + 'checkPassword',
         method: 'POST',
         headers: {
-            Authorization: full_token(),
+            Authorization: token_full(),
         },
         data: {
             password: old_password
@@ -41,10 +39,10 @@ export function checkPassword(old_password) {
 export function changePassword(old_password, new_password) {
     const data = {old_password, new_password}
     return request({
-        url: 'api/auth/changePassword',
+        url: url + 'changePassword',
         method: 'PUT',
         headers: {
-            Authorization: full_token(),
+            Authorization: token_full(),
         },
         data
     })
@@ -52,10 +50,10 @@ export function changePassword(old_password, new_password) {
 
 export function updateUserInfo(data) {
     return request({
-        url: 'api/auth/updateUserInfo',
+        url: url + 'updateUserInfo',
         method: 'PUT',
         headers: {
-            Authorization: full_token(),
+            Authorization: token_full(),
         },
         data
     })
