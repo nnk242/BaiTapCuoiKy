@@ -44,4 +44,8 @@ class DataTable
 
         return $list;
     }
+
+    public function destroyItem() {
+
+    }
 }

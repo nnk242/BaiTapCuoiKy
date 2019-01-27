@@ -27,16 +27,10 @@ Route::group(['prefix' => 'auth', 'namespace' => 'API', 'middleware' => 'api'], 
     Route::put('changePassword', 'AuthController@changePassword');//update password
 
     Route::post('uploadAvatar', 'AuthController@uploadAvatar');//change password
-//        ->where('id', '[0-9]+');
-    //test
-    Route::get('/', 'AuthController@index');
 });
 
 Route::group(['namespace' => 'API', 'middleware' => 'api'], function () {
-//    Route::apiResource('/', 'DistributorController');
-//    Route::get('/test', 'DistributorController@test');
     Route::apiResources([
         'distributor' => 'DistributorController',
-//        'posts' => 'PostController'
     ]);
 });

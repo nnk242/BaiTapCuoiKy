@@ -48,6 +48,7 @@
 
                       @vuetable:loaded="onLoaded"
                       @vuetable:loading="onLoading"
+                      :loadingCustom="loading"
             >
             </vuetable>
         </div>
@@ -255,6 +256,7 @@
 <style lang="scss">
     .data-table-wp {
         margin: 33px;
+
         .mgb-10px {
             margin-bottom: 10px;
         }

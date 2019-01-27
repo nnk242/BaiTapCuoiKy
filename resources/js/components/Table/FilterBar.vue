@@ -5,7 +5,7 @@
             <input type="text" v-model="filterText" @keyup.enter="doFilter"
                    :placeholder="$t('table.filterBar.search.placeholder')">
             <el-button type="primary" @click="doFilter">{{$t('table.filterBar.search.title')}}</el-button>
-            <el-button @click="resetFilter">Reset</el-button>
+            <el-button @click="resetFilter" :disabled="disabled">Reset</el-button>
         </div>
     </div>
 </template>
@@ -14,7 +14,8 @@
     export default {
         data() {
             return {
-                filterText: ''
+                filterText: '',
+                disabled: false
             }
         },
         methods: {
@@ -23,8 +24,12 @@
                 this.$events.fire('filter-set', this.filterText)
             },
             resetFilter() {
-                this.filterText = ''  // clear the text in text input
-                this.$events.fire('filter-reset')
+                this.disabled = true
+                setTimeout(()=> {
+                    this.disabled = false
+                    this.filterText = ''  // clear the text in text input
+                    this.$events.fire('filter-reset')
+                }, 500)
             }
             /////
         }

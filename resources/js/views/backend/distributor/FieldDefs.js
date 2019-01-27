@@ -1,11 +1,12 @@
 import Vue from 'vue'
+import * as distributor from '../../../api/distributor'
 
 Vue.component('custom-actions', {
     template: [
         '<div>',
-            '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
-            '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>',
-            '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size"></el-button>',
+        '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
+        '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>',
+        '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size" :disabled="disabled"></el-button>',
         '</div>'
     ].join(''),
     props: {
@@ -16,7 +17,8 @@ Vue.component('custom-actions', {
     },
     data() {
         return {
-            size: 'mini'
+            size: 'mini',
+            disabled: false
         }
     },
     methods: {
@@ -29,17 +31,33 @@ Vue.component('custom-actions', {
                 cancelButtonText: 'Cancel',
                 type: 'warning'
             }).then(() => {
+                this.disabled = true
+                setTimeout(() => {
+                    distributor.destroy(data.id)
+                        .then(response => {
+                            this.$events.fire('filter-reset')
+                            this.$message({
+                                type: 'success',
+                                message: this.$t('fieldDefs.actionDelete.success')
+                            });
+                            this.disabled = false
+                        })
+                        .catch(error => {
+                                this.$message({
+                                    type: 'warning',
+                                    message: this.$t('fieldDefs.actionDelete.error')
+                                });
+                                this.disabled = false
+                            }
+                        )
+                }, 500)
 
-                this.$message({
-                    type: 'success',
-                    message: 'Delete completed'
-                });
-            }).catch(() => {
+            }).catch(error => {
                 this.$message({
                     type: 'info',
                     message: this.$t('fieldDefs.actionDelete.cancel')
-                });
-            });
+                })
+            })
         }
     }
 })

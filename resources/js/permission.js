@@ -42,7 +42,10 @@ router.beforeEach((to, from, next) => {
                     .catch(() => {
                         store.dispatch('fedLogout')
                             .then(() => {
-                                window.location.href = path
+                                if (to.meta.roles) {
+                                    window.location.href = path
+                                } else
+                                    next()
                             })
                     })
             } else {

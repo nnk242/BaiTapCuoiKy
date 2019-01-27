@@ -4067,7 +4067,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      filterText: ''
+      filterText: '',
+      disabled: false
     };
   },
   methods: {
@@ -4076,9 +4077,15 @@ __webpack_require__.r(__webpack_exports__);
       this.$events.fire('filter-set', this.filterText);
     },
     resetFilter: function resetFilter() {
-      this.filterText = ''; // clear the text in text input
+      var _this = this;
 
-      this.$events.fire('filter-reset');
+      this.disabled = true;
+      setTimeout(function () {
+        _this.disabled = false;
+        _this.filterText = ''; // clear the text in text input
+
+        _this.$events.fire('filter-reset');
+      }, 500);
     } /////
 
   }
@@ -4111,6 +4118,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -4638,6 +4646,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* eslint-disable indent */
 
@@ -4813,6 +4839,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     showSortIcons: {
+      type: Boolean,
+      default: true
+    },
+    loadingCustom: {
       type: Boolean,
       default: true
     }
@@ -77203,7 +77233,11 @@ var render = function() {
           [_vm._v(_vm._s(_vm.$t("table.filterBar.search.title")))]
         ),
         _vm._v(" "),
-        _c("el-button", { on: { click: _vm.resetFilter } }, [_vm._v("Reset")])
+        _c(
+          "el-button",
+          { attrs: { disabled: _vm.disabled }, on: { click: _vm.resetFilter } },
+          [_vm._v("Reset")]
+        )
       ],
       1
     )
@@ -77322,7 +77356,8 @@ var render = function() {
               "sort-order": _vm.sortOrder,
               "append-params": _vm.appendParams,
               "detail-row-component": _vm.detailRowComponent,
-              css: _vm.css.table
+              css: _vm.css.table,
+              loadingCustom: _vm.loading
             },
             on: {
               "vuetable:pagination-data": _vm.onPaginationData,
@@ -77600,249 +77635,7 @@ var render = function() {
                   "tbody",
                   { staticClass: "vuetable-body" },
                   [
-                    _vm._l(_vm.tableData, function(item, index) {
-                      return [
-                        _c(
-                          "tr",
-                          {
-                            class: _vm.onRowClass(item, index),
-                            attrs: {
-                              "item-index": index,
-                              render: _vm.onRowChanged(item)
-                            },
-                            on: {
-                              dblclick: function($event) {
-                                _vm.onRowDoubleClicked(item, $event)
-                              },
-                              click: function($event) {
-                                _vm.onRowClicked(item, $event)
-                              }
-                            }
-                          },
-                          [
-                            _vm._l(_vm.tableFields, function(field) {
-                              return [
-                                field.visible
-                                  ? [
-                                      _vm.isSpecialField(field.name)
-                                        ? [
-                                            _vm.extractName(field.name) ==
-                                            "__sequence"
-                                              ? _c("td", {
-                                                  class: [
-                                                    "vuetable-sequence",
-                                                    field.dataClass
-                                                  ],
-                                                  domProps: {
-                                                    innerHTML: _vm._s(
-                                                      _vm.renderSequence(index)
-                                                    )
-                                                  }
-                                                })
-                                              : _vm._e(),
-                                            _vm._v(" "),
-                                            _vm.extractName(field.name) ==
-                                            "__handle"
-                                              ? _c("td", {
-                                                  class: [
-                                                    "vuetable-handle",
-                                                    field.dataClass
-                                                  ],
-                                                  domProps: {
-                                                    innerHTML: _vm._s(
-                                                      _vm.renderIconTag([
-                                                        "handle-icon",
-                                                        _vm.css.handleIcon
-                                                      ])
-                                                    )
-                                                  }
-                                                })
-                                              : _vm._e(),
-                                            _vm._v(" "),
-                                            _vm.extractName(field.name) ==
-                                            "__checkbox"
-                                              ? _c(
-                                                  "td",
-                                                  {
-                                                    class: [
-                                                      "vuetable-checkboxes",
-                                                      field.dataClass
-                                                    ]
-                                                  },
-                                                  [
-                                                    _c("input", {
-                                                      attrs: {
-                                                        type: "checkbox"
-                                                      },
-                                                      domProps: {
-                                                        checked: _vm.rowSelected(
-                                                          item,
-                                                          field.name
-                                                        )
-                                                      },
-                                                      on: {
-                                                        change: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.toggleCheckbox(
-                                                            item,
-                                                            field.name,
-                                                            $event
-                                                          )
-                                                        }
-                                                      }
-                                                    })
-                                                  ]
-                                                )
-                                              : _vm._e(),
-                                            _vm._v(" "),
-                                            _vm.extractName(field.name) ===
-                                            "__component"
-                                              ? _c(
-                                                  "td",
-                                                  {
-                                                    class: [
-                                                      "vuetable-component",
-                                                      field.dataClass
-                                                    ]
-                                                  },
-                                                  [
-                                                    _c(
-                                                      _vm.extractArgs(
-                                                        field.name
-                                                      ),
-                                                      {
-                                                        tag: "component",
-                                                        attrs: {
-                                                          "row-data": item,
-                                                          "row-index": index,
-                                                          "row-field":
-                                                            field.sortField
-                                                        }
-                                                      }
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              : _vm._e(),
-                                            _vm._v(" "),
-                                            _vm.extractName(field.name) ===
-                                            "__slot"
-                                              ? _c(
-                                                  "td",
-                                                  {
-                                                    class: [
-                                                      "vuetable-slot",
-                                                      field.dataClass
-                                                    ]
-                                                  },
-                                                  [
-                                                    _vm._t(
-                                                      _vm.extractArgs(
-                                                        field.name
-                                                      ),
-                                                      null,
-                                                      {
-                                                        rowData: item,
-                                                        rowIndex: index,
-                                                        rowField:
-                                                          field.sortField
-                                                      }
-                                                    )
-                                                  ],
-                                                  2
-                                                )
-                                              : _vm._e()
-                                          ]
-                                        : [
-                                            _c("td", {
-                                              class: field.dataClass,
-                                              domProps: {
-                                                innerHTML: _vm._s(
-                                                  _vm.renderNormalField(
-                                                    field,
-                                                    item
-                                                  )
-                                                )
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.onCellClicked(
-                                                    item,
-                                                    field,
-                                                    $event
-                                                  )
-                                                },
-                                                dblclick: function($event) {
-                                                  _vm.onCellDoubleClicked(
-                                                    item,
-                                                    field,
-                                                    $event
-                                                  )
-                                                }
-                                              }
-                                            })
-                                          ]
-                                    ]
-                                  : _vm._e()
-                              ]
-                            })
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _vm.useDetailRow
-                          ? [
-                              _vm.isVisibleDetailRow(item[_vm.trackBy])
-                                ? _c(
-                                    "tr",
-                                    {
-                                      class: [_vm.css.detailRowClass],
-                                      on: {
-                                        click: function($event) {
-                                          _vm.onDetailRowClick(item, $event)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "transition",
-                                        {
-                                          attrs: {
-                                            name: _vm.detailRowTransition
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "td",
-                                            {
-                                              attrs: {
-                                                colspan: _vm.countVisibleFields
-                                              }
-                                            },
-                                            [
-                                              _c(_vm.detailRowComponent, {
-                                                tag: "component",
-                                                attrs: {
-                                                  "row-data": item,
-                                                  "row-index": index
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
-                            ]
-                          : _vm._e()
-                      ]
-                    }),
-                    _vm._v(" "),
-                    _vm.displayEmptyDataRow
+                    _vm.loadingCustom
                       ? [
                           _c("tr", [
                             _c(
@@ -77855,26 +77648,293 @@ var render = function() {
                             )
                           ])
                         ]
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.lessThanMinRows
-                      ? _vm._l(_vm.blankRows, function(i) {
-                          return _c(
-                            "tr",
-                            { staticClass: "blank-row" },
-                            [
-                              _vm._l(_vm.tableFields, function(field) {
-                                return [
-                                  field.visible
-                                    ? _c("td", [_vm._v(" ")])
-                                    : _vm._e()
-                                ]
+                      : [
+                          _vm._l(_vm.tableData, function(item, index) {
+                            return [
+                              _c(
+                                "tr",
+                                {
+                                  class: _vm.onRowClass(item, index),
+                                  attrs: {
+                                    "item-index": index,
+                                    render: _vm.onRowChanged(item)
+                                  },
+                                  on: {
+                                    dblclick: function($event) {
+                                      _vm.onRowDoubleClicked(item, $event)
+                                    },
+                                    click: function($event) {
+                                      _vm.onRowClicked(item, $event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._l(_vm.tableFields, function(field) {
+                                    return [
+                                      field.visible
+                                        ? [
+                                            _vm.isSpecialField(field.name)
+                                              ? [
+                                                  _vm.extractName(field.name) ==
+                                                  "__sequence"
+                                                    ? _c("td", {
+                                                        class: [
+                                                          "vuetable-sequence",
+                                                          field.dataClass
+                                                        ],
+                                                        domProps: {
+                                                          innerHTML: _vm._s(
+                                                            _vm.renderSequence(
+                                                              index
+                                                            )
+                                                          )
+                                                        }
+                                                      })
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.extractName(field.name) ==
+                                                  "__handle"
+                                                    ? _c("td", {
+                                                        class: [
+                                                          "vuetable-handle",
+                                                          field.dataClass
+                                                        ],
+                                                        domProps: {
+                                                          innerHTML: _vm._s(
+                                                            _vm.renderIconTag([
+                                                              "handle-icon",
+                                                              _vm.css.handleIcon
+                                                            ])
+                                                          )
+                                                        }
+                                                      })
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.extractName(field.name) ==
+                                                  "__checkbox"
+                                                    ? _c(
+                                                        "td",
+                                                        {
+                                                          class: [
+                                                            "vuetable-checkboxes",
+                                                            field.dataClass
+                                                          ]
+                                                        },
+                                                        [
+                                                          _c("input", {
+                                                            attrs: {
+                                                              type: "checkbox"
+                                                            },
+                                                            domProps: {
+                                                              checked: _vm.rowSelected(
+                                                                item,
+                                                                field.name
+                                                              )
+                                                            },
+                                                            on: {
+                                                              change: function(
+                                                                $event
+                                                              ) {
+                                                                _vm.toggleCheckbox(
+                                                                  item,
+                                                                  field.name,
+                                                                  $event
+                                                                )
+                                                              }
+                                                            }
+                                                          })
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.extractName(
+                                                    field.name
+                                                  ) === "__component"
+                                                    ? _c(
+                                                        "td",
+                                                        {
+                                                          class: [
+                                                            "vuetable-component",
+                                                            field.dataClass
+                                                          ]
+                                                        },
+                                                        [
+                                                          _c(
+                                                            _vm.extractArgs(
+                                                              field.name
+                                                            ),
+                                                            {
+                                                              tag: "component",
+                                                              attrs: {
+                                                                "row-data": item,
+                                                                "row-index": index,
+                                                                "row-field":
+                                                                  field.sortField
+                                                              }
+                                                            }
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.extractName(
+                                                    field.name
+                                                  ) === "__slot"
+                                                    ? _c(
+                                                        "td",
+                                                        {
+                                                          class: [
+                                                            "vuetable-slot",
+                                                            field.dataClass
+                                                          ]
+                                                        },
+                                                        [
+                                                          _vm._t(
+                                                            _vm.extractArgs(
+                                                              field.name
+                                                            ),
+                                                            null,
+                                                            {
+                                                              rowData: item,
+                                                              rowIndex: index,
+                                                              rowField:
+                                                                field.sortField
+                                                            }
+                                                          )
+                                                        ],
+                                                        2
+                                                      )
+                                                    : _vm._e()
+                                                ]
+                                              : [
+                                                  _c("td", {
+                                                    class: field.dataClass,
+                                                    domProps: {
+                                                      innerHTML: _vm._s(
+                                                        _vm.renderNormalField(
+                                                          field,
+                                                          item
+                                                        )
+                                                      )
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.onCellClicked(
+                                                          item,
+                                                          field,
+                                                          $event
+                                                        )
+                                                      },
+                                                      dblclick: function(
+                                                        $event
+                                                      ) {
+                                                        _vm.onCellDoubleClicked(
+                                                          item,
+                                                          field,
+                                                          $event
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                          ]
+                                        : _vm._e()
+                                    ]
+                                  })
+                                ],
+                                2
+                              ),
+                              _vm._v(" "),
+                              _vm.useDetailRow
+                                ? [
+                                    _vm.isVisibleDetailRow(item[_vm.trackBy])
+                                      ? _c(
+                                          "tr",
+                                          {
+                                            class: [_vm.css.detailRowClass],
+                                            on: {
+                                              click: function($event) {
+                                                _vm.onDetailRowClick(
+                                                  item,
+                                                  $event
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "transition",
+                                              {
+                                                attrs: {
+                                                  name: _vm.detailRowTransition
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    attrs: {
+                                                      colspan:
+                                                        _vm.countVisibleFields
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(_vm.detailRowComponent, {
+                                                      tag: "component",
+                                                      attrs: {
+                                                        "row-data": item,
+                                                        "row-index": index
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      : _vm._e()
+                                  ]
+                                : _vm._e()
+                            ]
+                          }),
+                          _vm._v(" "),
+                          _vm.displayEmptyDataRow
+                            ? [
+                                _c("tr", [
+                                  _c(
+                                    "td",
+                                    {
+                                      staticClass: "vuetable-empty-result",
+                                      attrs: { colspan: _vm.countVisibleFields }
+                                    },
+                                    [_vm._v(_vm._s(_vm.noDataTemplate))]
+                                  )
+                                ])
+                              ]
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.lessThanMinRows
+                            ? _vm._l(_vm.blankRows, function(i) {
+                                return _c(
+                                  "tr",
+                                  { staticClass: "blank-row" },
+                                  [
+                                    _vm._l(_vm.tableFields, function(field) {
+                                      return [
+                                        field.visible
+                                          ? _c("td", [_vm._v(" ")])
+                                          : _vm._e()
+                                      ]
+                                    })
+                                  ],
+                                  2
+                                )
                               })
-                            ],
-                            2
-                          )
-                        })
-                      : _vm._e()
+                            : _vm._e()
+                        ]
                   ],
                   2
                 )
@@ -78027,252 +78087,7 @@ var render = function() {
           "tbody",
           { staticClass: "vuetable-body" },
           [
-            _vm._l(_vm.tableData, function(item, index) {
-              return [
-                _c(
-                  "tr",
-                  {
-                    class: _vm.onRowClass(item, index),
-                    attrs: {
-                      "item-index": index,
-                      render: _vm.onRowChanged(item)
-                    },
-                    on: {
-                      dblclick: function($event) {
-                        _vm.onRowDoubleClicked(item, $event)
-                      },
-                      click: function($event) {
-                        _vm.onRowClicked(item, $event)
-                      }
-                    }
-                  },
-                  [
-                    _vm._l(_vm.tableFields, function(field) {
-                      return [
-                        field.visible
-                          ? [
-                              _vm.isSpecialField(field.name)
-                                ? [
-                                    _vm.extractName(field.name) == "__sequence"
-                                      ? _c("td", {
-                                          class: [
-                                            "vuetable-sequence",
-                                            field.dataClass
-                                          ],
-                                          domProps: {
-                                            innerHTML: _vm._s(
-                                              _vm.renderSequence(index)
-                                            )
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.extractName(field.name) == "__handle"
-                                      ? _c("td", {
-                                          class: [
-                                            "vuetable-handle",
-                                            field.dataClass
-                                          ],
-                                          domProps: {
-                                            innerHTML: _vm._s(
-                                              _vm.renderIconTag([
-                                                "handle-icon",
-                                                _vm.css.handleIcon
-                                              ])
-                                            )
-                                          }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.extractName(field.name) == "__checkbox"
-                                      ? _c(
-                                          "td",
-                                          {
-                                            class: [
-                                              "vuetable-checkboxes",
-                                              field.dataClass
-                                            ]
-                                          },
-                                          [
-                                            _c("input", {
-                                              attrs: { type: "checkbox" },
-                                              domProps: {
-                                                checked: _vm.rowSelected(
-                                                  item,
-                                                  field.name
-                                                )
-                                              },
-                                              on: {
-                                                change: function($event) {
-                                                  _vm.toggleCheckbox(
-                                                    item,
-                                                    field.name,
-                                                    $event
-                                                  )
-                                                }
-                                              }
-                                            })
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.extractName(field.name) ===
-                                    "__component"
-                                      ? _c(
-                                          "td",
-                                          {
-                                            class: [
-                                              "vuetable-component",
-                                              field.dataClass
-                                            ]
-                                          },
-                                          [
-                                            _c(_vm.extractArgs(field.name), {
-                                              tag: "component",
-                                              attrs: {
-                                                "row-data": item,
-                                                "row-index": index,
-                                                "row-field": field.sortField
-                                              }
-                                            })
-                                          ],
-                                          1
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.extractName(field.name) === "__slot"
-                                      ? _c(
-                                          "td",
-                                          {
-                                            class: [
-                                              "vuetable-slot",
-                                              field.dataClass
-                                            ]
-                                          },
-                                          [
-                                            _vm._t(
-                                              _vm.extractArgs(field.name),
-                                              null,
-                                              {
-                                                rowData: item,
-                                                rowIndex: index,
-                                                rowField: field.sortField
-                                              }
-                                            )
-                                          ],
-                                          2
-                                        )
-                                      : _vm._e()
-                                  ]
-                                : [
-                                    _vm.hasCallback(field)
-                                      ? _c("td", {
-                                          class: field.dataClass,
-                                          domProps: {
-                                            innerHTML: _vm._s(
-                                              _vm.callCallback(field, item)
-                                            )
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.onCellClicked(
-                                                item,
-                                                field,
-                                                $event
-                                              )
-                                            },
-                                            dblclick: function($event) {
-                                              _vm.onCellDoubleClicked(
-                                                item,
-                                                field,
-                                                $event
-                                              )
-                                            }
-                                          }
-                                        })
-                                      : _c("td", {
-                                          class: field.dataClass,
-                                          domProps: {
-                                            innerHTML: _vm._s(
-                                              _vm.getObjectValue(
-                                                item,
-                                                field.name,
-                                                ""
-                                              )
-                                            )
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.onCellClicked(
-                                                item,
-                                                field,
-                                                $event
-                                              )
-                                            },
-                                            dblclick: function($event) {
-                                              _vm.onCellDoubleClicked(
-                                                item,
-                                                field,
-                                                $event
-                                              )
-                                            }
-                                          }
-                                        })
-                                  ]
-                            ]
-                          : _vm._e()
-                      ]
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _vm.useDetailRow
-                  ? [
-                      _vm.isVisibleDetailRow(item[_vm.trackBy])
-                        ? _c(
-                            "tr",
-                            {
-                              class: [_vm.css.detailRowClass],
-                              on: {
-                                click: function($event) {
-                                  _vm.onDetailRowClick(item, $event)
-                                }
-                              }
-                            },
-                            [
-                              _c(
-                                "transition",
-                                { attrs: { name: _vm.detailRowTransition } },
-                                [
-                                  _c(
-                                    "td",
-                                    {
-                                      attrs: { colspan: _vm.countVisibleFields }
-                                    },
-                                    [
-                                      _c(_vm.detailRowComponent, {
-                                        tag: "component",
-                                        attrs: {
-                                          "row-data": item,
-                                          "row-index": index
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        : _vm._e()
-                    ]
-                  : _vm._e()
-              ]
-            }),
-            _vm._v(" "),
-            _vm.displayEmptyDataRow
+            _vm.loadingCustom
               ? [
                   _c("tr", [
                     _c("td", {
@@ -78282,24 +78097,298 @@ var render = function() {
                     })
                   ])
                 ]
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.lessThanMinRows
-              ? _vm._l(_vm.blankRows, function(i) {
-                  return _c(
-                    "tr",
-                    { staticClass: "blank-row" },
-                    [
-                      _vm._l(_vm.tableFields, function(field) {
-                        return [
-                          field.visible ? _c("td", [_vm._v(" ")]) : _vm._e()
-                        ]
+              : [
+                  _vm._l(_vm.tableData, function(item, index) {
+                    return [
+                      _c(
+                        "tr",
+                        {
+                          class: _vm.onRowClass(item, index),
+                          attrs: {
+                            "item-index": index,
+                            render: _vm.onRowChanged(item)
+                          },
+                          on: {
+                            dblclick: function($event) {
+                              _vm.onRowDoubleClicked(item, $event)
+                            },
+                            click: function($event) {
+                              _vm.onRowClicked(item, $event)
+                            }
+                          }
+                        },
+                        [
+                          _vm._l(_vm.tableFields, function(field) {
+                            return [
+                              field.visible
+                                ? [
+                                    _vm.isSpecialField(field.name)
+                                      ? [
+                                          _vm.extractName(field.name) ==
+                                          "__sequence"
+                                            ? _c("td", {
+                                                class: [
+                                                  "vuetable-sequence",
+                                                  field.dataClass
+                                                ],
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.renderSequence(index)
+                                                  )
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.extractName(field.name) ==
+                                          "__handle"
+                                            ? _c("td", {
+                                                class: [
+                                                  "vuetable-handle",
+                                                  field.dataClass
+                                                ],
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.renderIconTag([
+                                                      "handle-icon",
+                                                      _vm.css.handleIcon
+                                                    ])
+                                                  )
+                                                }
+                                              })
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.extractName(field.name) ==
+                                          "__checkbox"
+                                            ? _c(
+                                                "td",
+                                                {
+                                                  class: [
+                                                    "vuetable-checkboxes",
+                                                    field.dataClass
+                                                  ]
+                                                },
+                                                [
+                                                  _c("input", {
+                                                    attrs: { type: "checkbox" },
+                                                    domProps: {
+                                                      checked: _vm.rowSelected(
+                                                        item,
+                                                        field.name
+                                                      )
+                                                    },
+                                                    on: {
+                                                      change: function($event) {
+                                                        _vm.toggleCheckbox(
+                                                          item,
+                                                          field.name,
+                                                          $event
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.extractName(field.name) ===
+                                          "__component"
+                                            ? _c(
+                                                "td",
+                                                {
+                                                  class: [
+                                                    "vuetable-component",
+                                                    field.dataClass
+                                                  ]
+                                                },
+                                                [
+                                                  _c(
+                                                    _vm.extractArgs(field.name),
+                                                    {
+                                                      tag: "component",
+                                                      attrs: {
+                                                        "row-data": item,
+                                                        "row-index": index,
+                                                        "row-field":
+                                                          field.sortField
+                                                      }
+                                                    }
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.extractName(field.name) ===
+                                          "__slot"
+                                            ? _c(
+                                                "td",
+                                                {
+                                                  class: [
+                                                    "vuetable-slot",
+                                                    field.dataClass
+                                                  ]
+                                                },
+                                                [
+                                                  _vm._t(
+                                                    _vm.extractArgs(field.name),
+                                                    null,
+                                                    {
+                                                      rowData: item,
+                                                      rowIndex: index,
+                                                      rowField: field.sortField
+                                                    }
+                                                  )
+                                                ],
+                                                2
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      : [
+                                          _vm.hasCallback(field)
+                                            ? _c("td", {
+                                                class: field.dataClass,
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.callCallback(
+                                                      field,
+                                                      item
+                                                    )
+                                                  )
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.onCellClicked(
+                                                      item,
+                                                      field,
+                                                      $event
+                                                    )
+                                                  },
+                                                  dblclick: function($event) {
+                                                    _vm.onCellDoubleClicked(
+                                                      item,
+                                                      field,
+                                                      $event
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            : _c("td", {
+                                                class: field.dataClass,
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.getObjectValue(
+                                                      item,
+                                                      field.name,
+                                                      ""
+                                                    )
+                                                  )
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.onCellClicked(
+                                                      item,
+                                                      field,
+                                                      $event
+                                                    )
+                                                  },
+                                                  dblclick: function($event) {
+                                                    _vm.onCellDoubleClicked(
+                                                      item,
+                                                      field,
+                                                      $event
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                        ]
+                                  ]
+                                : _vm._e()
+                            ]
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _vm.useDetailRow
+                        ? [
+                            _vm.isVisibleDetailRow(item[_vm.trackBy])
+                              ? _c(
+                                  "tr",
+                                  {
+                                    class: [_vm.css.detailRowClass],
+                                    on: {
+                                      click: function($event) {
+                                        _vm.onDetailRowClick(item, $event)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "transition",
+                                      {
+                                        attrs: { name: _vm.detailRowTransition }
+                                      },
+                                      [
+                                        _c(
+                                          "td",
+                                          {
+                                            attrs: {
+                                              colspan: _vm.countVisibleFields
+                                            }
+                                          },
+                                          [
+                                            _c(_vm.detailRowComponent, {
+                                              tag: "component",
+                                              attrs: {
+                                                "row-data": item,
+                                                "row-index": index
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
+                          ]
+                        : _vm._e()
+                    ]
+                  }),
+                  _vm._v(" "),
+                  _vm.displayEmptyDataRow
+                    ? [
+                        _c("tr", [
+                          _c("td", {
+                            staticClass: "vuetable-empty-result",
+                            attrs: { colspan: _vm.countVisibleFields },
+                            domProps: { innerHTML: _vm._s(_vm.noDataTemplate) }
+                          })
+                        ])
+                      ]
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.lessThanMinRows
+                    ? _vm._l(_vm.blankRows, function(i) {
+                        return _c(
+                          "tr",
+                          { staticClass: "blank-row" },
+                          [
+                            _vm._l(_vm.tableFields, function(field) {
+                              return [
+                                field.visible
+                                  ? _c("td", [_vm._v(" ")])
+                                  : _vm._e()
+                              ]
+                            })
+                          ],
+                          2
+                        )
                       })
-                    ],
-                    2
-                  )
-                })
-              : _vm._e()
+                    : _vm._e()
+                ]
           ],
           2
         )
@@ -94930,6 +95019,33 @@ function updateUserInfo(data) {
 
 /***/ }),
 
+/***/ "./resources/js/api/distributor.js":
+/*!*****************************************!*\
+  !*** ./resources/js/api/distributor.js ***!
+  \*****************************************/
+/*! exports provided: destroy */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
+/* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
+/* harmony import */ var _TOKEN__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TOKEN */ "./resources/js/api/TOKEN.js");
+
+
+var url = 'api/distributor/';
+function destroy(id) {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: url + id,
+    method: 'DELETE',
+    headers: {
+      Authorization: Object(_TOKEN__WEBPACK_IMPORTED_MODULE_1__["token_full"])()
+    }
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/js/api/login.js":
 /*!***********************************!*\
   !*** ./resources/js/api/login.js ***!
@@ -96273,7 +96389,8 @@ __webpack_require__.r(__webpack_exports__);
       title: 'Warning',
       content: 'This will permanently delete the file. Continue?',
       success: 'Delete completed',
-      cancel: 'Delete canceled'
+      cancel: 'Delete canceled',
+      error: 'Error service.'
     }
   }
 });
@@ -96467,7 +96584,8 @@ __webpack_require__.r(__webpack_exports__);
       title: 'Cảnh báo!',
       content: 'Bạn có muốn xóa dự liệu này...',
       success: 'Xóa thành công!',
-      cancel: 'Hành động đã hủy'
+      cancel: 'Hành động đã hủy',
+      error: 'Đã xảy ra lỗi từ hệ thống.'
     }
   }
 });
@@ -96542,7 +96660,9 @@ _router__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to, from, n
           });
         }).catch(function () {
           _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('fedLogout').then(function () {
-            window.location.href = path;
+            if (to.meta.roles) {
+              window.location.href = path;
+            } else next();
           });
         });
       } else {
@@ -97997,9 +98117,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api_distributor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api/distributor */ "./resources/js/api/distributor.js");
+
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('custom-actions', {
-  template: ['<div>', '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>', '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>', '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size"></el-button>', '</div>'].join(''),
+  template: ['<div>', '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>', '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>', '<el-button type="danger" icon="el-icon-delete" circle @click="actionDelete(rowData)" :size="size" :disabled="disabled"></el-button>', '</div>'].join(''),
   props: {
     rowData: {
       type: Object,
@@ -98008,7 +98130,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('custom-actions', {
   },
   data: function data() {
     return {
-      size: 'mini'
+      size: 'mini',
+      disabled: false
     };
   },
   methods: {
@@ -98023,11 +98146,27 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('custom-actions', {
         cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(function () {
-        _this.$message({
-          type: 'success',
-          message: 'Delete completed'
-        });
-      }).catch(function () {
+        _this.disabled = true;
+        setTimeout(function () {
+          _api_distributor__WEBPACK_IMPORTED_MODULE_1__["destroy"](data.id).then(function (response) {
+            _this.$events.fire('filter-reset');
+
+            _this.$message({
+              type: 'success',
+              message: _this.$t('fieldDefs.actionDelete.success')
+            });
+
+            _this.disabled = false;
+          }).catch(function (error) {
+            _this.$message({
+              type: 'warning',
+              message: _this.$t('fieldDefs.actionDelete.error')
+            });
+
+            _this.disabled = false;
+          });
+        }, 500);
+      }).catch(function (error) {
         _this.$message({
           type: 'info',
           message: _this.$t('fieldDefs.actionDelete.cancel')

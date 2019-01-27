@@ -133,7 +133,8 @@ export default {
             title: 'Cảnh báo!',
             content: 'Bạn có muốn xóa dự liệu này...',
             success: 'Xóa thành công!',
-            cancel: 'Hành động đã hủy'
+            cancel: 'Hành động đã hủy',
+            error: 'Đã xảy ra lỗi từ hệ thống.'
         }
     }
 }

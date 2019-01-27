@@ -132,7 +132,8 @@ export default {
             title: 'Warning',
             content: 'This will permanently delete the file. Continue?',
             success: 'Delete completed',
-            cancel: 'Delete canceled'
+            cancel: 'Delete canceled',
+            error: 'Error service.'
         }
     }
 }

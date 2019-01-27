@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Component\DataTable;
+use App\Component\ResponseMessage;
 use App\Distributor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -34,6 +35,8 @@ class DistributorController extends Controller
         $str = "'Vừa smartbidv, vừa bidv online mà lại k dùng chung 1 tài khoản đăng nhập, rắc rối!'";
 
         $command = exec($cmd . " " . $str);
+
+        return $command;
 
         $result = strtolower(shell_exec($command));
 
@@ -94,15 +97,16 @@ class DistributorController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
-        return response()->json(['message' => $id]);
+        $item = $this->model()::findOrFail($id);
+        if (!$item) {
+            return ResponseMessage::responseMessage(false, 'Sorry, item cannot be found', 400);
+        }
+        if ($item->delete()) {
+            return ResponseMessage::responseMessage(true);
+        } else {
+            return ResponseMessage::responseMessage(false, null, 500);
+        }
     }
 }
