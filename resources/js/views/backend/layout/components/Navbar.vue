@@ -25,7 +25,8 @@
 
             <el-dropdown class="avatar-container right-menu-item" trigger="click">
                 <div class="avatar-wrapper">
-                    <div class="user-avatar" :style="avatar? 'background-image: url('+ avatar +')' : 'background-image: url(/images/default/avatar.svg)'">
+                    <div class="user-avatar"
+                         :style="avatar? 'background-image: url('+ avatar +')' : 'background-image: url(/images/default/avatar.svg)'">
                     </div>
                     <i class="el-icon-caret-bottom"></i>
                 </div>

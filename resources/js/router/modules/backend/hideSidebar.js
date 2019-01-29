@@ -2,12 +2,15 @@ import Layout from '../../../views/backend/layout' //layout
 import changePasswordView from '../../../views/backend/auth/changePassword'
 import accountBEView from '../../../views/backend/auth/account'
 
-import {ROLE_ADMIN_STAFF} from "../../roles";
+import {ROLE_ADMIN_STAFF, ROLE_ALL} from "../../roles";
 
 export default [
     {
         path: 'admin/account',
         component: Layout,
+        meta: {
+            roles: ROLE_ADMIN_STAFF // you can set roles in root nav
+        },
         children: [
             {
                 path: '/admin/account',
@@ -25,13 +28,16 @@ export default [
     {
         path: 'admin/changePassword',
         component: Layout,
+        meta: {
+            roles: ROLE_ADMIN_STAFF
+        },
         children: [
             {
                 path: '/admin/changePassword',
                 component: changePasswordView,
                 name: 'changePassword',
                 meta: {
-                    roles: ROLE_ADMIN_STAFF,
+                    roles: ROLE_ALL,
                     noCache: true,
                     title: 'changePassword'
                 }

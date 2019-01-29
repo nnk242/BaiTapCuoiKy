@@ -2,6 +2,8 @@ import Layout from '../../../views/backend/layout' //layout
 import dashboard from '../../../views/backend/dashboard'
 import testView from '../../../views/test'
 import distributorIndex from '../../../views/backend/distributor'
+import distributorStopProviding from '../../../views/backend/distributor/stopProviding'
+//role
 import {ROLE_ADMIN_STAFF, ROLE_ADMIN, ROLE_STAFF} from "../../roles";
 
 export default [
@@ -84,12 +86,12 @@ export default [
                 }
             },
             {
-                path: 'deleted',
-                component: distributorIndex,
-                name: 'DistributorDeleted',
+                path: 'stopProviding',
+                component: distributorStopProviding,
+                name: 'DistributorStopProviding',
                 meta: {
-                    title: 'distributorDeleted',
-                    roles: ROLE_ADMIN_STAFF // or you can only set roles in sub nav
+                    title: 'distributorStopProviding',
+                    roles: ROLE_ADMIN // or you can only set roles in sub nav
                 }
             }
         ]

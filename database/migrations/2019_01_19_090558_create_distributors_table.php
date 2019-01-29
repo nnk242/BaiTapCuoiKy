@@ -22,7 +22,6 @@ class CreateDistributorsTable extends Migration
             $table->string('phone', 20);
             $table->string('address', 255);
             $table->text('description')->nullable();
-            $table->enum('status', ['active', 'non-active', 'block'])->default('non-active');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

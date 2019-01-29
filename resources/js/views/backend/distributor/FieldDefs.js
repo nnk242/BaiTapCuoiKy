@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as distributor from '../../../api/distributor'
 
-Vue.component('custom-actions', {
+Vue.component('custom-actions-distributor', {
     template: [
         '<div>',
         '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
@@ -95,7 +95,7 @@ export default [
         title: 'Description'
     },
     {
-        name: '__component:custom-actions',   // <----
+        name: '__component:custom-actions-distributor',   // <----
         title: 'Actions'
     }
 ]

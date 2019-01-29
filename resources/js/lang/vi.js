@@ -90,7 +90,7 @@ export default {
         accountbe: 'Tài khoản',
         distributor: 'Nhà phân phối',
         distributorActive: 'Đang cung cấp',
-        distributorDeleted: 'Ngưng cung cấp'
+        distributorStopProviding: 'Ngưng cung cấp'
     },
     account: {
         title: 'Thông tin tài khoản',

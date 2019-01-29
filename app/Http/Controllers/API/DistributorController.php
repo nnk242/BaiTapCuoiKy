@@ -36,7 +36,7 @@ class DistributorController extends Controller
 
         $command = exec($cmd . " " . $str);
 
-        return $command;
+//        return $command;
 
         $result = strtolower(shell_exec($command));
 
@@ -60,6 +60,12 @@ class DistributorController extends Controller
         $dt = new DataTable();
         return $dt->dataTable($this->model(), $request, 'name_distributors',
             array('id', 'name_distributors', 'phone', 'image', 'address', 'status', 'description'));
+    }
+
+    public function stopProviding(Request $request) {
+        $dt = new DataTable();
+        return $dt->dataTable($this->model(), $request, 'name_distributors',
+            array('id', 'name_distributors', 'phone', 'image', 'address', 'status', 'description'), 'onlyTrashed');
     }
 
     /**

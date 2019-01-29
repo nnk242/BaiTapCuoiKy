@@ -89,7 +89,7 @@ export default {
         accountbe: 'Account',
         distributor: 'Distributor',
         distributorActive: 'Providing',
-        distributorDeleted: 'Stop providing'
+        distributorStopProviding: 'Stop providing'
     },
     account: {
         title: 'Account',

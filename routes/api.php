@@ -29,8 +29,10 @@ Route::group(['prefix' => 'auth', 'namespace' => 'API', 'middleware' => 'api'], 
     Route::post('uploadAvatar', 'AuthController@uploadAvatar');//change password
 });
 
+//api Resource
 Route::group(['namespace' => 'API', 'middleware' => 'api'], function () {
     Route::apiResources([
         'distributor' => 'DistributorController',
     ]);
+    Route::get('distributor/show/stopProviding', 'DistributorController@stopProviding');
 });

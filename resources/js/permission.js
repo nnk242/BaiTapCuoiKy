@@ -16,7 +16,6 @@ function hasPermission(role, permissionRoles) {
     if (!permissionRoles) {
         return true
     }
-
     return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
 
@@ -42,9 +41,9 @@ router.beforeEach((to, from, next) => {
                     .catch(() => {
                         store.dispatch('fedLogout')
                             .then(() => {
-                                if (to.meta.roles) {
+                                if (to.meta.roles)
                                     window.location.href = path
-                                } else
+                                else
                                     next()
                             })
                     })
