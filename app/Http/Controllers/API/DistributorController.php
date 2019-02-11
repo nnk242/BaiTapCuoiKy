@@ -58,8 +58,8 @@ class DistributorController extends Controller
     public function index(Request $request)
     {
         $dt = new DataTable();
-        return $dt->dataTable($this->model(), $request, 'name_distributors',
-            array('id', 'name_distributors', 'phone', 'image', 'address', 'description'));
+        return $dt->dataTable($this->model(), $request, 'name_distributor',
+            array('id', 'name_distributor', 'phone', 'image', 'address', 'description'));
     }
 
     /**
@@ -81,8 +81,7 @@ class DistributorController extends Controller
      */
     public function show($id)
     {
-        //
-        return response()->json(null, 500);
+        return $this->model()::findOrFail($id);
     }
 
     /**
@@ -113,8 +112,8 @@ class DistributorController extends Controller
     public function stopProviding(Request $request)
     {
         $dt = new DataTable();
-        return $dt->dataTable($this->model(), $request, 'name_distributors',
-            array('id', 'name_distributors', 'phone', 'image', 'address', 'description'), 'onlyTrashed');
+        return $dt->dataTable($this->model(), $request, 'name_distributor',
+            array('id', 'name_distributor', 'phone', 'image', 'address', 'description'), 'onlyTrashed');
     }
 
     public function restore($id)

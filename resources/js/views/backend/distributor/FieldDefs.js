@@ -4,7 +4,7 @@ import * as distributor from '../../../api/distributor'
 Vue.component('custom-actions-distributor', {
     template: [
         '<div>',
-        '<el-button type="info" icon="fas fa-eye" class="custom-icon" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
+        '<el-button type="info" icon="fas fa-eye" class="custom-icon" circle @click="actionView(rowData)" :size="size"></el-button>',
         '<el-button type="primary" icon="el-icon-edit" class="custom-icon" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>',
         '<el-button type="danger" icon="el-icon-delete" class="custom-icon" circle @click="actionDelete(rowData)" :size="size" :disabled="disabled"></el-button>',
         '</div>'
@@ -24,6 +24,9 @@ Vue.component('custom-actions-distributor', {
     methods: {
         onClick(action, data) {
             console.log(action, data.id)
+        },
+        actionView(data) {
+            this.$router.push({name: 'distributorView', params: {id: data.id}})
         },
         actionDelete(data) {
             this.$confirm(this.$t('fieldDefs.action.content.delete'), this.$t('fieldDefs.action.title'), {
@@ -68,8 +71,8 @@ export default [
         title: '#',
     },
     {
-        name: 'name_distributors',
-        sortField: 'name_distributors',
+        name: 'name_distributor',
+        sortField: 'name_distributor',
         direction: 'asc',
         title: 'Distributor'
     },

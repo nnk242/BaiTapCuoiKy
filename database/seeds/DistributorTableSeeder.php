@@ -17,7 +17,7 @@ class DistributorTableSeeder extends Seeder
             Distributor::create([
                 'first_name' => $fake->firstName,
                 'last_name' => $fake->lastName,
-                'name_distributors' => $fake->name,
+                'name_distributor' => $fake->name,
                 'phone' => $fake->phoneNumber,
                 'address' => $fake->streetAddress,
                 'description' => $fake->text

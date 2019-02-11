@@ -131,8 +131,16 @@ export default {
         }
     },
     distributor: {
-        title: 'Thêm nhà phân phối',
+        add: {
+            title: 'Thêm nhà phân phối',
+        },
+        view: {
+            title: 'Xem nhà phân phối',
+            nameDistributor: 'Tên nhà phân phối',
+            fullName: 'Họ tên người đứng đầu'
+        },
         button: 'Thêm',
+        name: 'Tên phân phối'
     },
     fieldDefs: {
         action: {

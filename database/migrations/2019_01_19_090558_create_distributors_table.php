@@ -17,7 +17,7 @@ class CreateDistributorsTable extends Migration
             $table->increments('id');
             $table->string('first_name', 100);
             $table->string('last_name', 100);
-            $table->string('name_distributors', 100);
+            $table->string('name_distributor', 100);
             $table->string('image', 255)->nullable();
             $table->string('phone', 20);
             $table->string('address', 255);

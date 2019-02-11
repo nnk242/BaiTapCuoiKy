@@ -22,3 +22,13 @@ export function restore(id) {
         }
     })
 }
+
+export function view(id) {
+    return request({
+        url: url + id,
+        method: 'GET',
+        headers: {
+            Authorization: token_full()
+        }
+    })
+}

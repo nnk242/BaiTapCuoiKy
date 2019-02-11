@@ -130,8 +130,16 @@ export default {
         }
     },
     distributor: {
-        title: 'New distributor',
-        button: 'Submit',
+        add: {
+            title: 'Add',
+        },
+        view: {
+            title: 'View distributor',
+            nameDistributor: 'Name distributor',
+            fullName: 'Full name'
+        },
+        button: 'Add',
+        name: 'Name distributor'
     },
     fieldDefs: {
         actionDelete: {

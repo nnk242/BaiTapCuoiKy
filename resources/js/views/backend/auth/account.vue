@@ -31,7 +31,8 @@
                             <el-input v-model="ruleForm.name"></el-input>
                         </el-form-item>
                         <el-form-item :label="$t('account.birthDay')">
-                            <el-date-picker type="date" v-model="ruleForm.birthDay" style="width: 100%"></el-date-picker>
+                            <el-date-picker type="date" v-model="ruleForm.birthDay"
+                                            style="width: 100%"></el-date-picker>
                         </el-form-item>
                         <el-form-item :label="$t('account.numberPhone')" prop="numberPhone">
                             <el-input v-model="ruleForm.numberPhone"></el-input>
@@ -146,7 +147,7 @@
                     this.ruleForm.name = response.data.name
                     this.ruleForm.gender = response.data.gender
                     this.ruleForm.numberPhone = response.data.phone === null ? '' : response.data.phone
-                    this.ruleForm.avatar = response.data.avatar === null? '/images/default/avatar.svg': response.data.avatar
+                    this.ruleForm.avatar = response.data.avatar === null ? '/images/default/avatar.svg' : response.data.avatar
                     this.ruleForm.description = response.data.description
                 })
                 .catch(() => {
