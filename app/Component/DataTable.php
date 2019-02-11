@@ -5,22 +5,12 @@ namespace App\Component;
 
 class DataTable
 {
-    protected static $first;
     //per page
-    protected static $default_per_page = 10;
-    protected static $min_per_page = 1;
-    protected static $max_per_page = 200;
-
     protected function perPage($per_page)
     {
-        if ($per_page && $per_page >= self::$min_per_page && $per_page < self::$max_per_page)
+        if ($per_page && $per_page > 0 && $per_page < 200)
             return (int)$per_page;
-        return self::$this->default_per_page;
-    }
-
-    protected function filter($filter, $requestFilter)
-    {
-        return ["$filter", 'LIKE', "%$requestFilter%"];
+        return 10;
     }
 
     protected function orderHandle($stringSort)
@@ -36,28 +26,28 @@ class DataTable
 
         $per_page = $this->perPage($request->per_page);
 
-        self::$first = 0;
+        $first = 0;
 
         // order
         if ($request->sort) {
-            $list = $model::onlyTrashed()->orderBy($this->orderHandle($request->sort));
-            self::$first = 1;
+            $list = $model::onlyTrashed()->orderBy($this->orderHandle($request->sort)[0], $this->orderHandle($request->sort)[1]);
+            $first = 1;
         }
 
         // search.
         if ($filter) {
             if ($request->filter) {
-                if (self::$first == 1)
-                    $list = $list->where($this->filter($filter, $request->filter));
+                if ($first == 1)
+                    $list = $list->where("$filter", 'LIKE', "%$request->filter%");
                 else
-                    $list = $rows ? $model::onlyTrashed()->select($rows)->where($this->filter($filter, $request->filter)) :
-                        $model::onlyTrashedall()->where($this->filter($filter, $request->filter));
+                    $list = $rows ? $model::onlyTrashed()->select($rows)->where("$filter", 'LIKE', "%$request->filter%") :
+                        $model::onlyTrashedall()->where("$filter", 'LIKE', "%$request->filter%");
 
-                self::$first = 1;
+                $first = 1;
             }
         }
 
-        if (self::$first == 1) $list = $list->paginate($per_page);
+        if ($first == 1) $list = $list->paginate($per_page);
         else $list = $rows ? $model::onlyTrashed()->select($rows)->paginate($per_page) : $model::paginate($per_page);
 
         return $list;
@@ -70,28 +60,28 @@ class DataTable
 
         $per_page = $this->perPage($request->per_page);
 
-        self::$first = 0;
+        $first = 0;
 
         // order
         if ($request->sort) {
-            $list = $model::withTrashed()->orderBy($this->orderHandle($request->sort));
-            self::$first = 1;
+            $list = $model::withTrashed()->orderBy($this->orderHandle($request->sort)[0], $this->orderHandle($request->sort)[1]);
+            $first = 1;
         }
 
         // search.
         if ($filter) {
             if ($request->filter) {
-                if (self::$first == 1)
-                    $list = $list->where($this->filter($filter, $request->filter));
+                if ($first == 1)
+                    $list = $list->where("$filter", 'LIKE', "%$request->filter%");
                 else
-                    $list = $rows ? $model::withTrashed()->select($rows)->where($this->filter($filter, $request->filter)) :
-                        $model::withTrashed()->where($this->filter($filter, $request->filter));
+                    $list = $rows ? $model::withTrashed()->select($rows)->where("$filter", 'LIKE', "%$request->filter%") :
+                        $model::withTrashed()->where("$filter", 'LIKE', "%$request->filter%");
 
-                self::$first = 1;
+                $first = 1;
             }
         }
 
-        if (self::$first == 1) $list = $list->paginate($per_page);
+        if ($first == 1) $list = $list->paginate($per_page);
         else $list = $rows ? $model::withTrashed()->select($rows)->paginate($per_page) : $model::withTrashed()->paginate($per_page);
 
         return $list;
@@ -104,27 +94,27 @@ class DataTable
 
         $per_page = $this->perPage($request->per_page);
 
-        self::$first = 0;
+        $first = 0;
 
         // order
         if ($request->sort) {
-            $list = $model::orderBy($this->orderHandle($request->sort));
-            self::$first = 1;
+            $list = $model::orderBy($this->orderHandle($request->sort)[0], $this->orderHandle($request->sort)[1]);
+            $first = 1;
         }
 
         // search.
         if ($filter) {
             if ($request->filter) {
-                if (self::$first == 1)
-                    $list = $list->where($this->filter($filter, $request->filter));
+                if ($first == 1)
+                    $list = $list->where("$filter", 'LIKE', "%$request->filter%");
                 else
-                    $list = $rows ? $model::select($rows)->where($this->filter($filter, $request->filter)) :
-                        $model::where($this->filter($filter, $request->filter));
-                self::$first = 1;
+                    $list = $rows ? $model::select($rows)->where("$filter", 'LIKE', "%$request->filter%") :
+                        $model::where("$filter", 'LIKE', "%$request->filter%");
+                $first = 1;
             }
         }
 
-        if (self::$first == 1) $list = $list->paginate($per_page);
+        if ($first == 1) $list = $list->paginate($per_page);
         else $list = $rows ? $model::select($rows)->paginate($per_page) : $model::paginate($per_page);
 
         return $list;
@@ -144,8 +134,33 @@ class DataTable
         }
     }
 
-    public function destroyItem()
+    public static function destroyItem($model, $id)
     {
+        $item = $model::findOrFail($id);
+        if (!$item) {
+            return ResponseMessage::responseMessage(false, 'Sorry, item cannot be found', 400);
+        }
+        if ($item->delete()) {
+            return ResponseMessage::responseMessage(true);
+        } else {
+            return ResponseMessage::responseMessage(false, null, 500);
+        }
+    }
 
+    public static function restoreItem($model, $param, $type = 'delete', $trash = null)
+    {
+        if ($param === 'all') {
+            if ($trash === 'with') {
+                $model::withTrashed()->restore();
+            } else {
+                $model::onlyTrashed()->restore();
+            }
+        } else {
+            if ($trash === 'with') {
+                $model::withTrashed()->find($param)->restore();
+            } else {
+                $model::onlyTrashed()->find($param)->restore();
+            }
+        }
     }
 }

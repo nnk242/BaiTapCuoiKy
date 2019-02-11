@@ -12,3 +12,13 @@ export function destroy(id) {
         }
     })
 }
+
+export function restore(id) {
+    return request({
+        url: url + 'restore/' + id,
+        method: 'POST',
+        headers: {
+            Authorization: token_full()
+        }
+    })
+}

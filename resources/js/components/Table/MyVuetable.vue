@@ -345,5 +345,9 @@
             float: left;
             padding-left: 20px;
         }
+        .custom-icon {
+            width: 30px;
+            height: 30px;
+        }
     }
 </style>

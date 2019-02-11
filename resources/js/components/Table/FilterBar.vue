@@ -4,8 +4,8 @@
             <label>{{$t('table.filterBar.search.title')}}: </label>
             <input type="text" v-model="filterText" @keyup.enter="doFilter"
                    :placeholder="$t('table.filterBar.search.placeholder')">
-            <el-button type="primary" @click="doFilter">{{$t('table.filterBar.search.title')}}</el-button>
-            <el-button @click="resetFilter" :disabled="disabled">Reset</el-button>
+            <el-button type="primary" @click="doFilter"><i class="fas fa-search"></i> {{$t('table.filterBar.search.title')}}</el-button>
+            <el-button @click="resetFilter" :disabled="disabled"><i class="fas fa-redo"></i> Reset</el-button>
         </div>
     </div>
 </template>

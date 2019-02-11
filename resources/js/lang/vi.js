@@ -88,9 +88,11 @@ export default {
     route: {
         changePassword: 'Đổi mật khẩu',
         accountbe: 'Tài khoản',
+        //distributor
         distributor: 'Nhà phân phối',
         distributorActive: 'Đang cung cấp',
-        distributorStopProviding: 'Ngưng cung cấp'
+        distributorStopProviding: 'Ngưng cung cấp',
+        distributorAdd: 'Thêm',
     },
     account: {
         title: 'Thông tin tài khoản',
@@ -128,11 +130,21 @@ export default {
             error: 'Cập nhật thông tin thất bại',
         }
     },
+    distributor: {
+        title: 'Thêm nhà phân phối',
+        button: 'Thêm',
+    },
     fieldDefs: {
-        actionDelete: {
+        action: {
             title: 'Cảnh báo!',
-            content: 'Bạn có muốn xóa dự liệu này...',
-            success: 'Xóa thành công!',
+            content: {
+                delete: 'Bạn có muốn xóa dự liệu này...',
+                restore: 'Bạn có muốn phục hồi dữ liệu này?'
+            },
+            success: {
+                delete: 'Xóa thành công!',
+                restore: 'Phục hồi dữ liệu thành công...'
+            },
             cancel: 'Hành động đã hủy',
             error: 'Đã xảy ra lỗi từ hệ thống.'
         }

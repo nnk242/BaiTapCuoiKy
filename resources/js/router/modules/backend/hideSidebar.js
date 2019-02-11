@@ -1,6 +1,8 @@
 import Layout from '../../../views/backend/layout' //layout
 import changePasswordView from '../../../views/backend/auth/changePassword'
 import accountBEView from '../../../views/backend/auth/account'
+//
+import distributorAdd from '../../../views/backend/distributor/add'
 
 import {ROLE_ADMIN_STAFF, ROLE_ALL} from "../../roles";
 
@@ -40,6 +42,27 @@ export default [
                     roles: ROLE_ALL,
                     noCache: true,
                     title: 'changePassword'
+                }
+            }
+        ],
+        hidden: true,
+    },
+
+    {
+        path: '/admin/distributo/addr',
+        component: Layout,
+        meta: {
+            roles: ROLE_ADMIN_STAFF
+        },
+        children: [
+            {
+                path: '/admin/distributor/add',
+                component: distributorAdd,
+                name: 'distributorAdd',
+                meta: {
+                    roles: ROLE_ALL,
+                    noCache: true,
+                    title: 'distributorAdd'
                 }
             }
         ],

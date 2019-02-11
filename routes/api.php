@@ -35,4 +35,5 @@ Route::group(['namespace' => 'API', 'middleware' => 'api'], function () {
         'distributor' => 'DistributorController',
     ]);
     Route::get('distributor/show/stopProviding', 'DistributorController@stopProviding');
+    Route::post('distributor/restore/{item}', 'DistributorController@restore');
 });

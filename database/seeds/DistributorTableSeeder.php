@@ -12,7 +12,6 @@ class DistributorTableSeeder extends Seeder
      */
     public function run()
     {
-        $status = ['active', 'non-active', 'block'];
         $fake = Faker\Factory::create('vi_VN');
         for ($i = 0; $i <= rand(10, 30); $i++) {
             Distributor::create([
@@ -21,7 +20,7 @@ class DistributorTableSeeder extends Seeder
                 'name_distributors' => $fake->name,
                 'phone' => $fake->phoneNumber,
                 'address' => $fake->streetAddress,
-                'status' => $status[rand(0, 2)],
+                'description' => $fake->text
             ]);
         }
     }

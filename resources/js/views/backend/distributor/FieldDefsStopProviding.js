@@ -4,8 +4,7 @@ import * as distributor from '../../../api/distributor'
 Vue.component('custom-actions', {
     template: [
         '<div>',
-        '<el-button type="info" icon="fas fa-eye" circle @click="onClick(\'view-item\', rowData)" :size="size"></el-button>',
-        '<el-button type="primary" icon="el-icon-edit" circle @click="onClick(\'edit-item\', rowData)" :size="size"></el-button>',
+        '<el-button type="success" icon="fas fa-retweet" class="custom-icon" circle @click="restore(rowData)" :size="size"></el-button>',
         '</div>'
     ].join(''),
     props: {
@@ -21,8 +20,39 @@ Vue.component('custom-actions', {
         }
     },
     methods: {
-        onClick(action, data) {
-            console.log(action, data.id)
+        restore(data) {
+            this.$confirm(this.$t('fieldDefs.action.content.restore'), this.$t('fieldDefs.action.title'), {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.disabled = true
+                setTimeout(() => {
+                    distributor.restore(data.id)
+                        .then(response => {
+                            this.$events.fire('filter-reset')
+                            this.$message({
+                                type: 'success',
+                                message: this.$t('fieldDefs.action.success.restore')
+                            });
+                            this.disabled = false
+                        })
+                        .catch(error => {
+                                this.$message({
+                                    type: 'warning',
+                                    message: this.$t('fieldDefs.action.error')
+                                });
+                                this.disabled = false
+                            }
+                        )
+                }, 500)
+
+            }).catch(error => {
+                this.$message({
+                    type: 'info',
+                    message: this.$t('fieldDefs.action.cancel')
+                })
+            })
         }
     }
 })

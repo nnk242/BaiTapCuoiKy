@@ -1,11 +1,11 @@
 <template>
     <el-row :gutter="20">
-        <h1 class="text-center">{{$t('changePassword.title')}}</h1>
+        <h1 class="text-center">{{$t('distributor.title')}}</h1>
         <el-col :span="this.$store.getters.device!=='mobile'?8:24"
                 :offset="this.$store.getters.device!=='mobile'?7:0">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px"
                      class="demo-ruleForm">
-                <el-form-item :label="$t('changePassword.oldPassword')" prop="oldPass">
+                <el-form-item :label="$t('distributor.name')" prop="oldPass">
                     <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item :label="$t('changePassword.newPassword')" prop="pass">
@@ -16,7 +16,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button :loading="loading" type="primary" @click="submitForm('ruleForm')">
-                        {{$t('changePassword.button')}}
+                        {{$t('distributor.button')}}
                     </el-button>
                     <el-button @click="resetForm('ruleForm')">Reset</el-button>
                 </el-form-item>
@@ -26,10 +26,8 @@
 </template>
 
 <script>
-    import {checkPassword, changePassword} from '../../../api/auth'
-
     export default {
-        name: "changePassword",
+        name: "distributorAdd",
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value.length < 6) {

@@ -59,13 +59,7 @@ class DistributorController extends Controller
     {
         $dt = new DataTable();
         return $dt->dataTable($this->model(), $request, 'name_distributors',
-            array('id', 'name_distributors', 'phone', 'image', 'address', 'status', 'description'));
-    }
-
-    public function stopProviding(Request $request) {
-        $dt = new DataTable();
-        return $dt->dataTable($this->model(), $request, 'name_distributors',
-            array('id', 'name_distributors', 'phone', 'image', 'address', 'status', 'description'), 'onlyTrashed');
+            array('id', 'name_distributors', 'phone', 'image', 'address', 'description'));
     }
 
     /**
@@ -103,16 +97,30 @@ class DistributorController extends Controller
         //
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
-        $item = $this->model()::findOrFail($id);
-        if (!$item) {
-            return ResponseMessage::responseMessage(false, 'Sorry, item cannot be found', 400);
-        }
-        if ($item->delete()) {
-            return ResponseMessage::responseMessage(true);
-        } else {
-            return ResponseMessage::responseMessage(false, null, 500);
-        }
+        return DataTable::destroyItem($this->model(), $id);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function stopProviding(Request $request)
+    {
+        $dt = new DataTable();
+        return $dt->dataTable($this->model(), $request, 'name_distributors',
+            array('id', 'name_distributors', 'phone', 'image', 'address', 'description'), 'onlyTrashed');
+    }
+
+    public function restore($id)
+    {
+//        return 1;
+//        $dt = new DataTable();
+        $this->model()::withTrashed()->where('id', $id)->restore();
     }
 }

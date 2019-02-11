@@ -87,9 +87,11 @@ export default {
     route: {
         changePassword: 'Change password',
         accountbe: 'Account',
+        //dítributor
         distributor: 'Distributor',
         distributorActive: 'Providing',
-        distributorStopProviding: 'Stop providing'
+        distributorStopProviding: 'Stop providing',
+        distributorAdd: 'New distributor',
     },
     account: {
         title: 'Account',
@@ -127,11 +129,21 @@ export default {
             error: 'Update info fail'
         }
     },
+    distributor: {
+        title: 'New distributor',
+        button: 'Submit',
+    },
     fieldDefs: {
         actionDelete: {
             title: 'Warning',
-            content: 'This will permanently delete the file. Continue?',
-            success: 'Delete completed',
+            content: {
+                delete: 'This will permanently delete item. Continue?',
+                restore: 'Do you want restore item?'
+            },
+            success: {
+                delete: 'Delete completed!',
+                restore: 'Restore completed!'
+            },
             cancel: 'Delete canceled',
             error: 'Error service.'
         }

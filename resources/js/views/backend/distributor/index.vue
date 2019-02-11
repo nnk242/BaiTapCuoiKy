@@ -7,10 +7,7 @@
             :append-params="moreParams"
         >
             <div slot="btn-add">
-                <el-button type="primary">test</el-button>
-                <!--<router-link to="{ name: 'blog_category.create' }" tag="a" class="add-new-item-table">-->
-                    <!--<span></span>-->
-                <!--</router-link>-->
+                <router-link :to="{name:'distributorAdd'}"><el-button type="primary" plain  ><i class="fas fa-plus"></i> {{$t('route.distributorAdd')}}</el-button></router-link>
             </div>
         </my-vuetable>
     </div>
