@@ -1,12 +1,19 @@
+import Layout from '../../../views/frontend/layout'
 import error_404 from '../../../views/error/404'
-import index from '../../../views/frontend/layout/index'
+import testView from '../../../views/test'
 
 export default [
     {
         path: '/',
-        component: index,
+        component: Layout,
+        children: [
+            {
+                path: '/',
+                component: testView,
+                name: 'fdhome'
+            }
+        ],
         hidden: true,
-        name: 'fdhome'
     },
     {
         path: '*',

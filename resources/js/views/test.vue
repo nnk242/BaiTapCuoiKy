@@ -6,10 +6,7 @@
 
 <script>
     export default {
-        name: "test",
-        mounted() {
-            console.log('test')
-        }
+        name: "test"
     }
 </script>
 
