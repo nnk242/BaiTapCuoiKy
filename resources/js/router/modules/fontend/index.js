@@ -1,10 +1,10 @@
 import error_404 from '../../../views/error/404'
-import testView from '../../../views/test'
+import index from '../../../views/frontend/layout/index'
 
 export default [
     {
         path: '/',
-        component: testView,
+        component: index,
         hidden: true,
         name: 'fdhome'
     },
