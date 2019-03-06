@@ -1,6 +1,7 @@
 import Layout from '../../../views/frontend/layout'
 import error_404 from '../../../views/error/404'
-import testView from '../../../views/test'
+import home from '../../../views/frontend/home'
+import cart from '../../../views/frontend/cart'
 
 export default [
     {
@@ -9,8 +10,12 @@ export default [
         children: [
             {
                 path: '/',
-                component: testView,
+                component: home,
                 name: 'fdhome'
+            },{
+                path: '/cart',
+                component: cart,
+                name: 'fcart'
             }
         ],
         hidden: true,

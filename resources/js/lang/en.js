@@ -141,6 +141,26 @@ export default {
         button: 'Add',
         name: 'Name distributor'
     },
+    menu: {
+        add: {
+            title: 'Add food',
+        },
+        view: {
+            title: 'View food',
+            nameDistributor: 'Tên nhà phân phối',
+            fullName: 'Họ tên người đứng đầu'
+        },
+        name: 'Name',
+        image: 'Image',
+        description: 'Description',
+        price: 'Price',
+        discount: 'Discount',
+        ingredient: 'Ingredient',
+        calo: 'Calo',
+        dateDiscount: 'Date discount',
+        kind: 'Kind food',
+        per: 'per',
+    },
     fieldDefs: {
         actionDelete: {
             title: 'Warning',

@@ -33,7 +33,14 @@ Route::group(['prefix' => 'auth', 'namespace' => 'API', 'middleware' => 'api'], 
 Route::group(['namespace' => 'API', 'middleware' => 'api'], function () {
     Route::apiResources([
         'distributor' => 'DistributorController',
+        'menu' => 'MenuController',
     ]);
+
     Route::get('distributor/show/stopProviding', 'DistributorController@stopProviding');
     Route::post('distributor/restore/{item}', 'DistributorController@restore');
+
+//    Route::get('check', '');
+    Route::get('get/per', 'CommonController@per');
+    Route::get('get/kind', 'CommonController@kind');
+    Route::post('get/cart', 'CommonController@cart');
 });

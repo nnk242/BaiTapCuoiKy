@@ -1,6 +1,6 @@
 <template>
     <el-row :gutter="20">
-        <h1 class="text-center">{{$t('distributor.title')}}</h1>
+        <h1 class="text-center">{{$t('distributor.add.title')}}</h1>
         <el-col :span="this.$store.getters.device!=='mobile'?8:24"
                 :offset="this.$store.getters.device!=='mobile'?7:0">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px"

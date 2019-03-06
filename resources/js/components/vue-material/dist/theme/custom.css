@@ -1,5 +1,5 @@
 :root {
-    --md-theme-default-primary: #212121;
+    --md-theme-default-primary: rgba(69, 130, 212, 0.87);
     --md-theme-default-accent: #64dd17;
     --md-theme-default-theme: light
 }
@@ -134,7 +134,7 @@ html.md-theme-default {
 }
 
 .md-avatar.md-theme-default.md-primary {
-    background-color: #212121;
+    background-color: #4582d4;
     background-color: var(--md-theme-default-primary, #212121)
 }
 
@@ -337,8 +337,8 @@ html.md-theme-default {
 .md-button.md-theme-default.md-raised:not([disabled]).md-primary {
     color: #fff;
     color: var(--md-theme-default-text-primary-on-primary, #fff);
-    background-color: #212121;
-    background-color: var(--md-theme-default-primary, #212121)
+    background-color: rgba(69, 130, 212, 0.87);
+    background-color: var(--md-theme-default-primary, rgba(69, 130, 212, 0.87))
 }
 
 .md-button.md-theme-default.md-raised:not([disabled]).md-primary .md-icon-font {
@@ -353,7 +353,7 @@ html.md-theme-default {
 
 .md-button.md-theme-default.md-raised:not([disabled]).md-accent {
     color: rgba(0, 0, 0, 0.87);
-    color: var(--md-theme-default-text-primary-on-accent, rgba(0, 0, 0, 0.87));
+    color: var(--md-theme-default-text-primary-on-accent, rgba(69, 130, 212, 0.87));
     background-color: #64dd17;
     background-color: var(--md-theme-default-accent, #64dd17)
 }

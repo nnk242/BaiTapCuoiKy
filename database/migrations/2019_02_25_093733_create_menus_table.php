@@ -21,7 +21,7 @@ class CreateMenusTable extends Migration
             $table->string('name_seo', 255);
             $table->text('description')->nullable();
             $table->string('image', 255)->nullable();
-            $table->enum('status', [0, 1])->default('1');
+            $table->enum('status', [0, 1])->default(1);
             $table->timestamps();
         });
 
@@ -44,7 +44,8 @@ class CreateMenusTable extends Migration
             ['name' => 'Kg'],
             ['name' => 'Cái'],
             ['name' => 'Cặp'],
-            ['name' => 'Lít']
+            ['name' => 'Lít'],
+            ['name' => 'Chai']
         ]);
 
 
@@ -52,14 +53,20 @@ class CreateMenusTable extends Migration
             $table->increments('id');
             $table->string('name', 255);
             $table->string('name_seo', 255);
-            $table->string('image', 255);
+            $table->string('image', 255)->nullable();
             $table->text('description');
             $table->float('price');
+            $table->float('discount')->default('0');
+            $table->timestamp('discount_to')->nullable();
+            $table->timestamp('discount_end')->nullable();
+            $table->text('ingredient')->nullable();
+            $table->string('calo')->nullable();
             $table->integer('per_id')->default('1')->unsigned();
             $table->foreign('per_id')->references('id')->on('per');
-            $table->float('discount')->default('0');
             $table->integer('kind_id')->unsigned();
             $table->foreign('kind_id')->references('id')->on('kind')->onDelete('cascade');
+            $table->enum('status', [0, 1])->default('1');
+            $table->integer('total')->default(0);
             $table->timestamps();
         });
     }

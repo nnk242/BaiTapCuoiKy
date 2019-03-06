@@ -142,6 +142,38 @@ export default {
         button: 'Thêm',
         name: 'Tên phân phối'
     },
+    menu: {
+        add: {
+            title: 'Thêm nhà món ăn',
+        },
+        view: {
+            title: 'Xem món ăn',
+            nameDistributor: 'Tên nhà phân phối',
+            fullName: 'Họ tên người đứng đầu'
+        },
+        name: 'Tên món ăn',
+        image: 'Hình ảnh',
+        description: 'Giới thiệu',
+        price: 'Giá',
+        discount: 'Giảm giá',
+        ingredient: 'Thành phần',
+        calo: 'Calo',
+        dateDiscount: 'Ngày giảm giá',
+        kind: 'Loại đồ ăn',
+        per: 'per',
+        notification: {
+            name: {
+                error: 'Tên không được bỏ trống',
+                errorServer: 'Có lỗi từ server'
+            },
+            rePassword: {
+                error: 'Mật khẩu không khớp'
+            },
+            success: 'Thay đổi mật khẩu thành công',
+            error: 'Mật khẩu cần lớn hơn 6 kí tự',
+            errorCt: 'Thông tin gửi lên chưa chính xác'
+        }
+    },
     fieldDefs: {
         action: {
             title: 'Cảnh báo!',

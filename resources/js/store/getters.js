@@ -15,7 +15,9 @@ const getters = {
     addRouters: state => state.permission.addRouters,
 
     token: state => state.user.access_token,
-    token_type: state => state.user.token_type
+    token_type: state => state.user.token_type,
+
+    products: state => state.cart.products,
 }
 
 export default getters

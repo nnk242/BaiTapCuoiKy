@@ -3,6 +3,7 @@ import dashboard from '../../../views/backend/dashboard'
 import testView from '../../../views/test'
 import distributorIndex from '../../../views/backend/distributor'
 import distributorStopProviding from '../../../views/backend/distributor/stopProviding'
+import menuIndex from '../../../views/backend/menu/index'
 //role
 import {ROLE_ADMIN_STAFF, ROLE_ADMIN, ROLE_STAFF} from "../../roles";
 
@@ -17,6 +18,19 @@ export default [
                 component: dashboard,
                 name: 'dashboard',
                 meta: {title: 'dashboard', icon: 'fas fa-tachometer-alt', noCache: true}
+            }
+        ]
+    },
+    {
+        path: '/admin/menu',
+        component: Layout,
+        redirect: '/admin/menu',
+        children: [
+            {
+                path: '/admin/menu',
+                component: menuIndex,
+                name: 'menu',
+                meta: {title: 'Thực đơn', icon: 'fas fa-hamburger', noCache: true}
             }
         ]
     },

@@ -7,14 +7,20 @@
                         <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
                             <i class="fas fa-bars"></i>
                         </md-button>
-
-                        <span class="md-title">FOOD <small>night</small></span>
+                        <router-link :to="{name: 'fdhome'}"><span class="md-title">FOOD <small>night</small></span></router-link>
                     </div>
 
                     <div class="md-toolbar-section-end">
-                        <md-button class="md-icon-button">
-                            <i class="fas fa-shopping-bag"></i>
-                        </md-button>
+                        <router-link :to="{name: 'fcart'}">
+                            <md-badge v-if="products.length" :md-content="products.length">
+                                <md-button class="md-icon-button">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </md-button>
+                            </md-badge>
+                            <md-button class="md-icon-button" v-else>
+                                <i class="fas fa-shopping-bag"></i>
+                            </md-button>
+                        </router-link>
                     </div>
                 </div>
 
@@ -32,101 +38,32 @@
             </md-app-toolbar>
 
             <md-app-drawer :md-active.sync="menuVisible">
-                <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
+                <md-toolbar class="md-transparent" md-elevation="0"></md-toolbar>
 
                 <md-list>
                     <md-list-item>
-                        <md-icon>move_to_inbox</md-icon>
-                        <span class="md-list-item-text">Inbox</span>
-                    </md-list-item>
+                        <md-icon><i class="fas fa-sign-in-alt"></i></md-icon>
+                        <span class="md-list-item-text" @click="showDialog = true">Đăng nhập</span>
+                        <md-dialog :md-active.sync="showDialog">
+                            <md-dialog-title>Đăng nhập</md-dialog-title>
 
-                    <md-list-item>
-                        <md-icon>send</md-icon>
-                        <span class="md-list-item-text">Sent Mail</span>
-                    </md-list-item>
+                            <md-dialog-content md-dynamic-height>
+                                <a href="/login/facebook/redirect">
+                                    <md-button class="md-primary md-raised"><i class="fab fa-facebook-f"></i> Facebook
+                                    </md-button>
+                                </a>
+                            </md-dialog-content>
 
-                    <md-list-item>
-                        <md-icon>delete</md-icon>
-                        <span class="md-list-item-text">Trash</span>
-                    </md-list-item>
-
-                    <md-list-item>
-                        <md-icon>error</md-icon>
-                        <span class="md-list-item-text">Spam</span>
+                            <md-dialog-actions>
+                                <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+                            </md-dialog-actions>
+                        </md-dialog>
                     </md-list-item>
                 </md-list>
             </md-app-drawer>
 
             <md-app-content class="custom-overflow-x-hidden">
-                <div class="custom-content">
-                    <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-medium-size-50 md-small-size-50 md-xsmall-size-100">
-                            <md-card class="md-primary" md-theme="orange" md-with-hover>
-                                <md-card-header>
-                                    <md-card-header-text>
-                                        <div class="md-title">Title here</div>
-                                        <div class="md-subhead">Subtitle here</div>
-                                    </md-card-header-text>
-
-                                    <md-card-media md-big>
-                                        <img
-                                            src="https://66.media.tumblr.com/18f1268a6f943ba6c340d91b3f75bd19/tumblr_pkdoik7Ghc1rogvb0o1_1280.png"
-                                            alt="People">
-                                    </md-card-media>
-                                </md-card-header>
-
-                                <md-card-actions>
-                                    <md-button>Action</md-button>
-                                    <md-button>Action</md-button>
-                                </md-card-actions>
-                            </md-card>
-                        </div>
-
-                        <div class="md-layout-item md-medium-size-50 md-small-size-50 md-xsmall-size-100">
-                            <md-card class="md-primary" md-theme="orange" md-with-hover>
-                                <md-card-header>
-                                    <md-card-header-text>
-                                        <div class="md-title">Title here</div>
-                                        <div class="md-subhead">Subtitle here</div>
-                                    </md-card-header-text>
-
-                                    <md-card-media md-big>
-                                        <img
-                                            src="https://66.media.tumblr.com/18f1268a6f943ba6c340d91b3f75bd19/tumblr_pkdoik7Ghc1rogvb0o1_1280.png"
-                                            alt="People">
-                                    </md-card-media>
-                                </md-card-header>
-
-                                <md-card-actions>
-                                    <md-button>Action</md-button>
-                                    <md-button>Action</md-button>
-                                </md-card-actions>
-                            </md-card>
-                        </div>
-
-                        <div class="md-layout-item md-medium-size-50 md-small-size-50 md-xsmall-size-100">
-                            <md-card class="md-primary" md-theme="orange" md-with-hover>
-                                <md-card-header>
-                                    <md-card-header-text>
-                                        <div class="md-title">Title here</div>
-                                        <div class="md-subhead">Subtitle here</div>
-                                    </md-card-header-text>
-
-                                    <md-card-media md-big>
-                                        <img
-                                            src="https://66.media.tumblr.com/18f1268a6f943ba6c340d91b3f75bd19/tumblr_pkdoik7Ghc1rogvb0o1_1280.png"
-                                            alt="People">
-                                    </md-card-media>
-                                </md-card-header>
-
-                                <md-card-actions>
-                                    <md-button>Action</md-button>
-                                    <md-button>Action</md-button>
-                                </md-card-actions>
-                            </md-card>
-                        </div>
-                    </div>
-                </div>
+                <router-view></router-view>
 
                 <div class="custom-main-footer">
                     <div class="custom-container">
@@ -169,7 +106,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="custom-border"></div>
+                    </div>
+                    <div class="footer-s">
+                        <div class="custom-t-center">
+                            Made with NNK
+                        </div>
                     </div>
                 </div>
             </md-app-content>
@@ -182,25 +123,28 @@
     import ResizeHandler from '../../mixin/ResizeHandler'
 
     export default {
-        data: () => ({
-            menuVisible: false
-        }),
+        data() {
+            return {
+                menuVisible: false,
+                showDialog: false,
+            }
+        },
         computed: {
             ...mapGetters([
-                'sidebar',
-                // 'name',
-                'avatar',
-                'device'
-            ])
+                'device',
+                'products'
+            ]),
+            sidebar() {
+                return this.$store.state.app.sidebar
+            }
         },
         mixins: [ResizeHandler],
-        methods: {
-            toggleSideBar() {
-                // this.$store.dispatch('toggleSideBar')
-            },
-        },
-        mounted: () => {
-            console.log()
+        classObj() {
+            return {
+                hideSidebar: !this.sidebar.opened,
+                openSidebar: this.sidebar.opened,
+                withoutAnimation: this.sidebar.withoutAnimation,
+            }
         }
     }
 </script>
@@ -267,6 +211,38 @@
         .md-card + .md-card {
             margin-top: 8px;
         }
+    }
+
+    .custom-carousel {
+        max-height: 370px;
+        background: linear-gradient(90deg, rgb(0, 228, 208), rgb(89, 131, 232));
+        border-radius: 7px;
+        margin-bottom: 10px;
+        position: sticky !important;
+    }
+
+    .custom-carousel-content {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .md-dialog {
+        max-width: 768px;
+    }
+
+    .custom-container {
+        padding: 35px 0;
+    }
+
+    .footer-s {
+        border-top: 2px solid #cccccc;
+        padding: 35px 0;
+    }
+    .custom-t-center {
+        text-align: center;
     }
 </style>
 

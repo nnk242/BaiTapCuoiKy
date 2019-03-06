@@ -11,4 +11,7 @@
 |
 */
 
+Route::get('/login/facebook/redirect', 'AuthController@redirectFacebook')->name('login.facebook.redirect');
+Route::get('admin/login/facebook/callback', 'AuthController@callbackFacebook')->name('login.facebook.callback');
+
 Route::get('/{any}', 'AnyController@index')->where('any', '.*');
